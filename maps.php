@@ -13,13 +13,14 @@ require_once 'location-details.php';
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 	var $response_API;
+	var $url_api;
 
 	var $origin;
 	var $destination;
 
 	// Optional
-	var $language = 'vi';//Vietnamese
-	var $region = 'vn';//Vietnamese
+	var $language;
+	var $region;
 
 	/**
 	 * Travel Modes
@@ -38,19 +39,42 @@ class FriesMaps {
 	/**
 	 * Construction
 	 *
-	 * @param $origin
-	 * @param $destination
-	 * @param $mode
+	 * @param        $origin
+	 * @param        $destination
+	 * @param string $mode
 	 */
-	function __construct( $origin, $destination, $mode = 'driving' ) {
+	private function __construct( $origin, $destination, $mode = 'driving' ) {
+		$this->language    = 'vi';//Vietnamese
+		$this->region      = 'vn';//Vietnam
 		$this->origin      = $origin;
 		$this->destination = $destination;
-		$this->mode        = $mode;
+		$this->mode        = $destination;
+	}
 
-		$this->response_API = $this->getContentAPI();
+	public static function constructWithText(
+		$origin, $destination, $mode = 'driving'
+	) {
+		$instance = new self( $origin, $destination, $mode );
 
-		$this->response = new stdClass();
-		$this->constructResult();
+		$instance->response_API = $instance->getContentAPI();
+		$instance->response     = new stdClass();
+		$instance->constructResult();
+
+		return $instance;
+	}
+
+	public static function constructWithPlaceID(
+		$origin, $destination, $mode = 'driving'
+	) {
+		$instance              = new self( $origin, $destination, $mode );
+		$instance->origin      = 'place_id:' . $origin;
+		$instance->destination = 'place_id:' . $destination;
+
+		$instance->response_API = $instance->getContentAPI();
+		$instance->response     = new stdClass();
+		$instance->constructResult();
+
+		return $instance;
 	}
 
 	public function getResult() {
@@ -98,12 +122,14 @@ class FriesMaps {
 	 * @return mixed
 	 */
 	public function getContentAPI() {
-		$url_api     = sprintf(
+		$this->url_api = sprintf(
 			'https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&key=%s&language=%s&mode=%s&region=%s',
 			urlencode( $this->origin ), urlencode( $this->destination ),
-			self::KEY_MAPS, $this->language, $this->mode, $this->region
+			self::KEY_MAPS, $this->language, $this->mode,
+			$this->region
 		);
-		$obj_unirest = Unirest\Request::get( $url_api, null, null );
+
+		$obj_unirest = Unirest\Request::get( $this->url_api, null, null );
 		$content     = $obj_unirest->raw_body;
 
 		return $content;

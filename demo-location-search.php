@@ -8,12 +8,9 @@
 
 require_once 'location-search.php';
 
-$location
-	= FriesLocationSearch::constructWithText( 'So 69 Ho Tung Mau Ha Noi' );
+$location2 = FriesLocationSearch::constructWithLocation( '21.038225',
+	'105.782291' );
 
-//print_r( $location->getLocationDetailsByIndex( 0 )->getLocationCode() );
+$place_id = $location2->getPlaceIDbyIndex( 0 );
 
-$location2 = FriesLocationSearch::constructWithLocation( '21.029212',
-	'105.826691', 1 );
-
-print_r( $location2->getLocationDetailsByIndex(0)->getURLGoogleMaps() );
+print_r( $place_id );

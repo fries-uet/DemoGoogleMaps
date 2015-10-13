@@ -8,8 +8,8 @@
 
 require_once 'maps.php';
 
-$origin      = '193 Ho Tung Mau';
-$destination = 'Nha Hat Lon HN';
+$origin      = 'B2, Dich Vong Hau, Cau Giay';
+$destination = '134 Mai Anh Tu?n, Ô Ch? D?a, ??ng ?a';
 
 if ( isset( $_GET['origin'] ) ) {
 	$origin = $_GET['origin'];
@@ -19,8 +19,9 @@ if ( isset( $_GET['destination'] ) ) {
 	$destination = $_GET['destination'];
 }
 
-$map = new FriesMaps( $origin, $destination );
+$map2 = FriesMaps::constructWithPlaceID( 'ChIJRVpTUDWrNTER9DpRgvBxPYM',
+	'ChIJ7bFA_nqrNTERWBylw0xuHjo' );
 
-print_r( ( $map->getContentAPI() ) );
+print_r( ( $map2->getStepArrText() ) );
 
 
