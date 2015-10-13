@@ -13,13 +13,12 @@ class FriesLocation {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 
 	var $response_API;
+	var $response_Object_API;
 
 	/**
 	 * @var string
 	 */
 	var $place_id;
-
-	var $status;
 
 	/**
 	 * Optional
@@ -27,8 +26,9 @@ class FriesLocation {
 	var $language = 'vi';
 
 	function __construct( $place_id ) {
-		$this->place_id     = $place_id;
-		$this->response_API = $this->getContentAPI();
+		$this->place_id = $place_id;
+
+		$this->handleResponseAPI();
 	}
 
 	/**
@@ -47,15 +47,18 @@ class FriesLocation {
 		return $content;
 	}
 
+	public function handleResponseAPI() {
+		$this->response_API        = $this->getContentAPI();
+		$this->response_Object_API = json_decode( $this->response_API );
+	}
+
 	/**
 	 * Get Object response from Google Maps web service
 	 *
 	 * @return mixed
 	 */
 	public function getObjectAPI() {
-		$object = json_decode( $this->response_API );
-
-		return $object;
+		return $this->response_Object_API;
 	}
 
 	/**

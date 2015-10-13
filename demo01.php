@@ -10,4 +10,4 @@ require_once 'fries-location.php';
 
 $location = new FriesLocation( 'ChIJo0p_T1yeNTEReIS4iYF2abo' );
 
-print_r( $location->getResult() );
+print_r( $location->getStatus() );
