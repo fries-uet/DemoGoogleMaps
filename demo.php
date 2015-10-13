@@ -6,7 +6,7 @@
  * Time: 10:29 PM
  */
 
-require_once 'fries-maps.php';
+require_once 'maps.php';
 
 $origin      = '193 Ho Tung Mau';
 $destination = 'Nha Hat Lon HN';

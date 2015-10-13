@@ -8,7 +8,7 @@
  */
 
 require_once 'unirest/Unirest.php';
-require_once 'fries-location.php';
+require_once 'location-details.php';
 
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';

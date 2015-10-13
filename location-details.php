@@ -9,7 +9,7 @@
 
 require_once 'unirest/Unirest.php';
 
-class FriesLocation {
+class FriesLocationDetails {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 
 	var $response_API;
@@ -174,5 +174,17 @@ class FriesLocation {
 		$location = $this->getLocationCode();
 
 		return $location->lng;
+	}
+
+	/**
+	 * GET URL on Google Maps
+	 */
+	public function getURLGoogleMaps() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$result = $this->getResult();
+
+		return $result->url;
 	}
 }
