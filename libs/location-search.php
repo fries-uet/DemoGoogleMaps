@@ -6,11 +6,6 @@
  * Time: 10:37 PM
  */
 
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 require_once 'helpers/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 

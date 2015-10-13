@@ -7,11 +7,6 @@
  * Time: 9:55 PM
  */
 
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 require_once 'helpers/file-get-contents/file-get-contents.php';
 
 class FriesLocationDetails {
