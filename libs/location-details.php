@@ -7,7 +7,12 @@
  * Time: 9:55 PM
  */
 
-require_once 'libs/file-get-contents/file-get-contents.php';
+// Exit if accessed directly
+if ( !defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+require_once 'helpers/file-get-contents/file-get-contents.php';
 
 class FriesLocationDetails {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';

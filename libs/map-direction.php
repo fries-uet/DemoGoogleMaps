@@ -7,7 +7,12 @@
  * Time: 10:55 PM
  */
 
-require_once 'libs/file-get-contents/file-get-contents.php';
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+require_once 'helpers/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 
 class FriesMaps {

@@ -6,9 +6,9 @@
  * Time: 10:09 PM
  */
 
-require_once 'location-details.php';
+require_once 'libs/location-details.php';
 
 $location
-	= new FriesLocationDetails( 'ChIJkYbPQP0AThMRmcAa7eGbhiE' );
+	= new FriesLocationDetails( 'ChIJRVpTUDWrNTER9DpRgvBxPYM' );
 
 print_r( $location->getAddressHTML() );
