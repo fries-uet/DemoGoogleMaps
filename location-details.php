@@ -47,6 +47,9 @@ class FriesLocationDetails {
 		return $content;
 	}
 
+	/**
+	 * Handle response from API
+	 */
 	public function handleResponseAPI() {
 		$this->response_API        = $this->getContentAPI();
 		$this->response_Object_API = json_decode( $this->response_API );
