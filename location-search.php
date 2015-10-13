@@ -6,7 +6,7 @@
  * Time: 10:37 PM
  */
 
-require_once 'unirest/Unirest.php';
+require_once 'libs/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 
 class FriesLocationSearch {
@@ -68,9 +68,7 @@ class FriesLocationSearch {
 	 * @return mixed
 	 */
 	private function getContentAPI() {
-		$obj_unirest
-			     = Unirest\Request::get( $this->url_API, null, null );
-		$content = $obj_unirest->raw_body;
+		$content = fries_file_get_contents( $this->url_API );
 
 		return $content;
 	}

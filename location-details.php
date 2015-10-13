@@ -7,10 +7,11 @@
  * Time: 9:55 PM
  */
 
-require_once 'unirest/Unirest.php';
+require_once 'libs/file-get-contents/file-get-contents.php';
 
 class FriesLocationDetails {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
+	var $url_API;
 
 	var $response_API;
 	var $response_Object_API;
@@ -37,12 +38,11 @@ class FriesLocationDetails {
 	 * @return mixed
 	 */
 	public function getContentAPI() {
-		$url_api     = sprintf(
+		$this->url_API = sprintf(
 			'https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&key=%s&language=%s',
 			$this->place_id, self::KEY_MAPS, $this->language
 		);
-		$obj_unirest = Unirest\Request::get( $url_api, null, null );
-		$content     = $obj_unirest->raw_body;
+		$content       = fries_file_get_contents( $this->url_API );
 
 		return $content;
 	}

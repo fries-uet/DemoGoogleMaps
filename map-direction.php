@@ -7,7 +7,7 @@
  * Time: 10:55 PM
  */
 
-require_once 'unirest/Unirest.php';
+require_once 'libs/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 
 class FriesMaps {
@@ -103,8 +103,7 @@ class FriesMaps {
 			$this->region
 		);
 
-		$obj_unirest = Unirest\Request::get( $this->url_api, null, null );
-		$content     = $obj_unirest->raw_body;
+		$content = fries_file_get_contents( $this->url_api );
 
 		return $content;
 	}
