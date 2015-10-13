@@ -13,7 +13,7 @@ $location
 
 //print_r( $location->getLocationDetailsByIndex( 0 )->getLocationCode() );
 
-$location2 = FriesLocationSearch::constructWithLocation( '21.036712',
-	'105.7795002 ' );
+$location2 = FriesLocationSearch::constructWithLocation( '21.029212',
+	'105.826691', 1 );
 
-print_r( $location2->getResults() );
+print_r( $location2->getLocationDetailsByIndex(0)->getURLGoogleMaps() );

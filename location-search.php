@@ -46,7 +46,7 @@ class FriesLocationSearch {
 		return $instance;
 	}
 
-	public static function constructWithLocation( $lat, $lng, $radius = 500 ) {
+	public static function constructWithLocation( $lat, $lng, $radius = 10 ) {
 		$instance            = new self();
 		$instance->latitude  = $lat;
 		$instance->longitude = $lng;
