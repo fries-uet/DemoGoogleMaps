@@ -6,7 +6,7 @@
  * Time: 10:09 PM
  */
 
-require_once 'libs/location-details.php';
+require_once '../libs/location-details.php';
 
 $location
 	= new FriesLocationDetails( 'ChIJRVpTUDWrNTER9DpRgvBxPYM' );

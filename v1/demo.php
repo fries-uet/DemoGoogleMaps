@@ -6,7 +6,7 @@
  * Time: 10:29 PM
  */
 
-require_once 'libs/map-direction.php';
+require_once '../libs/map-direction.php';
 
 $origin      = 'B2, Dịch Vọng Hậu, Cầu Giấy';
 $destination = '134 Mai Anh Tuấn, Ô Chợ Dừa, Đống Đa';

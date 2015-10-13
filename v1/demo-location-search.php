@@ -6,7 +6,7 @@
  * Time: 11:00 PM
  */
 
-require_once 'libs/location-search.php';
+require_once '../libs/location-search.php';
 
 $location2 = FriesLocationSearch::constructWithLocation( '21.038225',
 	'105.782291' );
