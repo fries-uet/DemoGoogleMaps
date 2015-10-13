@@ -13,6 +13,7 @@ require_once 'location-details.php';
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 	var $response_API;
+	var $response_Object_API;
 	var $url_api;
 
 	var $origin;
@@ -51,69 +52,42 @@ class FriesMaps {
 		$this->mode        = $destination;
 	}
 
+	/**
+	 * Construction with place text
+	 *
+	 * @param        $origin
+	 * @param        $destination
+	 * @param string $mode
+	 *
+	 * @return FriesMaps
+	 */
 	public static function constructWithText(
 		$origin, $destination, $mode = 'driving'
 	) {
 		$instance = new self( $origin, $destination, $mode );
-
-		$instance->response_API = $instance->getContentAPI();
-		$instance->response     = new stdClass();
-		$instance->constructResult();
+		$instance->handleResponseAPI();
 
 		return $instance;
 	}
 
+	/**
+	 * Contruction with place id
+	 *
+	 * @param        $origin
+	 * @param        $destination
+	 * @param string $mode
+	 *
+	 * @return FriesMaps
+	 */
 	public static function constructWithPlaceID(
 		$origin, $destination, $mode = 'driving'
 	) {
 		$instance              = new self( $origin, $destination, $mode );
 		$instance->origin      = 'place_id:' . $origin;
 		$instance->destination = 'place_id:' . $destination;
-
-		$instance->response_API = $instance->getContentAPI();
-		$instance->response     = new stdClass();
-		$instance->constructResult();
+		$instance->handleResponseAPI();
 
 		return $instance;
-	}
-
-	public function getResult() {
-		return $this->response;
-	}
-
-	public function constructResult() {
-		// Request
-		$request              = new stdClass();
-		$request->origin      = $this->origin;
-		$request->destination = $this->destination;
-		$request->mode        = $this->mode;
-
-		$this->response->request = $request;
-
-		if ( ! $this->getStatus() ) {
-			$this->response->status = 'FAILED';
-		} else {
-			$this->response->status = 'OK';
-
-			//Result
-			$result           = new stdClass();
-			$result->distance = $this->getDistance();
-			$result->duration = $this->getDuration();
-
-			$result->origin_detect           = new stdClass();
-			$result->origin_detect->text     = $this->getAddressOrigin();
-			$result->origin_detect->geocoded = $this->getLegs()->start_location;
-
-			$result->destination_detect = new stdClass();
-			$result->destination_detect->text
-			                            = $this->getAddressDestination();
-			$result->destination_detect->geocoded
-			                            = $this->getLegs()->end_location;
-
-			$result->stepsText = $this->getStepArrText();
-
-			$this->response->result = $result;
-		}
 	}
 
 	/**
@@ -136,14 +110,20 @@ class FriesMaps {
 	}
 
 	/**
+	 * Handle response from API
+	 */
+	public function handleResponseAPI() {
+		$this->response_API        = $this->getContentAPI();
+		$this->response_Object_API = json_decode( $this->response_API );
+	}
+
+	/**
 	 * Get Object response from Google Maps web service
 	 *
 	 * @return mixed
 	 */
 	public function getObjectAPI() {
-		$object = json_decode( $this->response_API );
-
-		return $object;
+		return $this->response_Object_API;
 	}
 
 	/**
