@@ -7,6 +7,7 @@
  */
 
 require_once 'unirest/Unirest.php';
+require_once 'location-details.php';
 
 class FriesLocationSearch {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
@@ -28,7 +29,7 @@ class FriesLocationSearch {
 	 */
 	var $language;
 
-	function __construct() {
+	private function __construct() {
 		$this->language = 'vi';
 	}
 
@@ -82,7 +83,93 @@ class FriesLocationSearch {
 		$this->response_Object_API = json_decode( $this->response_API );
 	}
 
+	/**
+	 * Get Object response from Google Maps web service
+	 *
+	 * @return mixed
+	 */
 	public function getObjectAPI() {
 		return $this->response_Object_API;
+	}
+
+	/**
+	 * Get status response
+	 *
+	 * @return bool
+	 */
+	public function getStatus() {
+		$object = $this->getObjectAPI();
+		$status = $object->status;
+
+		if ( $status === 'OK' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 *  Get results
+	 *
+	 * @return null, object
+	 */
+	public function getResults() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$object = $this->getObjectAPI();
+
+		return $object->results;
+	}
+
+	public function countResults() {
+		return count( $this->getResults() );
+	}
+
+	public function getArrPlaceID() {
+		if ( $this->countResults() == 0 ) {
+			return null;
+		}
+		$placeIDs = array();
+		$results  = $this->getResults();
+
+		foreach ( $results as $result ) {
+			array_push( $placeIDs, $result->place_id );
+		}
+
+		return $placeIDs;
+	}
+
+	public function getPlaceIDbyIndex( $index ) {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$arr_placeIDs = $this->getArrPlaceID();
+
+		return $arr_placeIDs[ $index ];
+	}
+
+	public function getArrLocationDetails() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$arr_location = array();
+		$arr_placeIDs = $this->getArrPlaceID();
+		foreach ( $arr_placeIDs as $place_id ) {
+			$location_details = new FriesLocationDetails( $place_id );
+			array_push( $arr_location, $location_details );
+		}
+
+		return $arr_location;
+	}
+
+	public function getLocationDetailsByIndex( $index ) {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$arr_location = $this->getArrLocationDetails();
+
+		return $arr_location[ $index ];
 	}
 }

@@ -9,6 +9,6 @@
 require_once 'location-details.php';
 
 $location
-	= new FriesLocationDetails( 'EkQ2OSBI4buTIFTDuW5nIE3huq11LCBNYWkgROG7i2NoLCBD4bqndSBHaeG6pXksIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ' );
+	= new FriesLocationDetails( 'ChIJm4Y1uRWrNTERqqByoyUlrX8' );
 
-print_r( $location->getURLGoogleMaps() );
+print_r( $location->getAddressHTML() );
