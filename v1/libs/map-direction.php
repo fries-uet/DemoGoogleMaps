@@ -337,10 +337,12 @@ class FriesMaps {
 			$temp         = explode( '<div style="font-size:0.9em">',
 				$instructions );
 
-			$new_instructions       = new stdClass();
-			$new_instructions->text = strip_tags( $temp[0] );
+			$new_instructions = new stdClass();
+			$new_instructions->text
+			                  = html_entity_decode( strip_tags( $temp[0] ) );
 			if ( isset( $temp[1] ) ) {
-				$new_instructions->info = strip_tags( $temp[1] );
+				$new_instructions->info
+					= html_entity_decode( strip_tags( $temp[1] ) );
 			} else {
 				$new_instructions->info = '';
 			}
