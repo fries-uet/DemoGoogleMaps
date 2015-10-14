@@ -29,10 +29,20 @@ class FriesLocationSearch {
 	 */
 	var $language;
 
+	/**
+	 * Construction
+	 */
 	private function __construct() {
 		$this->language = 'vi';
 	}
 
+	/**
+	 * Construction with text query
+	 *
+	 * @param $query
+	 *
+	 * @return FriesLocationSearch
+	 */
 	public static function constructWithText( $query ) {
 		$instance        = new self();
 		$instance->query = $query;
@@ -46,6 +56,15 @@ class FriesLocationSearch {
 		return $instance;
 	}
 
+	/**
+	 * Construction with coordinates
+	 *
+	 * @param     $lat
+	 * @param     $lng
+	 * @param int $radius
+	 *
+	 * @return FriesLocationSearch
+	 */
 	public static function constructWithLocation( $lat, $lng, $radius = 10 ) {
 		$instance            = new self();
 		$instance->latitude  = $lat;
@@ -120,10 +139,20 @@ class FriesLocationSearch {
 		return $object->results;
 	}
 
+	/**
+	 * Count results
+	 *
+	 * @return int
+	 */
 	public function countResults() {
 		return count( $this->getResults() );
 	}
 
+	/**
+	 * Get Array place_id
+	 *
+	 * @return array|null
+	 */
 	public function getArrPlaceID() {
 		if ( $this->countResults() == 0 ) {
 			return null;
@@ -138,6 +167,13 @@ class FriesLocationSearch {
 		return $placeIDs;
 	}
 
+	/**
+	 * Get place_id by index
+	 *
+	 * @param $index
+	 *
+	 * @return null
+	 */
 	public function getPlaceIDbyIndex( $index ) {
 		if ( ! $this->getStatus() ) {
 			return null;
@@ -147,6 +183,13 @@ class FriesLocationSearch {
 		return $arr_placeIDs[ $index ];
 	}
 
+	/**
+	 * Get Location details by index
+	 *
+	 * @param $index
+	 *
+	 * @return FriesLocationDetails|null
+	 */
 	public function getLocationDetailsByIndex( $index ) {
 		if ( ! $this->getStatus() ) {
 			return null;

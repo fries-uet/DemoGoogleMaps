@@ -315,7 +315,40 @@ class FriesMaps {
 		return $steps_text;
 	}
 
-	public function getOriginLocation() {
+	/**
+	 * Get step by step
+	 */
+	public function getStepByStep() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
 
+		$steps     = $this->getSteps();
+		$new_steps = array();
+		foreach ( $steps as $step ) {
+			$new_step           = new stdClass();
+			$new_step->distance = $step->distance->text;
+			$new_step->duration = $step->duration->text;
+
+			/**
+			 * Split main text and info text
+			 */
+			$instructions = $step->html_instructions;
+			$temp         = explode( '<div style="font-size:0.9em">',
+				$instructions );
+
+			$new_instructions       = new stdClass();
+			$new_instructions->text = strip_tags( $temp[0] );
+			if ( isset( $temp[1] ) ) {
+				$new_instructions->info = strip_tags( $temp[1] );
+			} else {
+				$new_instructions->info = '';
+			}
+			$new_step->instructions = $new_instructions;
+
+			array_push( $new_steps, $new_step );
+		}
+
+		return $new_steps;
 	}
 }

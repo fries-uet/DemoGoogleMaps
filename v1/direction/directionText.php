@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Tu TV
- * Date: 15/10/2015
- * Time: 12:15 AM
+ * Get direction by text
  */
 
 require_once '../libs/map-direction.php';
@@ -15,5 +12,5 @@ if ( ! isset( $_GET['origin'] ) || ! isset( $_GET['destination'] ) ) {
 	$destination = $_GET['destination'];
 	$map         = FriesMaps::constructWithText( $origin, $destination );
 
-	print_r( $map->getSteps() );
+	print_r( $map->getStepByStep() );
 }
