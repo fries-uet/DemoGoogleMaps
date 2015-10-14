@@ -147,27 +147,14 @@ class FriesLocationSearch {
 		return $arr_placeIDs[ $index ];
 	}
 
-	public function getArrLocationDetails() {
-		if ( ! $this->getStatus() ) {
-			return null;
-		}
-		$arr_location = array();
-		$arr_placeIDs = $this->getArrPlaceID();
-		foreach ( $arr_placeIDs as $place_id ) {
-			$location_details = new FriesLocationDetails( $place_id );
-			array_push( $arr_location, $location_details );
-		}
-
-		return $arr_location;
-	}
-
 	public function getLocationDetailsByIndex( $index ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
 
-		$arr_location = $this->getArrLocationDetails();
+		$place_id         = $this->getPlaceIDbyIndex( $index );
+		$location_details = new FriesLocationDetails( $place_id );
 
-		return $arr_location[ $index ];
+		return $location_details;
 	}
 }
