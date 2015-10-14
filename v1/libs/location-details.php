@@ -190,4 +190,18 @@ class FriesLocationDetails {
 
 		return $result->url;
 	}
+
+	/**
+	 * Get place_id;
+	 *
+	 * @return null
+	 */
+	public function getPlaceID() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$result = $this->getResult();
+
+		return $result->place_id;
+	}
 }

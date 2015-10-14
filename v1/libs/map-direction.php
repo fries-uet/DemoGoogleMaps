@@ -31,7 +31,7 @@ class FriesMaps {
 	var $mode;
 
 	/**
-	 * Object response
+	 * Object response (output)
 	 *
 	 * @var object
 	 */
@@ -114,6 +114,7 @@ class FriesMaps {
 	public function handleResponseAPI() {
 		$this->response_API        = $this->getContentAPI();
 		$this->response_Object_API = json_decode( $this->response_API );
+		$this->setOutput();
 	}
 
 	/**
@@ -352,5 +353,16 @@ class FriesMaps {
 		}
 
 		return $new_steps;
+	}
+
+	private function setOutput() {
+		$this->response              = new stdClass();
+		$this->response->origin      = $this->getAddressOrigin();
+		$this->response->destination = $this->getAddressDestination();
+		$this->response->steps       = $this->getStepByStep();
+	}
+
+	public function getOutput() {
+		return $this->response;
 	}
 }
