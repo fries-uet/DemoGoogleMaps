@@ -15,5 +15,5 @@ if ( ! isset( $_GET['origin'] ) || ! isset( $_GET['destination'] ) ) {
 	$destination = $_GET['destination'];
 	$map         = FriesMaps::constructWithText( $origin, $destination );
 
-	print_r( $map->getObjectAPI() );
+	print_r( $map->getSteps() );
 }

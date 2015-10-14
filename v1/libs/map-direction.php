@@ -287,7 +287,7 @@ class FriesMaps {
 		$html = array();
 
 		foreach ( $steps as $step ) {
-			array_push( $html, '<div>' . $step->html_instructions );
+			array_push( $html, $step->html_instructions );
 		}
 
 		return $html;
