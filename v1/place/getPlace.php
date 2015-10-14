@@ -1,15 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Tu TV
- * Date: 14/10/2015
- * Time: 11:44 PM
+ * Get place text by latitude & longitude
  */
 
 require_once '../libs/location-search.php';
-
 if ( ! isset( $_GET['lat'] ) || ! isset( $_GET['lng'] ) ) {
-	die( '' );
+	die();
 } else {
 	$lat = $_GET['lat'];
 	$lng = $_GET['lng'];
