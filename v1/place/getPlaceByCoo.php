@@ -13,5 +13,4 @@ if ( ! isset( $_GET['lat'] ) || ! isset( $_GET['lng'] ) ) {
 	$location = FriesLocationSearch::constructWithLocation( $lat, $lng );
 
 	print_r( $location->getLocationDetailsByIndex( 0 )->getAddressFormatted() );
-
 }
