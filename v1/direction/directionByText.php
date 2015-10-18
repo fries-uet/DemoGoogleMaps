@@ -12,5 +12,5 @@ if ( ! isset( $_GET['origin'] ) || ! isset( $_GET['destination'] ) ) {
 	$destination = $_GET['destination'];
 	$map         = FriesMaps::constructWithText( $origin, $destination );
 
-	print_r( json_encode( $map->getStepByStep() ) );
+	print_r( json_encode( $map->getOutput() ) );
 }

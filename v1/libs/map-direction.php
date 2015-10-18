@@ -207,13 +207,19 @@ class FriesMaps {
 	/**
 	 * Get Distance
 	 *
-	 * @return mixed
+	 * @param bool|false $text
+	 *
+	 * @return null|mixed
 	 */
-	public function getDistance() {
+	public function getDistance( $text = false ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
 		$legs = $this->getLegs();
+
+		if ( $text === true ) {
+			return $legs->distance->text;
+		}
 
 		return $legs->distance;
 	}
@@ -221,13 +227,19 @@ class FriesMaps {
 	/**
 	 * Get Duration
 	 *
-	 * @return mixed
+	 * @param bool|false $text
+	 *
+	 * @return null|mixed
 	 */
-	public function getDuration() {
+	public function getDuration( $text = false ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
 		$legs = $this->getLegs();
+
+		if ( $text === true ) {
+			return $legs->duration->text;
+		}
 
 		return $legs->duration;
 	}
@@ -355,11 +367,30 @@ class FriesMaps {
 		return $new_steps;
 	}
 
+	/**
+	 * Get infomation Road map
+	 *
+	 * @return null|stdClass
+	 */
+	public function getInfoRoadMap() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$roadMap           = new stdClass();
+		$roadMap->summary  = $this->getRoutes()->summary;
+		$roadMap->distance = $this->getDistance();
+		$roadMap->duration = $this->getDuration();
+
+		return $roadMap;
+	}
+
 	private function setOutput() {
 		$this->response              = new stdClass();
 		$this->response->origin      = $this->getAddressOrigin();
 		$this->response->destination = $this->getAddressDestination();
 		$this->response->steps       = $this->getStepByStep();
+		$this->response->info        = $this->getInfoRoadMap();
 	}
 
 	public function getOutput() {
