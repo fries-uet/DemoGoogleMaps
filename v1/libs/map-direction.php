@@ -379,8 +379,8 @@ class FriesMaps {
 
 		$roadMap           = new stdClass();
 		$roadMap->summary  = $this->getRoutes()->summary;
-		$roadMap->distance = $this->getDistance();
-		$roadMap->duration = $this->getDuration();
+		$roadMap->distance = $this->getDistance( true );
+		$roadMap->duration = $this->getDuration( true );
 
 		return $roadMap;
 	}
