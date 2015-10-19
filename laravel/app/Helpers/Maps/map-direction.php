@@ -9,6 +9,8 @@
 
 namespace App\Helpers\Maps;
 
+use \stdClass;
+
 require_once 'helpers/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 
