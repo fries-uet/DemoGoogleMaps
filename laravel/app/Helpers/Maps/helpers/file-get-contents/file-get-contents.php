@@ -6,7 +6,7 @@
  * Time: 1:12 AM
  */
 
-require_once 'unirest/Unirest.php';
+require_once __DIR__ . '/unirest/Unirest.php';
 
 /**
  * Get content from url via unirest.io
