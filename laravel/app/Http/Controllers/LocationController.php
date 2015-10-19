@@ -92,7 +92,7 @@ class LocationController extends Controller {
 		$location = Maps\FriesLocationSearch::constructWithLocation( $lat,
 			$lng );
 
-		return response()->json( ( new Maps\FriesLocationDetails( $location->getPlaceIDbyIndex( 0 ) ) )->getAddressFormatted() );
+		echo ( new Maps\FriesLocationDetails( $location->getPlaceIDbyIndex( 0 ) ) )->getAddressFormatted();
 	}
 
 	/**
