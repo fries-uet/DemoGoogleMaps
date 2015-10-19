@@ -12,6 +12,9 @@
 */
 
 Route::group( array( 'prefix' => 'v1' ), function () {
+	/**
+	 * API Location
+	 */
 	Route::group( array( 'prefix' => 'location' ), function () {
 		// Get location by coordinates
 		Route::get( 'byCoordinates/lat={lat}&lng={lng}',
@@ -21,6 +24,9 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		Route::get( 'byPlaceID/id={id}', 'LocationController@byPlaceID' );
 	} );
 
+	/**
+	 * API Direction
+	 */
 	Route::group( array( 'prefix' => 'direction' ), function () {
 		// Get direction by Text query
 		Route::get( 'byText/origin={origin}&destination={destination}',
