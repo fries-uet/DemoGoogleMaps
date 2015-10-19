@@ -216,7 +216,8 @@ class FriesLocationDetails {
 		if ( $this->getStatus() ) {
 			return array(
 				'status'            => 'ok',
-				'address_formatted' => $this->getAddressFormatted()
+				'address_formatted' => $this->getAddressFormatted(),
+				'address_html'      => $this->getAddressHTML(),
 			);
 		} else {
 			return array( 'status' => 'error' );
