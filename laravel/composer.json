@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -15,6 +18,9 @@
         "phpspec/phpspec": "~2.1"
     },
     "autoload": {
+        "files": [
+            "app/Library/Maps/maps.php"
+        ],
         "classmap": [
             "database"
         ],
