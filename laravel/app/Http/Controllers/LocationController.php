@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\Maps;
+use Symfony\Component\HttpFoundation\Response;
 
 class LocationController extends Controller {
 	/**
@@ -88,8 +89,10 @@ class LocationController extends Controller {
 	 * @param null $lng
 	 */
 	public function byCoordinates( $lat = null, $lng = null ) {
-		var_dump( $lat );
-		var_dump( $lng );
+		$location = Maps\FriesLocationSearch::constructWithLocation( $lat,
+			$lng );
+
+		return Response::json( $location->getResults(), 200 );
 	}
 
 	/**
