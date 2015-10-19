@@ -206,4 +206,20 @@ class FriesLocationDetails {
 
 		return $result->place_id;
 	}
+
+	/**
+	 * Get output
+	 *
+	 * @return array
+	 */
+	public function getOutput() {
+		if ( $this->getStatus() ) {
+			return array(
+				'status'            => 'ok',
+				'address_formatted' => $this->getAddressFormatted()
+			);
+		} else {
+			return array( 'status' => 'error' );
+		}
+	}
 }

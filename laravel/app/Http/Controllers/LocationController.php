@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\Maps;
-use Symfony\Component\HttpFoundation\Response;
 
 class LocationController extends Controller {
 	/**
@@ -87,22 +86,29 @@ class LocationController extends Controller {
 	 *
 	 * @param null $lat
 	 * @param null $lng
+	 *
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byCoordinates( $lat = null, $lng = null ) {
-		$location = Maps\FriesLocationSearch::constructWithLocation( $lat,
+		$locationSearch = Maps\FriesLocationSearch::constructWithLocation( $lat,
 			$lng );
 
-		echo ( new Maps\FriesLocationDetails( $location->getPlaceIDbyIndex( 0 ) ) )->getAddressFormatted();
+		$locationDetail
+			= new Maps\FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
+
+		return response()->json( $locationDetail->getOutput() );
 	}
 
 	/**
 	 * Get location by place_id
 	 *
 	 * @param $place_id
+	 *
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $place_id ) {
 		$location = new Maps\FriesLocationDetails( $place_id );
 
-		echo $location->getAddressFormatted();
+		return response()->json( $location->getOutput() );
 	}
 }

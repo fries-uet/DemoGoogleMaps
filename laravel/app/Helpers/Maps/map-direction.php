@@ -395,6 +395,7 @@ class FriesMaps {
 		$this->response->destination = $this->getAddressDestination();
 		$this->response->steps       = $this->getStepByStep();
 		$this->response->info        = $this->getInfoRoadMap();
+		$this->response->status      = 'ok';
 	}
 
 	public function getOutput() {
