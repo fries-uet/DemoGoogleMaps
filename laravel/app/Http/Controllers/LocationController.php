@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\library\Maps;
+use App\Helpers\Maps;
 
 class LocationController extends Controller {
 	/**
@@ -99,7 +98,8 @@ class LocationController extends Controller {
 	 * @param $place_id
 	 */
 	public function byPlaceID( $place_id ) {
-		$location = new \FriesLocationDetails($place_id);
+		$location = new Maps\FriesLocationDetails( $place_id );
+
 		echo $location->getAddressFormatted();
 	}
 }
