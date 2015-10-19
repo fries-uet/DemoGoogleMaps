@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Helpers\Maps;
 
 class DirectionController extends Controller {
 	/**
@@ -86,10 +86,13 @@ class DirectionController extends Controller {
 	 *
 	 * @param $origin
 	 * @param $destination
+	 *
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byText( $origin, $destination ) {
-		var_dump( $origin );
-		var_dump( $destination );
+		$direction = Maps\FriesMaps::constructWithText( $origin, $destination );
+
+		return response()->json( $direction->getOutput() );
 	}
 
 	/**
@@ -97,9 +100,13 @@ class DirectionController extends Controller {
 	 *
 	 * @param $origin
 	 * @param $destination
+	 *
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $origin, $destination ) {
-		var_dump( $origin );
-		var_dump( $destination );
+		$direction = Maps\FriesMaps::constructWithPlaceID( $origin,
+			$destination );
+
+		return response()->json( $direction->getOutput() );
 	}
 }
