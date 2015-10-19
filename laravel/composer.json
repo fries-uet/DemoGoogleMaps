@@ -18,9 +18,6 @@
         "phpspec/phpspec": "~2.1"
     },
     "autoload": {
-        "files": [
-            "app/Library/Maps/maps.php"
-        ],
         "classmap": [
             "database"
         ],
