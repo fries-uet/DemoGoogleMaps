@@ -218,6 +218,8 @@ class FriesLocationDetails {
 				'status'            => 'ok',
 				'address_formatted' => $this->getAddressFormatted(),
 				'address_html'      => $this->getAddressHTML(),
+				'geo'               => $this->getGeometry(),
+				'url'               => $this->getURLGoogleMaps(),
 			);
 		} else {
 			return array( 'status' => 'error' );
