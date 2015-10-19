@@ -19,7 +19,5 @@ function fries_file_get_contents( $url ) {
 	$obj_unirest = Unirest\Request::get( $url, null, null );
 	$content     = $obj_unirest->raw_body;
 
-	var_dump( $obj_unirest );
-
 	return $content;
 }
