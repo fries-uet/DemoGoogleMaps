@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Helpers\Maps;
+use App\Helpers\Maps\FriesLocationDetails;
+use App\Helpers\Maps\FriesLocationSearch;
 
 class LocationController extends Controller {
 	/**
@@ -90,11 +91,11 @@ class LocationController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byCoordinates( $lat = null, $lng = null ) {
-		$locationSearch = Maps\FriesLocationSearch::constructWithLocation( $lat,
+		$locationSearch = FriesLocationSearch::constructWithLocation( $lat,
 			$lng );
 
 		$locationDetail
-			= new Maps\FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
+			= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
 
 		return response()->json( $locationDetail->getOutput() );
 	}
@@ -107,7 +108,7 @@ class LocationController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $place_id ) {
-		$location = new Maps\FriesLocationDetails( $place_id );
+		$location = new FriesLocationDetails( $place_id );
 
 		return response()->json( $location->getOutput() );
 	}
