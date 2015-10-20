@@ -12,7 +12,6 @@ namespace App\Helpers\Maps;
 use \stdClass;
 
 require_once 'helpers/file-get-contents/file-get-contents.php';
-require_once 'location-details.php';
 
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
@@ -99,7 +98,7 @@ class FriesMaps {
 	 *
 	 * @return mixed
 	 */
-	public function getContentAPI() {
+	private function getContentAPI() {
 		$this->url_api = sprintf(
 			'https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&key=%s&language=%s&mode=%s&region=%s',
 			urlencode( $this->origin ), urlencode( $this->destination ),
@@ -115,7 +114,7 @@ class FriesMaps {
 	/**
 	 * Handle response from API
 	 */
-	public function handleResponseAPI() {
+	private function handleResponseAPI() {
 		$this->response_API        = $this->getContentAPI();
 		$this->response_Object_API = json_decode( $this->response_API );
 		$this->setOutput();
@@ -332,20 +331,26 @@ class FriesMaps {
 		return $steps_text;
 	}
 
-	/**
-	 * Get step by step
-	 */
-	public function getStepByStep() {
-		if ( ! $this->getStatus() ) {
-			return null;
-		}
-
-		$steps     = $this->getSteps();
+	private function handleSteps( $steps ) {
 		$new_steps = array();
-		foreach ( $steps as $step ) {
+		foreach ( $steps as $index => $step ) {
 			$new_step           = new stdClass();
 			$new_step->distance = $step->distance->text;
 			$new_step->duration = $step->duration->text;
+			$new_step->polyline = $step->polyline->points;
+
+			/**
+			 * Maneuver
+			 */
+			if ( ! isset( $step->maneuver ) ) {
+				if ( $index == 0 ) {
+					$new_step->maneuver = 'start';
+				} else {
+					$new_step->maneuver = 'straight';
+				}
+			} else {
+				$new_step->maneuver = $step->maneuver;
+			}
 
 			/**
 			 * Split main text and info text
@@ -364,9 +369,22 @@ class FriesMaps {
 				$new_instructions->info = '';
 			}
 			$new_step->instructions = $new_instructions;
-
 			array_push( $new_steps, $new_step );
 		}
+
+		return $new_steps;
+	}
+
+	/**
+	 * Get step by step
+	 */
+	public function getStepByStep() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$steps     = $this->getSteps();
+		$new_steps = $this->handleSteps( $steps );
 
 		return $new_steps;
 	}
@@ -389,15 +407,24 @@ class FriesMaps {
 		return $roadMap;
 	}
 
+	/**
+	 * Set response
+	 */
 	private function setOutput() {
-		$this->response              = new stdClass();
+		$this->response = new stdClass();
+
 		$this->response->origin      = $this->getAddressOrigin();
 		$this->response->destination = $this->getAddressDestination();
 		$this->response->steps       = $this->getStepByStep();
 		$this->response->info        = $this->getInfoRoadMap();
-		$this->response->status      = 'ok';
+		$this->response->status      = 'OK';
 	}
 
+	/**
+	 * Get response
+	 *
+	 * @return object
+	 */
 	public function getOutput() {
 		return $this->response;
 	}

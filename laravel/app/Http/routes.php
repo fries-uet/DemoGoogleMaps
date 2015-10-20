@@ -36,4 +36,10 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		Route::get( 'byPlaceID/origin={origin}&destination={destination}',
 			'DirectionController@byPlaceID' );
 	} );
+
+	/**
+	 * Development
+	 */
+	Route::get( '/test/origin={origin}&destination={destination}',
+		'TestController@test' );
 } );
