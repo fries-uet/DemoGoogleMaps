@@ -6,4 +6,6 @@
  * Time: 8:03 PM
  */
 
-echo json_encode( [ 'status' => 'ERROR' ] );
+use App\Helpers;
+
+Helpers\responseError();
