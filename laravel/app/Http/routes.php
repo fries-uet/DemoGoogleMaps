@@ -40,6 +40,6 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	/**
 	 * Development
 	 */
-	Route::get( '/test/origin={origin}&destination={destination}',
+	Route::get( '/test/query={query}',
 		'TestController@test' );
 } );

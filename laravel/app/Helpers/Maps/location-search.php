@@ -51,7 +51,7 @@ class FriesLocationSearch {
 
 		$instance->url_API
 			= sprintf( 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s',
-			$instance->query, self::KEY_MAPS );
+			urlencode( $instance->query ), self::KEY_MAPS );
 
 		$instance->handleResponseAPI();
 

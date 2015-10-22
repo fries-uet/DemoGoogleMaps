@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Maps\FriesLocationSearch;
 use App\Helpers\Maps\FriesMaps;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -81,9 +82,10 @@ class TestController extends Controller {
 		//
 	}
 
-	public function test( $origin, $destination ) {
-		$location = FriesMaps::constructWithText( $origin, $destination );
+	public function test( $query ) {
+		$location
+			= FriesLocationSearch::constructWithText( $query );
 
-		return response()->json( $location->getOutput() );
+		print_r( $location->getResults() );
 	}
 }
