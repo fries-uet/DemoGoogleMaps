@@ -29,15 +29,15 @@ class PolylineEncoder {
 	 */
 	function addPoint( $lat, $lng ) {
 		if ( empty( $this->points ) ) {
-			$this->points[] = array( 'x' => $lat, 'y' => $lng );
+			$this->points[] = array( 'lat' => $lat, 'lng' => $lng );
 			$this->encoded  = $this->encodeValue( $lat )
 			                  . $this->encodeValue( $lng );
 		} else {
 			$n              = count( $this->points );
 			$prev_p         = $this->points[ $n - 1 ];
-			$this->points[] = array( 'x' => $lat, 'y' => $lng );
-			$this->encoded .= $this->encodeValue( $lat - $prev_p['x'] )
-			                  . $this->encodeValue( $lng - $prev_p['y'] );
+			$this->points[] = array( 'lat' => $lat, 'lng' => $lng );
+			$this->encoded .= $this->encodeValue( $lat - $prev_p['lat'] )
+			                  . $this->encodeValue( $lng - $prev_p['lng'] );
 		}
 	}
 
@@ -110,7 +110,7 @@ class PolylineEncoder {
 			$dlng = ( ( $result & 1 ) ? ~( $result >> 1 ) : ( $result >> 1 ) );
 			$lng += $dlng;
 
-			$points[] = array( 'x' => $lat / 100000, 'y' => $lng / 100000 );
+			$points[] = array( 'lat' => $lat / 100000, 'lng' => $lng / 100000 );
 		}
 
 		return $points;

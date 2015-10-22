@@ -9,9 +9,11 @@
 
 namespace App\Helpers\Maps;
 
+use App\Helpers\PolylineEncoder;
 use \stdClass;
 
-require_once 'helpers/file-get-contents/file-get-contents.php';
+require_once __DIR__ . '/helpers/file-get-contents/file-get-contents.php';
+require_once __DIR__ . '/helpers/PolylineEncoder.php';
 
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
@@ -391,7 +393,8 @@ class FriesMaps {
 			$new_step           = new stdClass();
 			$new_step->distance = $step->distance->text;
 			$new_step->duration = $step->duration->text;
-			$new_step->polyline = $step->polyline->points;
+			$new_step->polyline
+			                    = PolylineEncoder::decodeValue( $step->polyline->points );
 
 			/**
 			 * Maneuver

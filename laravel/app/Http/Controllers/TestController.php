@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Maps\FriesLocationSearch;
 use App\Helpers\Maps\FriesMaps;
+use App\Helpers\PolylineEncoder;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -86,6 +87,12 @@ class TestController extends Controller {
 		$location
 			= FriesLocationSearch::constructWithText( $query );
 
-		print_r( $location->getResults() );
+//		print_r( $location->getResults() );
+
+
+		$polyline
+			= PolylineEncoder::decodeValue( 'iam_CenndSZeA@C?AF[nA{EtBcINm@pAeF^gAv@aDNg@hCsKz@aDhDgP' );
+
+		print_r( $polyline );
 	}
 }
