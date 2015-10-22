@@ -6,4 +6,4 @@
  * Time: 8:03 PM
  */
 
-echo json_encode( [ 'status' => 'error' ] );
+echo json_encode( [ 'status' => 'ERROR' ] );

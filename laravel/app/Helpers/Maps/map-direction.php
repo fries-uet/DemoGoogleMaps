@@ -276,6 +276,60 @@ class FriesMaps {
 	}
 
 	/**
+	 * Get Geocode origin
+	 *
+	 * @return null|object
+	 */
+	public function getGeocoderOrigin() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$legs = $this->getLegs();
+
+		return $legs->end_location;
+	}
+
+	/**
+	 * Get Geocode destination
+	 *
+	 * @return null|object
+	 */
+	public function getGeocoderDestination() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$legs = $this->getLegs();
+
+		return $legs->start_location;
+	}
+
+	/**
+	 * Get details origin
+	 *
+	 * @return stdClass
+	 */
+	public function getDetailsOrigin() {
+		$origin       = new stdClass();
+		$origin->text = $this->getAddressOrigin();
+		$origin->geo  = $this->getGeocoderOrigin();
+
+		return $origin;
+	}
+
+	/**
+	 * Get details destination
+	 *
+	 * @return stdClass
+	 */
+	public function getDetailsDestination() {
+		$destination       = new stdClass();
+		$destination->text = $this->getAddressDestination();
+		$destination->geo  = $this->getGeocoderDestination();
+
+		return $destination;
+	}
+
+	/**
 	 * Get steps
 	 *
 	 * @return mixed
@@ -413,8 +467,8 @@ class FriesMaps {
 	private function setOutput() {
 		$this->response = new stdClass();
 
-		$this->response->origin      = $this->getAddressOrigin();
-		$this->response->destination = $this->getAddressDestination();
+		$this->response->origin      = $this->getDetailsOrigin();
+		$this->response->destination = $this->getDetailsDestination();
 		$this->response->steps       = $this->getStepByStep();
 		$this->response->info        = $this->getInfoRoadMap();
 		$this->response->status      = 'OK';
