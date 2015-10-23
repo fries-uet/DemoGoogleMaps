@@ -109,4 +109,29 @@ class DirectionController extends Controller {
 
 		return response()->json( $direction->getOutput() );
 	}
+
+	/**
+	 * Direction by Coordinates
+	 *
+	 * @param $lat_o
+	 * @param $lng_o
+	 * @param $lat_d
+	 * @param $lng_d
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function byCoordinates( $lat_o, $lng_o, $lat_d, $lng_d ) {
+		$origin      = Maps\FriesLocationSearch::constructWithLocation( $lat_o,
+			$lng_o );
+		$destination = Maps\FriesLocationSearch::constructWithLocation( $lat_d,
+			$lng_d );
+
+		$origin_place_id      = $origin->getPlaceIDbyIndex( 0 );
+		$destination_place_id = $destination->getPlaceIDbyIndex( 0 );
+
+		$direction = Maps\FriesMaps::constructWithPlaceID( $origin_place_id,
+			$destination_place_id );
+
+		return response()->json( $direction->getOutput() );
+	}
 }

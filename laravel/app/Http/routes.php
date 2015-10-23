@@ -35,6 +35,10 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		// Get direction by place_id
 		Route::get( 'byPlaceID/origin={origin}&destination={destination}',
 			'DirectionController@byPlaceID' );
+
+		// Get direction by coordinates
+		Route::get( 'byCoordinates/origin={lat_o},{lng_o}&destination={lat_d},{lng_d}',
+			'DirectionController@byCoordinates' );
 	} );
 
 	/**
