@@ -14,6 +14,7 @@ use \stdClass;
 
 require_once __DIR__ . '/helpers/file-get-contents/file-get-contents.php';
 require_once __DIR__ . '/helpers/PolylineEncoder.php';
+require_once __DIR__ . '/location-search.php';
 
 class FriesMaps {
 	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
@@ -41,6 +42,8 @@ class FriesMaps {
 	 * @var object
 	 */
 	var $response;
+
+	var $type;
 
 	/**
 	 * Construction
@@ -70,7 +73,35 @@ class FriesMaps {
 		$origin, $destination, $mode = 'driving'
 	) {
 		$instance = new self( $origin, $destination, $mode );
+		$instance->setType( 'text' );
 		$instance->handleResponseAPI();
+
+		return $instance;
+	}
+
+	/**
+	 * @param array  $origin      : lat, lng
+	 * @param array  $destination : lat, lng
+	 * @param string $mode
+	 *
+	 * @return FriesMaps
+	 */
+	public static function constructWithCoordinates(
+		$origin, $destination, $mode = 'driving'
+	) {
+		$location_origin
+			= FriesLocationSearch::constructWithLocation( $origin['lat'],
+			$origin['lng'] );
+
+		$location_destination
+			= FriesLocationSearch::constructWithLocation( $destination['lat'],
+			$destination['lng'] );
+
+
+		$origin_place_id      = $location_origin->getPlaceIDbyIndex( 0 );
+		$destination_place_id = $location_destination->getPlaceIDbyIndex( 0 );
+		$instance             = self::constructWithPlaceID( $origin_place_id,
+			$destination_place_id, 'coordinates', $mode );
 
 		return $instance;
 	}
@@ -85,9 +116,10 @@ class FriesMaps {
 	 * @return FriesMaps
 	 */
 	public static function constructWithPlaceID(
-		$origin, $destination, $mode = 'driving'
+		$origin, $destination, $type = 'place_id', $mode = 'driving'
 	) {
-		$instance              = new self( $origin, $destination, $mode );
+		$instance = new self( $origin, $destination, $mode );
+		$instance->setType( $type );
 		$instance->origin      = 'place_id:' . $origin;
 		$instance->destination = 'place_id:' . $destination;
 		$instance->handleResponseAPI();
@@ -146,6 +178,10 @@ class FriesMaps {
 		}
 
 		return false;
+	}
+
+	public function setType( $type ) {
+		$this->type = $type;
 	}
 
 	/**
@@ -475,6 +511,7 @@ class FriesMaps {
 		$this->response->steps       = $this->getStepByStep();
 		$this->response->info        = $this->getInfoRoadMap();
 		$this->response->status      = 'OK';
+		$this->response->type        = $this->type;
 	}
 
 	/**

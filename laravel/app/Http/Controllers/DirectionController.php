@@ -121,16 +121,13 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byCoordinates( $lat_o, $lng_o, $lat_d, $lng_d ) {
-		$origin      = Maps\FriesLocationSearch::constructWithLocation( $lat_o,
-			$lng_o );
-		$destination = Maps\FriesLocationSearch::constructWithLocation( $lat_d,
-			$lng_d );
+		$origin['lat']      = $lat_o;
+		$origin['lng']      = $lng_o;
+		$destination['lat'] = $lat_d;
+		$destination['lng'] = $lng_d;
 
-		$origin_place_id      = $origin->getPlaceIDbyIndex( 0 );
-		$destination_place_id = $destination->getPlaceIDbyIndex( 0 );
-
-		$direction = Maps\FriesMaps::constructWithPlaceID( $origin_place_id,
-			$destination_place_id );
+		$direction = Maps\FriesMaps::constructWithCoordinates( $origin,
+			$destination );
 
 		return response()->json( $direction->getOutput() );
 	}
