@@ -11,6 +11,7 @@ use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
 use DB;
+use stdClass;
 
 class TrafficController extends Controller {
 	/**
@@ -97,9 +98,17 @@ class TrafficController extends Controller {
 					= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
 
 				if ( $locationDetail->getStatus() ) {
+
+//					return response()->json( $locationDetail->getStreetName() );
+
+					if ( $locationDetail->getStreetName() == null ) {
+						Helpers\responseError();
+					}
+
+					$street_name     = $locationDetail->getStreetName();
 					$location_report = [
 						'type'              => $type,
-						'name'              => $locationDetail->getName(),
+						'name'              => $street_name,
 						'latitude'          => $locationDetail->getLatitude(),
 						'longitude'         => $locationDetail->getLongitude(),
 						'address_formatted' => $locationDetail->getAddressFormatted(),
@@ -108,9 +117,17 @@ class TrafficController extends Controller {
 						'time_report'       => date_create()->getTimestamp(),
 					];
 
-					// Insert & get ID
-					$id = DB::table( 'traffic' )
-					        ->insertGetId( $location_report );
+					$model = DB::table( 'traffic' )
+					           ->where( 'name', $street_name );
+
+					if ( $model->count() > 0 ) {
+						$id = $model->value( 'id' );
+						$model->update( $location_report );
+					} else {
+						// Insert & get ID
+						$id = DB::table( 'traffic' )
+						        ->insertGetId( $location_report );
+					}
 
 					// Set id
 					$location_report['id'] = $id;
@@ -130,5 +147,30 @@ class TrafficController extends Controller {
 		} else {
 			Helpers\responseError();
 		}
+
+		return null;
+	}
+
+	public function getStatus() {
+		$traffic = Traffic::getStatusTraffic();
+		foreach ( $traffic as $index => $a ) {
+			//Hide variable unnecessary
+			unset( $a['created_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['place_id'] );
+			unset( $a['address_html'] );
+
+			$timestamp_ago = date_create()->getTimestamp()
+			                 - intval( $a['time_report'] );
+			// Destroy the traffic from previous days
+			if ( $timestamp_ago > 86400 ) {
+				unset( $traffic[ $index ] );
+			}
+
+			$a['ago'] = Helpers\convertCountTimestamp2String( $timestamp_ago );
+		}
+
+		return response()->json( $traffic );
 	}
 }

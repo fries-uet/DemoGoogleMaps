@@ -19,4 +19,10 @@ class Traffic extends Model {
 			'place_id',
 			'time_report',
 		];
+
+	public static function getStatusTraffic() {
+		$traffic = Traffic::all();
+
+		return $traffic;
+	}
 }

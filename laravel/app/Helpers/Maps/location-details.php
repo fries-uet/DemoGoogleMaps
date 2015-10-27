@@ -236,6 +236,31 @@ class FriesLocationDetails {
 	}
 
 	/**
+	 * Get street name if exist
+	 *
+	 * @return null|string
+	 */
+	public function getStreetName() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$result             = $this->getResult();
+		$address_components = $result->address_components;
+		if ( count( $address_components ) > 0 ) {
+			foreach ( $address_components as $address ) {
+
+//				var_dump( $address );
+				if ( in_array( 'route', $address->types ) ) {
+					return $address->short_name;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get output
 	 *
 	 * @return array

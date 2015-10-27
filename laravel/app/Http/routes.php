@@ -47,6 +47,9 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	Route::group( array( 'prefix' => 'traffic' ), function () {
 		Route::get( 'postStatus/{type}/location={lat},{lng}',
 			'TrafficController@postStatus' );
+
+		Route::get( 'getStatus',
+			'TrafficController@getStatus' );
 	} );
 
 	/**
