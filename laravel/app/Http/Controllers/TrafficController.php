@@ -169,13 +169,12 @@ class TrafficController extends Controller {
 
 				$timestamp_ago = date_create()->getTimestamp()
 				                 - intval( $a['time_report'] );
+				$a['ago']
+				               = Helpers\convertCountTimestamp2String( $timestamp_ago );
 				// Destroy the traffic was expired
 				if ( $timestamp_ago > 43200 ) {
 					unset( $traffic[ $index ] );
 				}
-
-				$a['ago']
-					= Helpers\convertCountTimestamp2String( $timestamp_ago );
 			}
 
 			$traffics = array();
