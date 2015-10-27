@@ -135,7 +135,7 @@ class TrafficController extends Controller {
 						$location_report['id'] = $id;
 
 						return response()->json( [
-							'status' => 'SUCCESS',
+							'status' => 'OK',
 							'data'   => $location_report,
 						] );
 
