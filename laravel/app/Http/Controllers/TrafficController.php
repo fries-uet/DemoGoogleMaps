@@ -169,8 +169,8 @@ class TrafficController extends Controller {
 
 				$timestamp_ago = date_create()->getTimestamp()
 				                 - intval( $a['time_report'] );
-				// Destroy the traffic from previous days
-				if ( $timestamp_ago > 86400 ) {
+				// Destroy the traffic was expired
+				if ( $timestamp_ago > 43200 ) {
 					unset( $traffic[ $index ] );
 				}
 
