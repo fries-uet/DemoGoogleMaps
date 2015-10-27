@@ -50,6 +50,9 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 
 		Route::get( 'getStatus',
 			'TrafficController@getStatus' );
+
+		Route::get( 'getStatus/{type}',
+			'TrafficController@getStatusByType' );
 	} );
 
 	/**

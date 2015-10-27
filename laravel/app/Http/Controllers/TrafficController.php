@@ -178,7 +178,60 @@ class TrafficController extends Controller {
 					= Helpers\convertCountTimestamp2String( $timestamp_ago );
 			}
 
-			return response()->json( $traffic );
+			$traffics = array();
+			foreach ( $traffic as $index => $a ) {
+				array_push( $traffics, $a );
+			}
+
+			return response()->json( [
+				'status' => 'OK',
+				'data'   => $traffics,
+			] );
+		} catch ( \PDOException $exception ) {
+			Helpers\responseError();
+		}
+
+		return null;
+	}
+
+	public function getStatusByType( $type ) {
+		if ( $type != 'open' && $type != 'congestion' ) {
+			Helpers\responseError();
+
+			return null;
+		}
+		try {
+			$traffic = Traffic::getStatusTraffic( $type );
+
+			foreach ( $traffic as $index => $a ) {
+				//Hide variable unnecessary
+				unset( $a['created_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['place_id'] );
+				unset( $a['address_html'] );
+
+				$timestamp_ago = date_create()->getTimestamp()
+				                 - intval( $a['time_report'] );
+				// Destroy the traffic from previous days
+				if ( $timestamp_ago > 86400 ) {
+					unset( $traffic[ $index ] );
+				}
+
+				$a['ago']
+					= Helpers\convertCountTimestamp2String( $timestamp_ago );
+
+			}
+
+			$traffics = array();
+			foreach ( $traffic as $index => $a ) {
+				array_push( $traffics, $a );
+			}
+
+			return response()->json( [
+				'status' => 'OK',
+				'data'   => $traffics,
+			] );
 		} catch ( \PDOException $exception ) {
 			Helpers\responseError();
 		}

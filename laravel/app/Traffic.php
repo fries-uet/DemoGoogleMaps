@@ -20,8 +20,12 @@ class Traffic extends Model {
 			'time_report',
 		];
 
-	public static function getStatusTraffic() {
-		$traffic = Traffic::all();
+	public static function getStatusTraffic( $type = null ) {
+		if ( $type != null ) {
+			$traffic = Traffic::all()->where( 'type', $type );
+		} else {
+			$traffic = Traffic::all();
+		}
 
 		return $traffic;
 	}
