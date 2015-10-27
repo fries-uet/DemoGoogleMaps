@@ -208,6 +208,34 @@ class FriesLocationDetails {
 	}
 
 	/**
+	 * Get type
+	 *
+	 * @return string|null
+	 */
+	public function getTypes() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$result = $this->getResult();
+
+		return $result->types;
+	}
+
+	/**
+	 * Get name
+	 *
+	 * @return null|string
+	 */
+	public function getName() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$result = $this->getResult();
+
+		return $result->name;
+	}
+
+	/**
 	 * Get output
 	 *
 	 * @return array
@@ -216,10 +244,11 @@ class FriesLocationDetails {
 		if ( $this->getStatus() ) {
 			return array(
 				'status'            => 'OK',
+				'name'              => $this->getName(),
 				'address_formatted' => $this->getAddressFormatted(),
 				'address_html'      => $this->getAddressHTML(),
-				'geo'               => $this->getGeometry(),
-				'url'               => $this->getURLGoogleMaps(),
+				'location'          => $this->getLocationCode(),
+				'place_id'          => $this->getPlaceID(),
 			);
 		} else {
 			return array( 'status' => 'error' );

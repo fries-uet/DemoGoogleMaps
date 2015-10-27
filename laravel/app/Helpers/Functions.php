@@ -10,4 +10,5 @@ namespace App\Helpers;
 
 function responseError() {
 	echo json_encode( [ 'status' => 'ERROR' ] );
+	die();
 }
