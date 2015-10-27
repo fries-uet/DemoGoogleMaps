@@ -11,7 +11,7 @@ use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
 use DB;
-use stdClass;
+use Mockery\CountValidator\Exception;
 
 class TrafficController extends Controller {
 	/**
@@ -89,62 +89,67 @@ class TrafficController extends Controller {
 	}
 
 	public function postStatus( $type, $lat, $lng ) {
-		if ( $type == 'congestion' || $type == 'open' ) {
-			$locationSearch = FriesLocationSearch::constructWithLocation( $lat,
-				$lng );
+		try {
+			if ( $type == 'congestion' || $type == 'open' ) {
+				$locationSearch
+					= FriesLocationSearch::constructWithLocation( $lat,
+					$lng );
 
-			if ( $locationSearch->getStatus() ) {
-				$locationDetail
-					= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
+				if ( $locationSearch->getStatus() ) {
+					$locationDetail
+						= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
 
-				if ( $locationDetail->getStatus() ) {
+					if ( $locationDetail->getStatus() ) {
 
 //					return response()->json( $locationDetail->getStreetName() );
 
-					if ( $locationDetail->getStreetName() == null ) {
+						if ( $locationDetail->getStreetName() == null ) {
+							Helpers\responseError();
+						}
+
+						$street_name     = $locationDetail->getStreetName();
+						$location_report = [
+							'type'              => $type,
+							'name'              => $street_name,
+							'latitude'          => $locationDetail->getLatitude(),
+							'longitude'         => $locationDetail->getLongitude(),
+							'address_formatted' => $locationDetail->getAddressFormatted(),
+							'address_html'      => $locationDetail->getAddressHTML(),
+							'place_id'          => $locationDetail->getPlaceID(),
+							'time_report'       => date_create()->getTimestamp(),
+						];
+
+						$model = DB::table( 'traffic' )
+						           ->where( 'name', $street_name );
+
+						if ( $model->count() > 0 ) {
+							$id = $model->value( 'id' );
+							$model->update( $location_report );
+						} else {
+							// Insert & get ID
+							$id = DB::table( 'traffic' )
+							        ->insertGetId( $location_report );
+						}
+
+						// Set id
+						$location_report['id'] = $id;
+
+						return response()->json( [
+							'status' => 'SUCCESS',
+							'data'   => $location_report,
+						] );
+
+
+					} else {
 						Helpers\responseError();
 					}
-
-					$street_name     = $locationDetail->getStreetName();
-					$location_report = [
-						'type'              => $type,
-						'name'              => $street_name,
-						'latitude'          => $locationDetail->getLatitude(),
-						'longitude'         => $locationDetail->getLongitude(),
-						'address_formatted' => $locationDetail->getAddressFormatted(),
-						'address_html'      => $locationDetail->getAddressHTML(),
-						'place_id'          => $locationDetail->getPlaceID(),
-						'time_report'       => date_create()->getTimestamp(),
-					];
-
-					$model = DB::table( 'traffic' )
-					           ->where( 'name', $street_name );
-
-					if ( $model->count() > 0 ) {
-						$id = $model->value( 'id' );
-						$model->update( $location_report );
-					} else {
-						// Insert & get ID
-						$id = DB::table( 'traffic' )
-						        ->insertGetId( $location_report );
-					}
-
-					// Set id
-					$location_report['id'] = $id;
-
-					return response()->json( [
-						'status' => 'SUCCESS',
-						'data'   => $location_report,
-					] );
-
-
 				} else {
 					Helpers\responseError();
 				}
 			} else {
 				Helpers\responseError();
 			}
-		} else {
+		} catch ( \PDOException $exception ) {
 			Helpers\responseError();
 		}
 
@@ -152,25 +157,32 @@ class TrafficController extends Controller {
 	}
 
 	public function getStatus() {
-		$traffic = Traffic::getStatusTraffic();
-		foreach ( $traffic as $index => $a ) {
-			//Hide variable unnecessary
-			unset( $a['created_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['place_id'] );
-			unset( $a['address_html'] );
+		try {
+			$traffic = Traffic::getStatusTraffic();
+			foreach ( $traffic as $index => $a ) {
+				//Hide variable unnecessary
+				unset( $a['created_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['place_id'] );
+				unset( $a['address_html'] );
 
-			$timestamp_ago = date_create()->getTimestamp()
-			                 - intval( $a['time_report'] );
-			// Destroy the traffic from previous days
-			if ( $timestamp_ago > 86400 ) {
-				unset( $traffic[ $index ] );
+				$timestamp_ago = date_create()->getTimestamp()
+				                 - intval( $a['time_report'] );
+				// Destroy the traffic from previous days
+				if ( $timestamp_ago > 86400 ) {
+					unset( $traffic[ $index ] );
+				}
+
+				$a['ago']
+					= Helpers\convertCountTimestamp2String( $timestamp_ago );
 			}
 
-			$a['ago'] = Helpers\convertCountTimestamp2String( $timestamp_ago );
+			return response()->json( $traffic );
+		} catch ( \PDOException $exception ) {
+			Helpers\responseError();
 		}
 
-		return response()->json( $traffic );
+		return null;
 	}
 }
