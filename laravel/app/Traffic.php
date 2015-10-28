@@ -21,12 +21,20 @@ class Traffic extends Model {
 		];
 
 	public static function getStatusTraffic( $type = null ) {
-		if ( $type != null ) {
-			$traffic = Traffic::all()->where( 'type', $type );
-		} else {
-			$traffic = Traffic::all();
+		try {
+			if ( $type != null ) {
+				$traffic = Traffic::all()->where( 'type', $type );
+			} else {
+				$traffic = Traffic::all();
+			}
+		} catch ( \PDOException $excetion ) {
+			$traffic = null;
 		}
 
 		return $traffic;
+	}
+
+	public static function postStatusTraffic() {
+
 	}
 }

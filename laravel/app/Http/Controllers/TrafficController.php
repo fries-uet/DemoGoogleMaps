@@ -11,7 +11,6 @@ use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
 use DB;
-use Mockery\CountValidator\Exception;
 
 class TrafficController extends Controller {
 	/**
@@ -101,7 +100,7 @@ class TrafficController extends Controller {
 
 					if ( $locationDetail->getStatus() ) {
 
-//					return response()->json( $locationDetail->getStreetName() );
+						//return response()->json( $locationDetail->getStreetName() );
 
 						if ( $locationDetail->getStreetName() == null ) {
 							Helpers\responseError();
@@ -157,40 +156,40 @@ class TrafficController extends Controller {
 	}
 
 	public function getStatus() {
-		try {
-			$traffic = Traffic::getStatusTraffic();
-			foreach ( $traffic as $index => $a ) {
-				//Hide variable unnecessary
-				unset( $a['created_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['place_id'] );
-				unset( $a['address_html'] );
-
-				$timestamp_ago = date_create()->getTimestamp()
-				                 - intval( $a['time_report'] );
-				$a['ago']
-				               = Helpers\convertCountTimestamp2String( $timestamp_ago );
-				// Destroy the traffic was expired
-				if ( $timestamp_ago > 43200 ) {
-					unset( $traffic[ $index ] );
-				}
-			}
-
-			$traffics = array();
-			foreach ( $traffic as $index => $a ) {
-				array_push( $traffics, $a );
-			}
-
-			return response()->json( [
-				'status' => 'OK',
-				'data'   => $traffics,
-			] );
-		} catch ( \PDOException $exception ) {
+		$traffic = Traffic::getStatusTraffic();
+		if ( $traffic == null ) {
 			Helpers\responseError();
+
+			return null;
 		}
 
-		return null;
+		foreach ( $traffic as $index => $a ) {
+			//Hide variable unnecessary
+			unset( $a['created_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['place_id'] );
+			unset( $a['address_html'] );
+
+			$timestamp_ago = date_create()->getTimestamp()
+			                 - intval( $a['time_report'] );
+			$a['ago']
+			               = Helpers\convertCountTimestamp2String( $timestamp_ago );
+			// Destroy the traffic was expired
+			if ( $timestamp_ago > 21600 ) {
+				unset( $traffic[ $index ] );
+			}
+		}
+
+		$traffics = array();
+		foreach ( $traffic as $index => $a ) {
+			array_push( $traffics, $a );
+		}
+
+		return response()->json( [
+			'status' => 'OK',
+			'data'   => $traffics,
+		] );
 	}
 
 	public function getStatusByType( $type ) {
@@ -199,42 +198,41 @@ class TrafficController extends Controller {
 
 			return null;
 		}
-		try {
-			$traffic = Traffic::getStatusTraffic( $type );
-
-			foreach ( $traffic as $index => $a ) {
-				//Hide variable unnecessary
-				unset( $a['created_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['place_id'] );
-				unset( $a['address_html'] );
-
-				$timestamp_ago = date_create()->getTimestamp()
-				                 - intval( $a['time_report'] );
-				// Destroy the traffic from previous days
-				if ( $timestamp_ago > 86400 ) {
-					unset( $traffic[ $index ] );
-				}
-
-				$a['ago']
-					= Helpers\convertCountTimestamp2String( $timestamp_ago );
-
-			}
-
-			$traffics = array();
-			foreach ( $traffic as $index => $a ) {
-				array_push( $traffics, $a );
-			}
-
-			return response()->json( [
-				'status' => 'OK',
-				'data'   => $traffics,
-			] );
-		} catch ( \PDOException $exception ) {
+		$traffic = Traffic::getStatusTraffic( $type );
+		if ( $traffic == null ) {
 			Helpers\responseError();
+
+			return null;
 		}
 
-		return null;
+		foreach ( $traffic as $index => $a ) {
+			//Hide variable unnecessary
+			unset( $a['created_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['updated_at'] );
+			unset( $a['place_id'] );
+			unset( $a['address_html'] );
+
+			$timestamp_ago = date_create()->getTimestamp()
+			                 - intval( $a['time_report'] );
+			// Destroy the traffic from previous days
+			if ( $timestamp_ago > 21600 ) {
+				unset( $traffic[ $index ] );
+			}
+
+			$a['ago']
+				= Helpers\convertCountTimestamp2String( $timestamp_ago );
+
+		}
+
+		$traffics = array();
+		foreach ( $traffic as $index => $a ) {
+			array_push( $traffics, $a );
+		}
+
+		return response()->json( [
+			'status' => 'OK',
+			'data'   => $traffics,
+		] );
 	}
 }
