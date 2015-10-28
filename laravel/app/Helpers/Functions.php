@@ -50,7 +50,6 @@ if ( ! function_exists( 'convertCountTimestamp2String' ) ) {
 			$string .= ' ' . $minutes . ' phút';
 		}
 
-
 		return trim( $string );
 	}
 }

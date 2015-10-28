@@ -277,7 +277,7 @@ class FriesLocationDetails {
 				'place_id'          => $this->getPlaceID(),
 			);
 		} else {
-			return array( 'status' => 'error' );
+			return array( 'status' => 'ERROR' );
 		}
 	}
 }

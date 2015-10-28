@@ -117,6 +117,7 @@ class FriesMaps {
 	 *
 	 * @param        $origin
 	 * @param        $destination
+	 * @param string $type
 	 * @param string $mode
 	 *
 	 * @return FriesMaps
@@ -512,12 +513,18 @@ class FriesMaps {
 	private function setOutput() {
 		$this->response = new stdClass();
 
+		if ( ! $this->getStatus() ) {
+			$this->response->status = 'ERROR';
+
+			return;
+		}
 		$this->response->origin      = $this->getDetailsOrigin();
 		$this->response->destination = $this->getDetailsDestination();
 		$this->response->steps       = $this->getStepByStep();
 		$this->response->info        = $this->getInfoRoadMap();
 		$this->response->status      = 'OK';
-		$this->response->type        = $this->type;
+
+		$this->response->type = $this->type;
 	}
 
 	/**
