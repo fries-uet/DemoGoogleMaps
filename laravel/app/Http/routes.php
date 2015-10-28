@@ -22,25 +22,28 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 
 		//Get location by place_id
 		Route::get( 'byPlaceID/{id}', 'LocationController@byPlaceID' );
+
+		//Get location by text
+		Route::get( 'byText/{text}', 'LocationController@byText' );
 	} );
 
 	/**
 	 * API Direction
 	 */
 	Route::group( array( 'prefix' => 'direction' ), function () {
-		// Get direction by Text query
+		//Get direction by Text query
 		Route::get( 'byText/origin={origin}&destination={destination}',
 			'DirectionController@byText' );
 
-		// Get direction by origin coordinate & destination text
+		//Get direction by origin coordinate & destination text
 		Route::get( 'byMixed/origin={lat},{lng}&destination={destination}',
 			'DirectionController@byMixed' );
 
-		// Get direction by place_id
+		//Get direction by place_id
 		Route::get( 'byPlaceID/origin={origin}&destination={destination}',
 			'DirectionController@byPlaceID' );
 
-		// Get direction by coordinates
+		//Get direction by coordinates
 		Route::get( 'byCoordinates/origin={lat_o},{lng_o}&destination={lat_d},{lng_d}',
 			'DirectionController@byCoordinates' );
 	} );

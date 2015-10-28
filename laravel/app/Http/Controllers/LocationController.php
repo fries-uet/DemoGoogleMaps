@@ -114,4 +114,18 @@ class LocationController extends Controller {
 
 		return response()->json( $location->getOutput() );
 	}
+
+	/**
+	 * Get location by text
+	 *
+	 * @param $text
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function byText( $text ) {
+		$location_search = FriesLocationSearch::constructWithText( $text );
+		$place_id        = $location_search->getPlaceIDbyIndex( 0 );
+
+		return $this->byPlaceID( $place_id );
+	}
 }

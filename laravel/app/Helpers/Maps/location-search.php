@@ -30,6 +30,7 @@ class FriesLocationSearch {
 	 * Optional
 	 */
 	var $language;
+	var $region;
 
 	/**
 	 * Construction
