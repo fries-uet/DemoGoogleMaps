@@ -6,47 +6,51 @@
  * Time: 5:35 PM
  */
 
-namespace App\Helpers;
-
-function responseError() {
-	echo json_encode( [ 'status' => 'ERROR' ] );
-	die();
+if ( ! function_exists( 'getResponseError' ) ) {
+	/**
+	 * Get Response Error
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	function getResponseError() {
+		return response()->json( [
+			'status' => 'ERROR',
+		] );
+	}
 }
 
-/**
- * Get Response Error
- *
- * @return \Illuminate\Http\JsonResponse
- */
-function getResponseError() {
-	return response()->json( [
-		'status' => 'ERROR',
-	] );
-}
-
-function convertCountTimestamp2String( $timestamp ) {
-	$timestamp = intval( $timestamp );
-	$string    = '';
-	if ( $timestamp >= 86400 ) {
-		$days      = intval( $timestamp / 86400 );
-		$timestamp = $timestamp % 86400;
-		$string .= $days . ' ngày';
-	}
-
-	if ( $timestamp >= 3600 ) {
-		$hours     = intval( $timestamp / 3600 );
-		$timestamp = $timestamp % 3600;
-		$string .= ' ' . $hours . ' giờ';
-	}
-
-	if ( $timestamp >= 0 ) {
-		$minutes = intval( $timestamp / 60 );
-		if ( $minutes == 0 ) {
-			$minutes = 1;
+if ( ! function_exists( 'convertCountTimestamp2String' ) ) {
+	/**
+	 * Convert count timestamp to String
+	 *
+	 * @param $timestamp
+	 *
+	 * @return string
+	 */
+	function convertCountTimestamp2String( $timestamp ) {
+		$timestamp = intval( $timestamp );
+		$string    = '';
+		if ( $timestamp >= 86400 ) {
+			$days      = intval( $timestamp / 86400 );
+			$timestamp = $timestamp % 86400;
+			$string .= $days . ' ngày';
 		}
-		$string .= ' ' . $minutes . ' phút';
+
+		if ( $timestamp >= 3600 ) {
+			$hours     = intval( $timestamp / 3600 );
+			$timestamp = $timestamp % 3600;
+			$string .= ' ' . $hours . ' giờ';
+		}
+
+		if ( $timestamp >= 0 ) {
+			$minutes = intval( $timestamp / 60 );
+			if ( $minutes == 0 ) {
+				$minutes = 1;
+			}
+			$string .= ' ' . $minutes . ' phút';
+		}
+
+
+		return trim( $string );
 	}
-
-
-	return trim( $string );
 }

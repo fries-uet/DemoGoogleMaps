@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Helpers;
 use App\Helpers\Maps\FriesLocationSearch;
 use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
-use DB;
 
 class TrafficController extends Controller {
 	/**
@@ -109,7 +106,7 @@ class TrafficController extends Controller {
 
 					if ( $locationDetail->getStatus() ) {
 						if ( $locationDetail->getStreetName() == null ) {
-							return Helpers\getResponseError();
+							return getResponseError();
 						}
 
 						$location_report = [
@@ -137,10 +134,10 @@ class TrafficController extends Controller {
 				}
 			}
 		} catch ( \PDOException $exception ) {
-			return Helpers\getResponseError();
+			return getResponseError();
 		}
 
-		return Helpers\getResponseError();
+		return getResponseError();
 	}
 
 	/**
@@ -151,7 +148,7 @@ class TrafficController extends Controller {
 	public function getStatus() {
 		$traffic = Traffic::getStatusTraffic();
 		if ( $traffic == null ) {
-			return Helpers\getResponseError();
+			return getResponseError();
 		}
 
 		foreach ( $traffic as $index => $a ) {
@@ -165,7 +162,7 @@ class TrafficController extends Controller {
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
 			$a['ago']
-			               = Helpers\convertCountTimestamp2String( $timestamp_ago );
+			               = convertCountTimestamp2String( $timestamp_ago );
 			// Destroy the traffic was expired
 			if ( $timestamp_ago > 21600 ) {
 				unset( $traffic[ $index ] );
@@ -192,11 +189,11 @@ class TrafficController extends Controller {
 	 */
 	public function getStatusByType( $type ) {
 		if ( $type != 'open' && $type != 'congestion' ) {
-			return Helpers\getResponseError();
+			return getResponseError();
 		}
 		$traffic = Traffic::getStatusTraffic( $type );
 		if ( $traffic == null ) {
-			return Helpers\getResponseError();
+			return getResponseError();
 		}
 
 		foreach ( $traffic as $index => $a ) {
@@ -215,7 +212,7 @@ class TrafficController extends Controller {
 			}
 
 			$a['ago']
-				= Helpers\convertCountTimestamp2String( $timestamp_ago );
+				= convertCountTimestamp2String( $timestamp_ago );
 
 		}
 

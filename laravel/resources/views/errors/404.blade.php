@@ -6,6 +6,5 @@
  * Time: 8:03 PM
  */
 
-use App\Helpers;
-
-Helpers\responseError();
+getResponseError()->sendHeaders();
+echo getResponseError()->getContent();
