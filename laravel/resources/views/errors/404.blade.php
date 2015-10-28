@@ -6,5 +6,4 @@
  * Time: 8:03 PM
  */
 
-getResponseError()->sendHeaders();
-echo getResponseError()->getContent();
+getResponseError()->send();
