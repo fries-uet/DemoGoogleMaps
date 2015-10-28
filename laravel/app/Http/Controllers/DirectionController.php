@@ -112,11 +112,21 @@ class DirectionController extends Controller {
 		$origin      = FriesLocationSearch::constructWithLocation( $lat, $lng );
 		$destination = FriesLocationSearch::constructWithText( $destination );
 
-		$origin_place_id      = $origin->getPlaceIDbyIndex( 0 );
-		$destination_place_id = $destination->getPlaceIDbyIndex( 0 );
+		$origin_place_id       = $origin->getPlaceIDbyIndex();
+		$destination_place_id  = $destination->getPlaceIDbyIndex();
+		$destination_formatted = $destination->getAddressFormattedByIndex();
 
-		return $this->byPlaceID( $origin_place_id, $destination_place_id,
-			'coor_text' );
+		$args = [
+			'lat_origin'  => $lat,
+			'lng_origin'  => $lng,
+			'destination' => $destination_formatted,
+		];
+
+		return $this->byPlaceID(
+			$origin_place_id,
+			$destination_place_id,
+			'coor_text'
+		);
 	}
 
 	/**
@@ -129,8 +139,11 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $origin, $destination, $type = 'place_id' ) {
-		$direction = FriesMaps::constructWithPlaceID( $origin,
-			$destination, $type );
+		$direction = FriesMaps::constructWithPlaceID(
+			$origin,
+			$destination,
+			$type
+		);
 
 		return response()->json( $direction->getOutput() );
 	}
@@ -151,8 +164,10 @@ class DirectionController extends Controller {
 		$destination['lat'] = $lat_d;
 		$destination['lng'] = $lng_d;
 
-		$direction = FriesMaps::constructWithCoordinates( $origin,
-			$destination );
+		$direction = FriesMaps::constructWithCoordinates(
+			$origin,
+			$destination
+		);
 
 		return response()->json( $direction->getOutput() );
 	}

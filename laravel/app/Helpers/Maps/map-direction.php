@@ -518,13 +518,12 @@ class FriesMaps {
 
 			return;
 		}
+		$this->response->status      = 'OK';
+		$this->response->type        = $this->type;
+		$this->response->info        = $this->getInfoRoadMap();
 		$this->response->origin      = $this->getDetailsOrigin();
 		$this->response->destination = $this->getDetailsDestination();
 		$this->response->steps       = $this->getStepByStep();
-		$this->response->info        = $this->getInfoRoadMap();
-		$this->response->status      = 'OK';
-
-		$this->response->type = $this->type;
 	}
 
 	/**

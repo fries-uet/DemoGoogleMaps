@@ -37,6 +37,7 @@ class FriesLocationSearch {
 	 */
 	private function __construct() {
 		$this->language = 'vi';
+		$this->region   = 'vn';//Vietnam
 		$this->KEY_API  = getGoogleMapsKeyAPI();
 	}
 
@@ -52,8 +53,9 @@ class FriesLocationSearch {
 		$instance->query = $query;
 
 		$instance->url_API
-			= sprintf( 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s',
-			urlencode( $instance->query ), $instance->KEY_API );
+			= sprintf( 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s&language=%s',
+			urlencode( $instance->query ), $instance->KEY_API,
+			$instance->language );
 
 		$instance->handleResponseAPI();
 
@@ -76,9 +78,9 @@ class FriesLocationSearch {
 		$instance->radius    = $radius;
 
 		$instance->url_API
-			= sprintf( 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=%s&key=%s',
+			= sprintf( 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=%s&key=%s&language=%s',
 			$instance->latitude, $instance->longitude, $instance->radius,
-			$instance->KEY_API );
+			$instance->KEY_API, $instance->language );
 
 		$instance->handleResponseAPI();
 
@@ -153,6 +155,41 @@ class FriesLocationSearch {
 	}
 
 	/**
+	 * Get Array Address Formatted
+	 *
+	 * @return array|null
+	 */
+	public function getArrAddressFormatted() {
+		if ( $this->countResults() == 0 ) {
+			return null;
+		}
+		$arr_result  = $this->getResults();
+		$arr_address = array();
+		foreach ( $arr_result as $result ) {
+			array_push( $arr_address, $result->formatted_address );
+		}
+
+		return $arr_address;
+	}
+
+	/**
+	 * Get Address Formatted by index
+	 *
+	 * @param int $index
+	 *
+	 * @return mixed
+	 */
+	public function getAddressFormattedByIndex( $index = 0 ) {
+		if ( $index > $this->getMaxIndex() || $index < 0
+		     || ! is_numeric( $index )
+		) {
+			$index = 0;
+		}
+
+		return $this->getArrAddressFormatted()[ $index ];
+	}
+
+	/**
 	 * Get Array place_id
 	 *
 	 * @return array|null
@@ -172,14 +209,12 @@ class FriesLocationSearch {
 	}
 
 	/**
-	 * Get number of place_id
+	 * Get max index
 	 *
 	 * @return int
 	 */
-	public function getMaxIndexPlaceID() {
-		$arr = $this->getArrPlaceID();
-
-		return count( $arr );
+	public function getMaxIndex() {
+		return $this->countResults() - 1;
 	}
 
 	/**
@@ -187,7 +222,7 @@ class FriesLocationSearch {
 	 *
 	 * @param $index
 	 *
-	 * @return null
+	 * @return null|string
 	 */
 	public function getPlaceIDbyIndex( $index = 0 ) {
 		if ( ! $this->getStatus() ) {
