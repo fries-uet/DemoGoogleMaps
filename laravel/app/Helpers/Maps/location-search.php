@@ -172,13 +172,24 @@ class FriesLocationSearch {
 	}
 
 	/**
+	 * Get number of place_id
+	 *
+	 * @return int
+	 */
+	public function getMaxIndexPlaceID() {
+		$arr = $this->getArrPlaceID();
+
+		return count( $arr );
+	}
+
+	/**
 	 * Get place_id by index
 	 *
 	 * @param $index
 	 *
 	 * @return null
 	 */
-	public function getPlaceIDbyIndex( $index ) {
+	public function getPlaceIDbyIndex( $index = 0 ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
