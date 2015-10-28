@@ -32,6 +32,7 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		Route::get( 'byText/origin={origin}&destination={destination}',
 			'DirectionController@byText' );
 
+		// Get direction by origin coordinate & destination text
 		Route::get( 'byMixed/origin={lat},{lng}&destination={destination}',
 			'DirectionController@byMixed' );
 

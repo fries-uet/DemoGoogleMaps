@@ -87,6 +87,15 @@ class TrafficController extends Controller {
 		//
 	}
 
+	/**
+	 * Post status traffic
+	 *
+	 * @param $type
+	 * @param $lat
+	 * @param $lng
+	 *
+	 * @return \Illuminate\Http\JsonResponse|null
+	 */
 	public function postStatus( $type, $lat, $lng ) {
 		try {
 			if ( $type == 'congestion' || $type == 'open' ) {
@@ -100,9 +109,7 @@ class TrafficController extends Controller {
 
 					if ( $locationDetail->getStatus() ) {
 						if ( $locationDetail->getStreetName() == null ) {
-							Helpers\responseError();
-
-							return null;
+							return Helpers\getResponseError();
 						}
 
 						$location_report = [
@@ -126,30 +133,25 @@ class TrafficController extends Controller {
 							'status' => 'OK',
 							'data'   => $location_report,
 						] );
-
-
-					} else {
-						Helpers\responseError();
 					}
-				} else {
-					Helpers\responseError();
 				}
-			} else {
-				Helpers\responseError();
 			}
 		} catch ( \PDOException $exception ) {
-			Helpers\responseError();
+			return Helpers\getResponseError();
 		}
 
-		return null;
+		return Helpers\getResponseError();
 	}
 
+	/**
+	 * Get list status traffic
+	 *
+	 * @return \Illuminate\Http\JsonResponse|null
+	 */
 	public function getStatus() {
 		$traffic = Traffic::getStatusTraffic();
 		if ( $traffic == null ) {
-			Helpers\responseError();
-
-			return null;
+			return Helpers\getResponseError();
 		}
 
 		foreach ( $traffic as $index => $a ) {
@@ -181,17 +183,20 @@ class TrafficController extends Controller {
 		] );
 	}
 
+	/**
+	 * Get list status by type
+	 *
+	 * @param $type
+	 *
+	 * @return \Illuminate\Http\JsonResponse|null
+	 */
 	public function getStatusByType( $type ) {
 		if ( $type != 'open' && $type != 'congestion' ) {
-			Helpers\responseError();
-
-			return null;
+			return Helpers\getResponseError();
 		}
 		$traffic = Traffic::getStatusTraffic( $type );
 		if ( $traffic == null ) {
-			Helpers\responseError();
-
-			return null;
+			return Helpers\getResponseError();
 		}
 
 		foreach ( $traffic as $index => $a ) {

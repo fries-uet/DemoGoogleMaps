@@ -13,6 +13,17 @@ function responseError() {
 	die();
 }
 
+/**
+ * Get Response Error
+ *
+ * @return \Illuminate\Http\JsonResponse
+ */
+function getResponseError() {
+	return response()->json( [
+		'status' => 'ERROR',
+	] );
+}
+
 function convertCountTimestamp2String( $timestamp ) {
 	$timestamp = intval( $timestamp );
 	$string    = '';

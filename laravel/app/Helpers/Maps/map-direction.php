@@ -43,6 +43,11 @@ class FriesMaps {
 	 */
 	var $response;
 
+	/**
+	 * Type query
+	 *
+	 * @var string
+	 */
 	var $type;
 
 	/**
