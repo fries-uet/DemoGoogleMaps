@@ -12,7 +12,7 @@ require_once 'helpers/file-get-contents/file-get-contents.php';
 require_once 'location-details.php';
 
 class FriesLocationSearch {
-	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
+	var $KEY_API = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 
 	var $response_API;
 	var $response_Object_API;
@@ -36,6 +36,7 @@ class FriesLocationSearch {
 	 */
 	private function __construct() {
 		$this->language = 'vi';
+		$this->KEY_API  = getGoogleMapsKeyAPI();
 	}
 
 	/**
@@ -51,7 +52,7 @@ class FriesLocationSearch {
 
 		$instance->url_API
 			= sprintf( 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s',
-			urlencode( $instance->query ), self::KEY_MAPS );
+			urlencode( $instance->query ), $instance->KEY_API );
 
 		$instance->handleResponseAPI();
 
@@ -76,7 +77,7 @@ class FriesLocationSearch {
 		$instance->url_API
 			= sprintf( 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=%s&key=%s',
 			$instance->latitude, $instance->longitude, $instance->radius,
-			self::KEY_MAPS );
+			$instance->KEY_API );
 
 		$instance->handleResponseAPI();
 

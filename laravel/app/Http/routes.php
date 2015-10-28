@@ -62,6 +62,6 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	/**
 	 * Development
 	 */
-	Route::get( '/test/query={query}',
+	Route::get( '/test',
 		'TestController@test' );
 } );

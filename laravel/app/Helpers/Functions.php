@@ -54,3 +54,16 @@ if ( ! function_exists( 'convertCountTimestamp2String' ) ) {
 		return trim( $string );
 	}
 }
+
+function getGoogleMapsKeyAPI( $index = null ) {
+	$key = [
+		'AIzaSyCoG4V5FmAkdSQio9QSQe7FutNtEua7hfQ',
+		'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c',
+	];
+
+	if ( $index > count( $key ) - 1 || $index == null ) {
+		$index = rand( 0, count( $key ) - 1 );
+	}
+
+	return $key[ $index ];
+}

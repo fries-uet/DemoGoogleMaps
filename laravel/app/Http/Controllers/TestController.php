@@ -83,16 +83,7 @@ class TestController extends Controller {
 		//
 	}
 
-	public function test( $query ) {
-		$location
-			= FriesLocationSearch::constructWithText( $query );
-
-//		print_r( $location->getResults() );
-
-
-		$polyline
-			= PolylineEncoder::decodeValue( 'iam_CenndSZeA@C?AF[nA{EtBcINm@pAeF^gAv@aDNg@hCsKz@aDhDgP' );
-
-		print_r( $polyline );
+	public function test() {
+		echo getGoogleMapsKeyAPI();
 	}
 }

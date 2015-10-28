@@ -17,7 +17,7 @@ require_once __DIR__ . '/helpers/PolylineEncoder.php';
 require_once __DIR__ . '/location-search.php';
 
 class FriesMaps {
-	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
+	var $KEY_API = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 	var $response_API;
 	var $response_Object_API;
 	var $url_api;
@@ -60,6 +60,7 @@ class FriesMaps {
 	private function __construct( $origin, $destination, $mode = 'driving' ) {
 		$this->language    = 'vi';//Vietnamese
 		$this->region      = 'vn';//Vietnam
+		$this->KEY_API     = getGoogleMapsKeyAPI();
 		$this->origin      = $origin;
 		$this->destination = $destination;
 		$this->mode        = $destination;
@@ -141,7 +142,7 @@ class FriesMaps {
 		$this->url_api = sprintf(
 			'https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&key=%s&language=%s&mode=%s&region=%s',
 			urlencode( $this->origin ), urlencode( $this->destination ),
-			self::KEY_MAPS, $this->language, $this->mode,
+			$this->KEY_API, $this->language, $this->mode,
 			$this->region
 		);
 

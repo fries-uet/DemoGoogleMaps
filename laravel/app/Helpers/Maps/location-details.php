@@ -12,7 +12,7 @@ namespace App\Helpers\Maps;
 require_once 'helpers/file-get-contents/file-get-contents.php';
 
 class FriesLocationDetails {
-	const KEY_MAPS = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
+	var $KEY_API = 'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c';
 	var $url_API;
 
 	var $response_API;
@@ -28,7 +28,8 @@ class FriesLocationDetails {
 	 */
 	var $language = 'vi';
 
-	function __construct( $place_id ) {
+	public function __construct( $place_id ) {
+		$this->KEY_API  = getGoogleMapsKeyAPI();
 		$this->place_id = $place_id;
 
 		$this->handleResponseAPI();
@@ -42,7 +43,7 @@ class FriesLocationDetails {
 	public function getContentAPI() {
 		$this->url_API = sprintf(
 			'https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&key=%s&language=%s',
-			$this->place_id, self::KEY_MAPS, $this->language
+			$this->place_id, $this->KEY_API, $this->language
 		);
 		$content       = fries_file_get_contents( $this->url_API );
 
