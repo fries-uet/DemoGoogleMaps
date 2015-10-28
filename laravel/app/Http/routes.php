@@ -17,11 +17,11 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	 */
 	Route::group( array( 'prefix' => 'location' ), function () {
 		// Get location by coordinates
-		Route::get( 'byCoordinates/lat={lat}&lng={lng}',
+		Route::get( 'byCoordinates/{lat},{lng}',
 			'LocationController@byCoordinates' );
 
 		//Get location by place_id
-		Route::get( 'byPlaceID/id={id}', 'LocationController@byPlaceID' );
+		Route::get( 'byPlaceID/{id}', 'LocationController@byPlaceID' );
 	} );
 
 	/**
@@ -31,6 +31,9 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		// Get direction by Text query
 		Route::get( 'byText/origin={origin}&destination={destination}',
 			'DirectionController@byText' );
+
+		Route::get( 'byMixed/origin={lat},{lng}&destination={destination}',
+			'DirectionController@byMixed' );
 
 		// Get direction by place_id
 		Route::get( 'byPlaceID/origin={origin}&destination={destination}',

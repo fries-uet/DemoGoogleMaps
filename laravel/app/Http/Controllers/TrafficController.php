@@ -99,17 +99,15 @@ class TrafficController extends Controller {
 						= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
 
 					if ( $locationDetail->getStatus() ) {
-
-						//return response()->json( $locationDetail->getStreetName() );
-
 						if ( $locationDetail->getStreetName() == null ) {
 							Helpers\responseError();
+
+							return null;
 						}
 
-						$street_name     = $locationDetail->getStreetName();
 						$location_report = [
 							'type'              => $type,
-							'name'              => $street_name,
+							'name'              => $locationDetail->getStreetName(),
 							'latitude'          => $locationDetail->getLatitude(),
 							'longitude'         => $locationDetail->getLongitude(),
 							'address_formatted' => $locationDetail->getAddressFormatted(),
@@ -118,17 +116,8 @@ class TrafficController extends Controller {
 							'time_report'       => date_create()->getTimestamp(),
 						];
 
-						$model = DB::table( 'traffic' )
-						           ->where( 'name', $street_name );
-
-						if ( $model->count() > 0 ) {
-							$id = $model->value( 'id' );
-							$model->update( $location_report );
-						} else {
-							// Insert & get ID
-							$id = DB::table( 'traffic' )
-							        ->insertGetId( $location_report );
-						}
+						$id = Traffic::create( $location_report )
+						             ->getAttributeValue( 'id' );
 
 						// Set id
 						$location_report['id'] = $id;

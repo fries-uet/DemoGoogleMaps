@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Helpers\Maps;
+use App\Helpers\Maps\FriesMaps;
+use App\Helpers\Maps\FriesLocationSearch;
+use App\Helpers\Maps\FriesLocationDetails;
 
 class DirectionController extends Controller {
 	/**
@@ -90,9 +92,30 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byText( $origin, $destination ) {
-		$direction = Maps\FriesMaps::constructWithText( $origin, $destination );
+		$direction = FriesMaps::constructWithText( $origin, $destination );
 
 		return response()->json( $direction->getOutput() );
+	}
+
+	/**
+	 *
+	 *
+	 * @param        $lat : Latitude origin
+	 * @param        $lng : Longitude Origin
+	 * @param string $destination
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function byMixed( $lat, $lng, $destination ) {
+		$lat         = trim( $lat );
+		$lng         = trim( $lng );
+		$origin      = FriesLocationSearch::constructWithLocation( $lat, $lng );
+		$destination = FriesLocationSearch::constructWithText( $destination );
+
+		$origin_placeid      = $origin->getPlaceIDbyIndex( 0 );
+		$destination_placeid = $destination->getPlaceIDbyIndex( 0 );
+
+		return $this->byPlaceID( $origin_placeid, $destination_placeid );
 	}
 
 	/**
@@ -104,7 +127,7 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $origin, $destination ) {
-		$direction = Maps\FriesMaps::constructWithPlaceID( $origin,
+		$direction = FriesMaps::constructWithPlaceID( $origin,
 			$destination );
 
 		return response()->json( $direction->getOutput() );
@@ -126,7 +149,7 @@ class DirectionController extends Controller {
 		$destination['lat'] = $lat_d;
 		$destination['lng'] = $lng_d;
 
-		$direction = Maps\FriesMaps::constructWithCoordinates( $origin,
+		$direction = FriesMaps::constructWithCoordinates( $origin,
 			$destination );
 
 		return response()->json( $direction->getOutput() );

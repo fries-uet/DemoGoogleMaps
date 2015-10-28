@@ -85,12 +85,14 @@ class LocationController extends Controller {
 	/**
 	 * Get location by Coordinates
 	 *
-	 * @param null $lat
-	 * @param null $lng
+	 * @param  $lat
+	 * @param  $lng
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function byCoordinates( $lat = null, $lng = null ) {
+	public function byCoordinates( $lat, $lng ) {
+		$lat            = trim( $lat );
+		$lng            = trim( $lng );
 		$locationSearch = FriesLocationSearch::constructWithLocation( $lat,
 			$lng );
 
