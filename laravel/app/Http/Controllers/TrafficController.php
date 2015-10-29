@@ -129,6 +129,7 @@ class TrafficController extends Controller {
 						return response()->json( [
 							'status' => 'OK',
 							'data'   => $location_report,
+							'type'   => 'post_traffic',
 						] );
 					}
 				}
@@ -151,6 +152,7 @@ class TrafficController extends Controller {
 			return getResponseError();
 		}
 
+		$merge_traffic = array();
 		foreach ( $traffic as $index => $a ) {
 			//Hide variable unnecessary
 			unset( $a['created_at'] );
@@ -162,18 +164,25 @@ class TrafficController extends Controller {
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
 			$a['ago']      = $timestamp_ago;
-			$a['ago_text']
-			               = convertCountTimestamp2String( $timestamp_ago );
+			$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
+
+			if ( $index == 0 ) {
+				array_push( $merge_traffic, $a );
+			} else {
+				$name = $a['name'];
+
+				foreach ( $merge_traffic as $i => $b ) {
+					if ( $name == $b['name'] ) {
+						$merge_traffic[ $i ] = $a;
+					}
+				}
+			}
 		}
 
-		$traffics = array();
-		foreach ( $traffic as $index => $a ) {
-			array_push( $traffics, $a );
-		}
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => $traffics,
+			'data'   => $merge_traffic,
 		] );
 	}
 
@@ -201,12 +210,11 @@ class TrafficController extends Controller {
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
 			$a['ago']      = $timestamp_ago;
-			$a['ago_text']
-			               = convertCountTimestamp2String( $timestamp_ago );
-
+			$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
 		}
 
 		return response()->json( [
+
 			'status' => 'OK',
 			'data'   => $traffic,
 		] );
