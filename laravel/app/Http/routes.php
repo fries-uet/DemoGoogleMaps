@@ -65,6 +65,8 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	/**
 	 * Development
 	 */
-	Route::get( '/test/{lat},{lng}',
-		'TrafficController@test' );
+	Route::get(
+		'/test/{lat},{lng}',
+		'TrafficController@test'
+	);
 } );

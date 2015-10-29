@@ -112,9 +112,8 @@ class DirectionController extends Controller {
 		$origin      = FriesLocationSearch::constructWithLocation( $lat, $lng );
 		$destination = FriesLocationSearch::constructWithText( $destination );
 
-		$origin_place_id       = $origin->getPlaceIDbyIndex();
-		$destination_place_id  = $destination->getPlaceIDbyIndex();
-		$destination_formatted = $destination->getAddressFormattedByIndex();
+		$origin_place_id      = $origin->getPlaceIDbyIndex();
+		$destination_place_id = $destination->getPlaceIDbyIndex();
 
 		return $this->byPlaceID(
 			$origin_place_id,

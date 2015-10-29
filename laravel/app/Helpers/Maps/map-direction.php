@@ -306,6 +306,14 @@ class FriesMaps {
 		return $legs->start_address;
 	}
 
+	public function getShortAdressOrigin() {
+		$start_address = $this->getAddressOrigin();
+		$arr           = explode( ',', $start_address );
+		$short_address = $arr[0] . ',' . $arr[1];
+
+		return $short_address;
+	}
+
 	/**
 	 * Get Address Destination
 	 *
@@ -318,6 +326,14 @@ class FriesMaps {
 		$legs = $this->getLegs();
 
 		return $legs->end_address;
+	}
+
+	public function getShortAdressDestination() {
+		$end_address   = $this->getAddressDestination();
+		$arr           = explode( ',', $end_address );
+		$short_address = $arr[0] . ',' . $arr[1];
+
+		return $short_address;
 	}
 
 	/**
@@ -354,9 +370,10 @@ class FriesMaps {
 	 * @return stdClass
 	 */
 	public function getDetailsOrigin() {
-		$origin       = new stdClass();
-		$origin->text = $this->getAddressOrigin();
-		$origin->geo  = $this->getGeocoderOrigin();
+		$origin             = new stdClass();
+		$origin->short_name = $this->getShortAdressOrigin();
+		$origin->long_name  = $this->getAddressOrigin();
+		$origin->geo        = $this->getGeocoderOrigin();
 
 		return $origin;
 	}
@@ -367,9 +384,10 @@ class FriesMaps {
 	 * @return stdClass
 	 */
 	public function getDetailsDestination() {
-		$destination       = new stdClass();
-		$destination->text = $this->getAddressDestination();
-		$destination->geo  = $this->getGeocoderDestination();
+		$destination             = new stdClass();
+		$destination->short_name = $this->getShortAdressDestination();
+		$destination->long_name  = $this->getAddressDestination();
+		$destination->geo        = $this->getGeocoderDestination();
 
 		return $destination;
 	}
