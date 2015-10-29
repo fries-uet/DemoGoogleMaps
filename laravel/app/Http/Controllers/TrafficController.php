@@ -183,6 +183,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => $merge_traffic,
+			'type'   => 'get_traffic',
 		] );
 	}
 
@@ -214,9 +215,9 @@ class TrafficController extends Controller {
 		}
 
 		return response()->json( [
-
 			'status' => 'OK',
 			'data'   => $traffic,
+			'type'   => 'get_traffic',
 		] );
 	}
 
