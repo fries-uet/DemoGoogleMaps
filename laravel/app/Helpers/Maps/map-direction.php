@@ -532,7 +532,7 @@ class FriesMaps {
 		$this->response = new stdClass();
 
 		if ( ! $this->getStatus() ) {
-			$this->response->status = 'ERROR';
+			$this->response->status = 'NOT_FOUND';
 
 			return;
 		}

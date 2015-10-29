@@ -28,7 +28,7 @@ class Traffic extends Model {
 				$traffic = self::all();
 			}
 		} catch ( \PDOException $excetion ) {
-			$traffic = null;
+			return getResponseError( 'DISCONNECTED_DATABASE' );
 		}
 
 		return $traffic;

@@ -10,11 +10,13 @@ if ( ! function_exists( 'getResponseError' ) ) {
 	/**
 	 * Get Response Error
 	 *
+	 * @param $code
+	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	function getResponseError() {
+	function getResponseError( $code = 'ERROR' ) {
 		return response()->json( [
-			'status' => 'ERROR',
+			'status' => $code,
 		] );
 	}
 }

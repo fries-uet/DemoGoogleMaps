@@ -135,7 +135,7 @@ class TrafficController extends Controller {
 				}
 			}
 		} catch ( \PDOException $exception ) {
-			return getResponseError();
+			return getResponseError( 'DISCONNECTED_DATABASE' );
 		}
 
 		return getResponseError();
