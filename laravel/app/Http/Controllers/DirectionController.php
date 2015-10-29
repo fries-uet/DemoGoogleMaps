@@ -116,12 +116,6 @@ class DirectionController extends Controller {
 		$destination_place_id  = $destination->getPlaceIDbyIndex();
 		$destination_formatted = $destination->getAddressFormattedByIndex();
 
-		$args = [
-			'lat_origin'  => $lat,
-			'lng_origin'  => $lng,
-			'destination' => $destination_formatted,
-		];
-
 		return $this->byPlaceID(
 			$origin_place_id,
 			$destination_place_id,

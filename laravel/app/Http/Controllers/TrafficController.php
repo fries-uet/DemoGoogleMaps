@@ -148,9 +148,6 @@ class TrafficController extends Controller {
 	 */
 	public function getStatus() {
 		$traffic = Traffic::getStatusTraffic( null, 3600 );
-		if ( $traffic == null ) {
-			return getResponseError();
-		}
 
 		$merge_traffic = array();
 		foreach ( $traffic as $index => $a ) {
@@ -171,10 +168,16 @@ class TrafficController extends Controller {
 			} else {
 				$name = $a['name'];
 
+				$merge = false;
 				foreach ( $merge_traffic as $i => $b ) {
 					if ( $name == $b['name'] ) {
 						$merge_traffic[ $i ] = $a;
+						$merge               = true;
 					}
+				}
+
+				if ( ! $merge ) {
+					array_push( $merge_traffic, $a );
 				}
 			}
 		}
