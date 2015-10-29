@@ -309,7 +309,7 @@ class FriesMaps {
 	public function getShortAdressOrigin() {
 		$start_address = $this->getAddressOrigin();
 		$arr           = explode( ',', $start_address );
-		$short_address = $arr[0] . ',' . $arr[1];
+		$short_address = $arr[0];
 
 		return $short_address;
 	}
@@ -331,7 +331,7 @@ class FriesMaps {
 	public function getShortAdressDestination() {
 		$end_address   = $this->getAddressDestination();
 		$arr           = explode( ',', $end_address );
-		$short_address = $arr[0] . ',' . $arr[1];
+		$short_address = $arr[0];
 
 		return $short_address;
 	}
