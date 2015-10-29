@@ -254,6 +254,8 @@ class FriesLocationDetails {
 			foreach ( $address_components as $address ) {
 				if ( in_array( 'route', $address->types ) ) {
 					$string = $address->long_name;
+
+					return $string;
 				}
 				if ( in_array( 'administrative_area_level_2',
 					$address->types ) ) {
