@@ -224,9 +224,16 @@ class TrafficController extends Controller {
 		] );
 	}
 
-	public function test() {
-		$all_traffic = Traffic::getStatusTraffic();
+	public function test( $lat, $lng ) {
+		$locationSearch
+			= FriesLocationSearch::constructWithLocation( $lat,
+			$lng );
 
-		return response()->json( $all_traffic );
+		if ( $locationSearch->getStatus() ) {
+			$locationDetail
+				= new FriesLocationDetails( $locationSearch->getPlaceIDbyIndex( 0 ) );
+
+			dd( $locationDetail->getOutput() );
+		}
 	}
 }

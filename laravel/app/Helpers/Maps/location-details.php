@@ -248,12 +248,25 @@ class FriesLocationDetails {
 
 		$result             = $this->getResult();
 		$address_components = $result->address_components;
+
+		$string = '';
 		if ( count( $address_components ) > 0 ) {
 			foreach ( $address_components as $address ) {
-
-//				var_dump( $address );
 				if ( in_array( 'route', $address->types ) ) {
-					return $address->short_name;
+					$string = $address->long_name;
+				}
+				if ( in_array( 'administrative_area_level_2',
+					$address->types ) ) {
+					$string .= ', ' . $address->long_name;
+
+					return $string;
+				}
+
+				if ( in_array( 'administrative_area_level_1',
+					$address->types ) ) {
+					$string .= ', ' . $address->long_name;
+
+					return $string;
 				}
 			}
 		}
@@ -271,6 +284,7 @@ class FriesLocationDetails {
 			return array(
 				'status'            => 'OK',
 				'name'              => $this->getName(),
+				'street_name'       => $this->getStreetName(),
 				'address_formatted' => $this->getAddressFormatted(),
 				'address_html'      => $this->getAddressHTML(),
 				'location'          => $this->getLocationCode(),
