@@ -145,7 +145,7 @@ class DirectionController extends Controller {
 			$type
 		);
 
-		return response()->json( $direction->getOutput() );
+		return response()->json( $direction->getObjectAPI() );
 	}
 
 	/**

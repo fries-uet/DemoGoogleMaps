@@ -146,7 +146,7 @@ class TrafficController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse|null
 	 */
 	public function getStatus() {
-		$traffic = Traffic::getStatusTraffic();
+		$traffic = Traffic::getStatusTraffic( null, 1800 );
 		if ( $traffic == null ) {
 			return getResponseError();
 		}
@@ -191,7 +191,7 @@ class TrafficController extends Controller {
 		if ( $type != 'open' && $type != 'congestion' ) {
 			return getResponseError();
 		}
-		$traffic = Traffic::getStatusTraffic( $type );
+		$traffic = Traffic::getStatusTraffic( $type, 3180 );
 		if ( $traffic == null ) {
 			return getResponseError();
 		}
@@ -206,24 +206,21 @@ class TrafficController extends Controller {
 
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
-			// Destroy the traffic from previous days
-			if ( $timestamp_ago > 21600 ) {
-				unset( $traffic[ $index ] );
-			}
 
 			$a['ago']
 				= convertCountTimestamp2String( $timestamp_ago );
 
 		}
 
-		$traffics = array();
-		foreach ( $traffic as $index => $a ) {
-			array_push( $traffics, $a );
-		}
-
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => $traffics,
+			'data'   => $traffic,
 		] );
+	}
+
+	public function test() {
+		$all_traffic = Traffic::getStatusTraffic();
+
+		return response()->json( $all_traffic );
 	}
 }
