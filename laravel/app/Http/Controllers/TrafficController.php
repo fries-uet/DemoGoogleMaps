@@ -146,7 +146,7 @@ class TrafficController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse|null
 	 */
 	public function getStatus() {
-		$traffic = Traffic::getStatusTraffic( null, 1800 );
+		$traffic = Traffic::getStatusTraffic( null, 3600 );
 		if ( $traffic == null ) {
 			return getResponseError();
 		}
@@ -161,12 +161,9 @@ class TrafficController extends Controller {
 
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
-			$a['ago']
+			$a['ago']      = $timestamp_ago;
+			$a['ago_text']
 			               = convertCountTimestamp2String( $timestamp_ago );
-			// Destroy the traffic was expired
-			if ( $timestamp_ago > 21600 ) {
-				unset( $traffic[ $index ] );
-			}
 		}
 
 		$traffics = array();
@@ -191,10 +188,7 @@ class TrafficController extends Controller {
 		if ( $type != 'open' && $type != 'congestion' ) {
 			return getResponseError();
 		}
-		$traffic = Traffic::getStatusTraffic( $type, 3180 );
-		if ( $traffic == null ) {
-			return getResponseError();
-		}
+		$traffic = Traffic::getStatusTraffic( $type, 3600 );
 
 		foreach ( $traffic as $index => $a ) {
 			//Hide variable unnecessary
@@ -206,9 +200,9 @@ class TrafficController extends Controller {
 
 			$timestamp_ago = date_create()->getTimestamp()
 			                 - intval( $a['time_report'] );
-
-			$a['ago']
-				= convertCountTimestamp2String( $timestamp_ago );
+			$a['ago']      = $timestamp_ago;
+			$a['ago_text']
+			               = convertCountTimestamp2String( $timestamp_ago );
 
 		}
 

@@ -53,7 +53,7 @@ class Traffic extends Model {
 		$timestamp_now  = date_create()->getTimestamp();
 		if ( count( $all_traffic ) > 0 ) {
 			foreach ( $all_traffic as $index => $traffic ) {
-				$timestamp = $traffic->value( 'time_report' );
+				$timestamp = $traffic->time_report;
 				if ( $timestamp_now - $timestamp < $time ) {
 					array_push( $traffic_custom, $traffic );
 				}
