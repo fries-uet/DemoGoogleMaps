@@ -192,7 +192,7 @@ class TrafficController extends Controller {
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => $traffic,
+			'data'   => [ ],
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -203,7 +203,7 @@ class TrafficController extends Controller {
 		if ( count( $traffic ) == 0 ) {
 			return response()->json( [
 				'status' => 'OK',
-				'data'   => 0,
+				'data'   => [ ],
 				'type'   => 'get_traffic',
 			] );
 		}
@@ -218,10 +218,9 @@ class TrafficController extends Controller {
 			}
 		}
 
-
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => 0,
+			'data'   => [ ],
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -237,25 +236,26 @@ class TrafficController extends Controller {
 		if ( $type != 'open' && $type != 'congestion' ) {
 			return getResponseError();
 		}
-		$traffic = Traffic::getStatusTraffic( $type, 3600 );
+		$traffic = self::getStatus();
 
-		foreach ( $traffic as $index => $a ) {
-			//Hide variable unnecessary
-			unset( $a['created_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['place_id'] );
-			unset( $a['address_html'] );
+		if ( $traffic == null ) {
+			return response()->json( [
+				'status' => 'OK',
+				'data'   => [ ],
+				'type'   => 'get_traffic',
+			] );
+		}
 
-			$timestamp_ago = date_create()->getTimestamp()
-			                 - intval( $a['time_report'] );
-			$a['ago']      = $timestamp_ago;
-			$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
+		$traffic_type = array();
+		foreach ( $traffic as $index => $t ) {
+			if ( $t->type == $type ) {
+				array_push( $traffic_type, $t );
+			}
 		}
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => $traffic,
+			'data'   => $traffic_type,
 			'type'   => 'get_traffic',
 		] );
 	}
