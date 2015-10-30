@@ -192,7 +192,7 @@ class TrafficController extends Controller {
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => [ ],
+			'data'   => $traffic,
 			'type'   => 'get_traffic',
 		] );
 	}
