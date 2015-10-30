@@ -208,8 +208,37 @@ class TrafficController extends Controller {
 			] );
 		}
 
+		/**
+		 * Test ==
+		 *
+		 * @var  $index
+		 * @var  $t
+		 */
 		foreach ( $traffic as $index => $t ) {
 			if ( strtolower( $t->name ) == strtolower( $street ) ) {
+				return response()->json( [
+					'status' => 'OK',
+					'data'   => $t,
+					'type'   => 'get_traffic',
+				] );
+			}
+		}
+
+		/**
+		 * Search name
+		 */
+		$location_search
+			= FriesLocationSearch::constructWithText( $street );
+		if ( $location_search->countResults() == 0 ) {
+			return getResponseError();
+		}
+
+		$place_id         = $location_search->getPlaceIDbyIndex();
+		$location_details = new FriesLocationDetails( $place_id );
+		$street_name      = $location_details->getStreetName();
+
+		foreach ( $traffic as $index => $t ) {
+			if ( strtolower( $t->name ) == strtolower( $street_name ) ) {
 				return response()->json( [
 					'status' => 'OK',
 					'data'   => $t,
