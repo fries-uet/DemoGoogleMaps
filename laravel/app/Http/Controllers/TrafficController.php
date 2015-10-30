@@ -209,7 +209,7 @@ class TrafficController extends Controller {
 		}
 
 		foreach ( $traffic as $index => $t ) {
-			if ( $t->name == $street ) {
+			if ( strtolower( $t->name ) == strtolower( $street ) ) {
 				return response()->json( [
 					'status' => 'OK',
 					'data'   => $t,
