@@ -269,7 +269,30 @@ class FriesMaps {
 			return $legs->distance->text;
 		}
 
-		return $legs->distance;
+		return $legs->distance->value;
+	}
+
+	/**
+	 * Get distance text Vietnamese
+	 *
+	 * @return string
+	 */
+	public function getDistanceTextVietnamese() {
+		$distance = intval( $this->getDistance() );
+
+		if ( $distance < 1000 ) {
+			return $distance . ' mét';
+		}
+
+		$str = '';
+		$str .= intval( $distance / 1000 );
+		if ( $distance % 1000 >= 100 ) {
+			$str .= ' phẩy '
+			        . intval( ( $distance % 1000 ) / 100 );
+		}
+		$str .= ' ki lô mét';
+
+		return $str;
 	}
 
 	/**
@@ -517,10 +540,11 @@ class FriesMaps {
 			return null;
 		}
 
-		$roadMap           = new stdClass();
-		$roadMap->summary  = $this->getRoutes()->summary;
-		$roadMap->distance = $this->getDistance( true );
-		$roadMap->duration = $this->getDuration( true );
+		$roadMap              = new stdClass();
+		$roadMap->summary     = $this->getRoutes()->summary;
+		$roadMap->distance    = $this->getDistance( true );
+		$roadMap->distance_vn = $this->getDistanceTextVietnamese();
+		$roadMap->duration    = $this->getDuration( true );
 
 		return $roadMap;
 	}
