@@ -203,7 +203,7 @@ class TrafficController extends Controller {
 		if ( count( $traffic ) == 0 ) {
 			return response()->json( [
 				'status' => 'OK',
-				'data'   => [ ],
+				'data'   => null,
 				'type'   => 'get_traffic',
 			] );
 		}
@@ -249,7 +249,7 @@ class TrafficController extends Controller {
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => [ ],
+			'data'   => null,
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -270,7 +270,7 @@ class TrafficController extends Controller {
 		if ( $traffic == null ) {
 			return response()->json( [
 				'status' => 'OK',
-				'data'   => [ ],
+				'data'   => null,
 				'type'   => 'get_traffic',
 			] );
 		}
