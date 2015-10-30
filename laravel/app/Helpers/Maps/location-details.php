@@ -277,6 +277,33 @@ class FriesLocationDetails {
 	}
 
 	/**
+	 * Get Province name
+	 *
+	 * @return null|string
+	 */
+	public function getProvinceName() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$result             = $this->getResult();
+		$address_components = $result->address_components;
+		
+		if ( count( $address_components ) > 0 ) {
+			foreach ( $address_components as $address ) {
+				if ( in_array( 'administrative_area_level_1',
+					$address->types ) ) {
+					$string = $address->long_name;
+
+					return $string;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get output
 	 *
 	 * @return array

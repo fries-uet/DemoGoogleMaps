@@ -112,10 +112,10 @@ class TrafficController extends Controller {
 						$location_report = [
 							'type'              => $type,
 							'name'              => $locationDetail->getStreetName(),
+							'city'              => $locationDetail->getProvinceName(),
 							'latitude'          => $locationDetail->getLatitude(),
 							'longitude'         => $locationDetail->getLongitude(),
 							'address_formatted' => $locationDetail->getAddressFormatted(),
-							'address_html'      => $locationDetail->getAddressHTML(),
 							'place_id'          => $locationDetail->getPlaceID(),
 							'time_report'       => date_create()->getTimestamp(),
 						];
@@ -144,48 +144,84 @@ class TrafficController extends Controller {
 	/**
 	 * Get list status traffic
 	 *
-	 * @return \Illuminate\Http\JsonResponse|null
+	 * @return array|null
 	 */
 	public function getStatus() {
 		$traffic = Traffic::getStatusTraffic( null, 3600 );
 
 		$merge_traffic = array();
-		foreach ( $traffic as $index => $a ) {
-			//Hide variable unnecessary
-			unset( $a['created_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['updated_at'] );
-			unset( $a['place_id'] );
-			unset( $a['address_html'] );
+		if ( $traffic ) {
+			foreach ( $traffic as $index => $a ) {
+				//Hide variable unnecessary
+				unset( $a['created_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['updated_at'] );
+				unset( $a['place_id'] );
+				unset( $a['address_html'] );
 
-			$timestamp_ago = date_create()->getTimestamp()
-			                 - intval( $a['time_report'] );
-			$a['ago']      = $timestamp_ago;
-			$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
+				$timestamp_ago = date_create()->getTimestamp()
+				                 - intval( $a['time_report'] );
+				$a['ago']      = $timestamp_ago;
+				$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
 
-			if ( $index == 0 ) {
-				array_push( $merge_traffic, $a );
-			} else {
-				$name = $a['name'];
+				if ( $index == 0 ) {
+					array_push( $merge_traffic, $a );
+				} else {
+					$name = $a['name'];
 
-				$merge = false;
-				foreach ( $merge_traffic as $i => $b ) {
-					if ( $name == $b['name'] ) {
-						$merge_traffic[ $i ] = $a;
-						$merge               = true;
+					$merge = false;
+					foreach ( $merge_traffic as $i => $b ) {
+						if ( $name == $b['name'] ) {
+							$merge_traffic[ $i ] = $a;
+							$merge               = true;
+						}
+					}
+
+					if ( ! $merge ) {
+						array_push( $merge_traffic, $a );
 					}
 				}
+			}
+		}
 
-				if ( ! $merge ) {
-					array_push( $merge_traffic, $a );
-				}
+		return $merge_traffic;
+	}
+
+	public function getStatusAll() {
+		$traffic = self::getStatus();
+
+		return response()->json( [
+			'status' => 'OK',
+			'data'   => $traffic,
+			'type'   => 'get_traffic',
+		] );
+	}
+
+	public function getStatusTrafficByStreet( $street ) {
+		$traffic = self::getStatus();
+
+		if ( count( $traffic ) == 0 ) {
+			return response()->json( [
+				'status' => 'OK',
+				'data'   => 0,
+				'type'   => 'get_traffic',
+			] );
+		}
+
+		foreach ( $traffic as $index => $t ) {
+			if ( $t->name == $street ) {
+				return response()->json( [
+					'status' => 'OK',
+					'data'   => $t,
+					'type'   => 'get_traffic',
+				] );
 			}
 		}
 
 
 		return response()->json( [
 			'status' => 'OK',
-			'data'   => $merge_traffic,
+			'data'   => 0,
 			'type'   => 'get_traffic',
 		] );
 	}

@@ -56,17 +56,21 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 			'TrafficController@postStatus' );
 
 		Route::get( 'getStatus',
-			'TrafficController@getStatus' );
+			'TrafficController@getStatusAll' );
 
 		Route::get( 'getStatus/{type}',
 			'TrafficController@getStatusByType' );
+
+		Route::get( 'getStatusByName/{name}',
+			'TrafficController@getStatusTrafficByStreet'
+		);
 	} );
 
 	/**
 	 * Development
 	 */
 	Route::get(
-		'/test/{lat},{lng}',
+		'/test/{lat}',
 		'TrafficController@test'
 	);
 } );

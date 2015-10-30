@@ -15,11 +15,10 @@ class CreateTrafficTable extends Migration {
 
 			$table->string( 'type' );// 'open' | 'congestion'
 			$table->string( 'name' );
-			$table->string( 'status_text' );
+			$table->string('city');
 			$table->double( 'latitude' );
 			$table->double( 'longitude' );
 			$table->string( 'address_formatted' );
-			$table->string( 'address_html' );
 			$table->string( 'place_id' );
 			$table->integer( 'time_report' ); // Timestamp
 

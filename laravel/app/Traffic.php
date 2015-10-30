@@ -11,11 +11,10 @@ class Traffic extends Model {
 		= [
 			'type',
 			'name',
-			'status_text',
+			'city',
 			'latitude',
 			'longitude',
 			'address_formatted',
-			'address_html',
 			'place_id',
 			'time_report',
 		];
@@ -28,7 +27,7 @@ class Traffic extends Model {
 				$traffic = self::all();
 			}
 		} catch ( \PDOException $excetion ) {
-			return getResponseError( 'DISCONNECTED_DATABASE' );
+			return null;
 		}
 
 		return $traffic;
@@ -47,6 +46,10 @@ class Traffic extends Model {
 			$all_traffic = self::getStatusTrafficAll();
 		} else {
 			$all_traffic = self::getStatusTrafficAll( $type );
+		}
+
+		if ( $all_traffic == null ) {
+			return null;
 		}
 
 		$traffic_custom = array();
