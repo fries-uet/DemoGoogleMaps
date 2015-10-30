@@ -286,9 +286,9 @@ class FriesMaps {
 
 		$str = '';
 		$str .= intval( $distance / 1000 );
-		if ( $distance % 1000 >= 100 ) {
+		if ( $distance % 1000 > 0 ) {
 			$str .= ' phẩy '
-			        . intval( ( $distance % 1000 ) / 100 );
+			        . ceil( ( $distance % 1000 ) / 100 );
 		}
 		$str .= ' ki lô mét';
 
