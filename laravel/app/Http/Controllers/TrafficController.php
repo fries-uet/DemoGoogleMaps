@@ -193,7 +193,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => $traffic,
-			'result' => 1,
+			'result' => count( $traffic ),
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -291,7 +291,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => $traffic_type,
-			'result' => 1,
+			'result' => count( $traffic_type ),
 			'type'   => 'get_traffic',
 		] );
 	}
