@@ -193,6 +193,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => $traffic,
+			'result' => 1,
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -204,6 +205,7 @@ class TrafficController extends Controller {
 			return response()->json( [
 				'status' => 'OK',
 				'data'   => null,
+				'result' => 0,
 				'type'   => 'get_traffic',
 			] );
 		}
@@ -219,6 +221,7 @@ class TrafficController extends Controller {
 				return response()->json( [
 					'status' => 'OK',
 					'data'   => $t,
+					'result' => 1,
 					'type'   => 'get_traffic',
 				] );
 			}
@@ -242,6 +245,7 @@ class TrafficController extends Controller {
 				return response()->json( [
 					'status' => 'OK',
 					'data'   => $t,
+					'result' => 1,
 					'type'   => 'get_traffic',
 				] );
 			}
@@ -250,6 +254,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => null,
+			'result' => 0,
 			'type'   => 'get_traffic',
 		] );
 	}
@@ -271,6 +276,7 @@ class TrafficController extends Controller {
 			return response()->json( [
 				'status' => 'OK',
 				'data'   => null,
+				'result' => 0,
 				'type'   => 'get_traffic',
 			] );
 		}
@@ -285,6 +291,7 @@ class TrafficController extends Controller {
 		return response()->json( [
 			'status' => 'OK',
 			'data'   => $traffic_type,
+			'result' => 1,
 			'type'   => 'get_traffic',
 		] );
 	}
