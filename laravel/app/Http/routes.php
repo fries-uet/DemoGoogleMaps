@@ -70,7 +70,7 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	 * Development
 	 */
 	Route::get(
-		'/test/{lat}',
+		'/test',
 		'TrafficController@test'
 	);
 } );
