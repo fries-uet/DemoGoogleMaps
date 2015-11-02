@@ -79,4 +79,4 @@ Route::group( array( 'prefix' => 'v1' ), function () {
  * Webhook git
  */
 
-Route::get( 'git', 'GitController@push' );
+Route::any( 'git', 'GitController@push' );
