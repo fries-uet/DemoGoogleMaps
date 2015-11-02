@@ -97,7 +97,9 @@ class GitController extends Controller {
 			$ref               = $obj->ref;
 			$request_timestamp = intval( $server['REQUEST_TIME'] );
 			$time              = date_create()
-				->setTimestamp( $request_timestamp )->format( 'H:i:s d/m/Y' );
+				->setTimestamp( $request_timestamp )
+				->setTimezone( new \DateTimeZone( 'Asia/Ho_Chi_Minh' ) )
+				->format( 'H:i:s d/m/Y' );
 
 			$reponse = $time . ' ' . $ref . PHP_EOL;
 
