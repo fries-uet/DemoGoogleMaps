@@ -70,7 +70,13 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 	 * Development
 	 */
 	Route::get(
-		'/test',
+		'test',
 		'TrafficController@test'
 	);
 } );
+
+/**
+ * Webhook git
+ */
+
+Route::get( 'git', 'GitController@push' );
