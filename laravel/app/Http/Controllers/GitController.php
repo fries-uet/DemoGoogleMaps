@@ -140,4 +140,5 @@ class GitController extends Controller {
 
 		return $count;
 	}
+	//
 }
