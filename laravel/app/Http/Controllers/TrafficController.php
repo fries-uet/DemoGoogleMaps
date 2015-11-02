@@ -298,6 +298,6 @@ class TrafficController extends Controller {
 	}
 
 	public function test() {
-		echo 'Demo Webhook complete! WTF!';
+		echo 'Demo Webhook complete! WTFOK!';
 	}
 }
