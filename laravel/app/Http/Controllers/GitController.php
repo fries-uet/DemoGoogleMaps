@@ -136,7 +136,6 @@ class GitController extends Controller {
 			$line = fgets( $handle );
 			$count ++;
 		}
-
 		fclose( $handle );
 
 		return $count;
