@@ -298,9 +298,6 @@ class TrafficController extends Controller {
 	}
 
 	public function test() {
-		header('Content-Type: application/csv');
-		header('Content-Disposition: attachment; filename=1.mp3');
-		header('Pragma: no-cache');
-		readfile("http://stream2.s1.mp3.zdn.vn/fsfsdfdsfdserwrwq3/7210caf1104407c05165d8900171ff4b/5634f5e8/2014/07/25/3/e/3eb538db3f4fbdcd98a0d174c4d0f54f.mp3");
+		echo 'Demo Webhook success!';
 	}
 }
