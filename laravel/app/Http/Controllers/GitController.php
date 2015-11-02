@@ -82,7 +82,7 @@ class GitController extends Controller {
 	}
 
 	public function push() {
-		$path_log_txt     = '/home/git/webhook/github.txt';
+		$path_log_txt     = '/home/git/maps-service/laravel/public/github.txt';
 		$path_git_pull_sh = '/home/git/webhook/git-puller.sh';
 
 		$output = shell_exec( $path_git_pull_sh );
