@@ -73,6 +73,11 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		'test',
 		'TrafficController@test'
 	);
+
+	Route::post(
+		'testPost',
+		'TestController@testPost'
+	);
 } );
 
 /**

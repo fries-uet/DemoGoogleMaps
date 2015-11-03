@@ -86,4 +86,17 @@ class TestController extends Controller {
 	public function test() {
 		echo getGoogleMapsKeyAPI();
 	}
+
+	public function testPost( Request $request ) {
+		$lat = $request->input( 'lat' );
+		$lng = $request->input( 'lng' );
+
+		return response()->json( [
+			'data'   => [
+				'lat' => $lat,
+				'lng' => $lng,
+			],
+			'status' => 'error',
+		] );
+	}
 }
