@@ -78,6 +78,11 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 		'testPost',
 		'TestController@testPost'
 	);
+
+	Route::get(
+		'testGet',
+		'TestController@testGet'
+	);
 } );
 
 /**

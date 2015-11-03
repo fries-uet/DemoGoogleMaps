@@ -96,7 +96,14 @@ class TestController extends Controller {
 				'lat' => $lat,
 				'lng' => $lng,
 			],
-			'status' => 'error',
+			'status' => 'ok',
+		] );
+	}
+
+	public function testGet() {
+		return response()->json( [
+			'data'   => 'Hello world',
+			'status' => 'ok',
 		] );
 	}
 }
