@@ -124,8 +124,6 @@ class GitController extends Controller {
 					FILE_APPEND );
 			}
 		}
-
-
 	}
 
 	public function countLineTextFile( $path ) {
