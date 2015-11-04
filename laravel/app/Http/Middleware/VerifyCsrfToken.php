@@ -16,5 +16,6 @@ class VerifyCsrfToken extends BaseVerifier {
 			'v1/testPost',
 			'v2/direction/byMixed',
 			'v2/location/byText',
+			'v2/bot/chat',
 		];
 }

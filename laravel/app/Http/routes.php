@@ -104,6 +104,13 @@ Route::group( array( 'prefix' => 'v2' ), function () {
 	Route::group( [ 'prefix' => 'location' ], function () {
 		Route::any( 'byText', 'LocationController@byTextPost' );
 	} );
+
+	/**
+	 * Question
+	 */
+	Route::group( [ 'prefix' => 'bot' ], function () {
+		Route::any( 'chat', 'QuestionController@getAnswer' );
+	} );
 } );
 
 /**
