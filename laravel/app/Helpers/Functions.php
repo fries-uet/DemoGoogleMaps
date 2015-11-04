@@ -70,3 +70,16 @@ function getGoogleMapsKeyAPI( $index = null ) {
 
 	return $key[ $index ];
 }
+
+/**
+ * Only allowed POST Request | Abort 404 when request different POST request
+ *
+ * @param $request
+ */
+function onlyAllowPostRequest( $request ) {
+	if ( method_exists( $request, 'getMethod' )
+	     && $request->getMethod() !== 'POST'
+	) {
+		abort( 404 );
+	}
+}

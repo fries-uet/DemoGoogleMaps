@@ -86,6 +86,20 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 } );
 
 /**
+ * API v2
+ */
+Route::group( array( 'prefix' => 'v2' ), function () {
+	/**
+	 * API Direction
+	 */
+	Route::group( array( 'prefix' => 'direction' ), function () {
+		//Get direction by origin coordinate & destination text
+		Route::any( 'byMixed',
+			'DirectionController@byMixedPost' );
+	} );
+} );
+
+/**
  * Webhook git
  */
 Route::any( 'git', 'GitController@push' );

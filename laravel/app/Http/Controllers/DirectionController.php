@@ -164,4 +164,19 @@ class DirectionController extends Controller {
 
 		return response()->json( $direction->getOutput() );
 	}
+
+	/**
+	 * API V2
+	 */
+	/***************************************/
+
+	public function byMixedPost( Request $request ) {
+		onlyAllowPostRequest( $request );
+
+		$my_latitude      = $request->input( 'my_latitude' );
+		$my_longitude     = $request->input( 'my_longitude' );
+		$destination_text = $request->input( 'destination' );
+
+		dd( $destination_text );
+	}
 }
