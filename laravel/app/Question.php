@@ -14,10 +14,15 @@ class Question extends Model {
 		];
 
 	public static function store( $question, $answer ) {
-		$chat = Question::create( [
-			'question' => $question,
-			'answer'   => $answer,
-		] );
+		try {
+
+			$chat = Question::create( [
+				'question' => $question,
+				'answer'   => $answer,
+			] );
+		} catch ( \PDOException $exception ) {
+			abort( 404, $exception->getMessage() );
+		}
 	}
 
 	public static function getAll() {
@@ -26,7 +31,7 @@ class Question extends Model {
 
 			return $questions;
 		} catch ( \PDOException $exception ) {
-			abort( 404 );
+			abort( 404, $exception->getMessage() );
 		}
 
 		return null;
