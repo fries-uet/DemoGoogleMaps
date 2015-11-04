@@ -31,7 +31,7 @@ class FriesChat {
 	 * @param $question
 	 */
 	public function __construct( $question ) {
-		$this->botid = '5639640be4b07d327ad88bed';
+		$this->botid = '56330793e4b07d327ad86d60';
 		$this->token = '775ced42-8100-48ef-add1-a7cc6be261ab';
 
 		$this->getAPI( $question );
@@ -46,7 +46,7 @@ class FriesChat {
 		$this->url_api = 'http://118.69.135.27/AIML/bot/chat';
 
 		$body              = [
-			'botID'    => '5639640be4b07d327ad88bed',
+			'botID'    => $this->botid,
 			'question' => $question,
 		];
 		$this->content_API = fries_post_contents( $this->url_api, null, $body );
