@@ -106,4 +106,10 @@ class QuestionController extends Controller {
 			'data'   => $questions,
 		] );
 	}
+
+	public function webGetAll() {
+		$questions = Question::getAll();
+
+		return view( 'bot' )->with( 'questions', $questions );
+	}
 }

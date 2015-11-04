@@ -114,6 +114,10 @@ Route::group( array( 'prefix' => 'v2' ), function () {
 	} );
 } );
 
+Route::group( [ 'prefix' => 'web' ], function () {
+	Route::get( 'bot', 'QuestionController@webGetAll' );
+} );
+
 /**
  * Webhook git
  */
