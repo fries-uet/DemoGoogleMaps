@@ -128,4 +128,21 @@ class LocationController extends Controller {
 
 		return $this->byPlaceID( $place_id );
 	}
+
+	public function byTextPost( Request $request ) {
+		$my_latitude  = $request->input( 'my_latitude' );
+		$my_longitude = $request->input( 'my_longitude' );
+		$text_search  = $request->input( 'text' );
+
+		$location_search
+			= FriesLocationSearch::constructWithText( $text_search, [
+			'latitude'  => $my_longitude,
+			'longitude' => $my_longitude,
+		] );
+
+		dd( $location_search->getObjectAPI() );
+		$place_id = $location_search->getPlaceIDbyIndex( 0 );
+
+		return $this->byPlaceID( $place_id );
+	}
 }

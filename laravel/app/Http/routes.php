@@ -97,6 +97,13 @@ Route::group( array( 'prefix' => 'v2' ), function () {
 		Route::any( 'byMixed',
 			'DirectionController@byMixedPost' );
 	} );
+
+	/**
+	 * API Location
+	 */
+	Route::group( [ 'prefix' => 'location' ], function () {
+		Route::any( 'byText', 'LocationController@byTextPost' );
+	} );
 } );
 
 /**

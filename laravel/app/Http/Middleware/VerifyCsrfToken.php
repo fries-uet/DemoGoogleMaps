@@ -15,5 +15,6 @@ class VerifyCsrfToken extends BaseVerifier {
 			'git',
 			'v1/testPost',
 			'v2/direction/byMixed',
+			'v2/location/byText',
 		];
 }

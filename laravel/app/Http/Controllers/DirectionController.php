@@ -169,7 +169,13 @@ class DirectionController extends Controller {
 	 * API V2
 	 */
 	/***************************************/
-
+	/**
+	 * Direction by Mixed
+	 *
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function byMixedPost( Request $request ) {
 		onlyAllowPostRequest( $request );
 
@@ -177,6 +183,18 @@ class DirectionController extends Controller {
 		$my_longitude     = $request->input( 'my_longitude' );
 		$destination_text = $request->input( 'destination' );
 
-		dd( $destination_text );
+		$origin = FriesLocationSearch::constructWithLocation( $my_latitude,
+			$my_longitude );
+		$destination
+		        = FriesLocationSearch::constructWithText( $destination_text );
+
+		$origin_place_id      = $origin->getPlaceIDbyIndex();
+		$destination_place_id = $destination->getPlaceIDbyIndex();
+
+		return $this->byPlaceID(
+			$origin_place_id,
+			$destination_place_id,
+			'coor_text'
+		);
 	}
 }

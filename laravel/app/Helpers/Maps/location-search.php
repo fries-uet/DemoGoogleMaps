@@ -44,11 +44,15 @@ class FriesLocationSearch {
 	/**
 	 * Construction with text query
 	 *
-	 * @param $query
+	 * @param string $query
+	 * @param array  $location : latitude & longitude
+	 * @param int    $radius
 	 *
 	 * @return FriesLocationSearch
 	 */
-	public static function constructWithText( $query ) {
+	public static function constructWithText(
+		$query, $location = null, $radius = 10000
+	) {
 		$instance        = new self();
 		$instance->query = $query;
 
@@ -56,6 +60,14 @@ class FriesLocationSearch {
 			= sprintf( 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s&language=%s',
 			urlencode( $instance->query ), $instance->KEY_API,
 			$instance->language );
+
+		if ( $location != null ) {
+			$instance->url_API = $instance->url_API
+			                     . sprintf( '&location=%s,%s&radius=%s',
+					$location['latitude'], $location['longitude'], $radius );
+		}
+
+//		dd( $instance->url_API );
 
 		$instance->handleResponseAPI();
 
