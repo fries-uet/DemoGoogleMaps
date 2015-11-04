@@ -32,6 +32,6 @@ class CreateTrafficTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::drop( 'traffics' );
+		Schema::drop( 'traffic' );
 	}
 }
