@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model {
-	protected $table = 'question';
+	protected $table = 'questions';
 
 	protected $fillable
 		= [
@@ -18,7 +18,5 @@ class Question extends Model {
 			'question' => $question,
 			'answer'   => $answer,
 		] );
-
-		dd( $chat );
 	}
 }

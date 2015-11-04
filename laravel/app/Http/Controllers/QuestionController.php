@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FriesChat;
+use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -89,8 +90,11 @@ class QuestionController extends Controller {
 		onlyAllowPostRequest( $request );
 
 		$question = $request->input( 'question' );
-
 		$chat_bot = new FriesChat( $question );
-		dd( $chat_bot->getQuestion() );
+		if ( $chat_bot->getStatus() ) {
+			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
+		}
+
+		return response()->json( $chat_bot->getResponseObject() );
 	}
 }

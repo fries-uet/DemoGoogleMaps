@@ -10,12 +10,12 @@ class CreateTrafficTable extends Migration {
 	 * @return void
 	 */
 	public function up() {
-		Schema::create( 'traffic', function ( Blueprint $table ) {
+		Schema::create( 'traffics', function ( Blueprint $table ) {
 			$table->increments( 'id' );
 
 			$table->string( 'type' );// 'open' | 'congestion'
 			$table->string( 'name' );
-			$table->string('city');
+			$table->string( 'city' );
 			$table->double( 'latitude' );
 			$table->double( 'longitude' );
 			$table->string( 'address_formatted' );
@@ -32,6 +32,6 @@ class CreateTrafficTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::drop( 'traffic' );
+		Schema::drop( 'traffics' );
 	}
 }
