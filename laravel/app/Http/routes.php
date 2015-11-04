@@ -110,6 +110,7 @@ Route::group( array( 'prefix' => 'v2' ), function () {
 	 */
 	Route::group( [ 'prefix' => 'bot' ], function () {
 		Route::any( 'chat', 'QuestionController@getAnswer' );
+		Route::any( 'get', 'QuestionController@getAllQuestion' );
 	} );
 } );
 

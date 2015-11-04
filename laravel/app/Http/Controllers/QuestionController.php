@@ -97,4 +97,13 @@ class QuestionController extends Controller {
 
 		return response()->json( $chat_bot->getResponseObject() );
 	}
+
+	public function getAllQuestion() {
+		$questions = Question::getAll();
+
+		return response()->json( [
+			'status' => 'OK',
+			'data'   => $questions,
+		] );
+	}
 }

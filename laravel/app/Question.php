@@ -19,4 +19,16 @@ class Question extends Model {
 			'answer'   => $answer,
 		] );
 	}
+
+	public static function getAll() {
+		try {
+			$questions = Question::all( [ 'question', 'answer' ] );
+
+			return $questions;
+		} catch ( \PDOException $exception ) {
+			abort( 404 );
+		}
+
+		return null;
+	}
 }
