@@ -1,29 +1,31 @@
-<html>
-<head>
-    <title>Chat bot API</title>
-</head>
-<body>
-<div>
-    <div>
-        <h2>Input</h2>
-        <strong>URL:</strong> tutran.net/v2/bot/chat
-    </div>
-    <div>
-        <strong>Method:</strong> POST
-    </div>
-    <div>
-        <strong>Parameters:</strong>
-        <ul>
-            <strong>key - type - example</strong>
-            <li>question - string - "đường xuân thủy có tắc đường không"</li>
-            <li>my_latitude - double|string - 21.036642</li>
-            <li>my_longitude - double|string - 105.783978</li>
-        </ul>
-    </div>
+@extends('layouts.master')
 
+@section('title')
+    <title>API v2</title>
+@endsection
+
+@section('content')
     <div>
-        <h2>Output:</h2>
-        <h4>Hỏi tắc đường</h4>
+        <div>
+            <h2>Input</h2>
+            <strong>URL:</strong> tutran.net/v2/bot/chat
+        </div>
+        <div>
+            <strong>Method:</strong> POST
+        </div>
+        <div>
+            <strong>Parameters:</strong>
+            <ul>
+                <strong>key - type - example</strong>
+                <li>question - string - "đường xuân thủy có tắc đường không"</li>
+                <li>my_latitude - double|string - 21.036642</li>
+                <li>my_longitude - double|string - 105.783978</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Output:</h2>
+            <h4>Hỏi tắc đường</h4>
         <pre>
 {
     "status": "OK",
@@ -45,7 +47,7 @@
         </pre>
 
 
-        <h4>Thông báo tắc đường hoặc thông xe</h4>
+            <h4>Thông báo tắc đường hoặc thông xe</h4>
         <pre>
 {
     "status": "OK",
@@ -64,7 +66,7 @@
 }
         </pre>
 
-        <h4>Hỏi vị trí hiện tại</h4>
+            <h4>Hỏi vị trí hiện tại</h4>
         <pre>
 {
     "status": "OK",
@@ -79,7 +81,7 @@
 }
         </pre>
 
-        <h4>Hỏi chỉ đường</h4>
+            <h4>Hỏi chỉ đường</h4>
         <pre>
 {
     "status": "OK",
@@ -658,7 +660,7 @@
 }
         </pre>
 
-        <h4>Trả lời</h4>
+            <h4>Trả lời</h4>
         <pre>
 {
     "status": "OK",
@@ -667,7 +669,6 @@
     "answer": "tôi là u e tê phờ rai, tôi có thể giúp gì được bạn"
 }
         </pre>
+        </div>
     </div>
-</div>
-</body>
-</html>
+@endsection
