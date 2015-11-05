@@ -123,10 +123,8 @@ Route::group( [ 'prefix' => 'docs' ], function () {
 	Route::group( [ 'prefix' => 'v2' ], function () {
 		Route::get( '/', 'DocumentController@index' );
 		Route::get( 'bot', [
-			'as' => 'docs.v2.bot',
-			function () {
-				return 'DocumentController@bot';
-			}
+			'as'   => 'docs.v2.bot',
+			'uses' => 'DocumentController@bot',
 		] );
 	} );
 } );
