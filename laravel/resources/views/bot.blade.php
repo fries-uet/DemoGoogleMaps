@@ -6,6 +6,7 @@
 
 @section('content')
     <h1>Question & answer</h1>
+    <h3 class="text-center"><a href="{{ route('web.bot.chat') }}">Chat demo</a></h3>
     <table class="table table-responsive table-hover table-condensed table-striped">
         <thead>
         <tr>
