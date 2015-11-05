@@ -20,6 +20,8 @@ class FriesChat {
 	public $question;
 	public $answer;
 
+	public $output;
+
 	/**
 	 * @var bool $status
 	 */
@@ -61,6 +63,7 @@ class FriesChat {
 		$this->setStatus();
 		$this->setAnswer();
 		$this->setQuestion();
+		$this->setOutput();
 	}
 
 	/**
@@ -138,6 +141,25 @@ class FriesChat {
 	 */
 	public function getQuestion() {
 		return $this->question;
+	}
+
+	private function setOutput() {
+		$response = new \stdClass();
+		if ( $this->getStatus() ) {
+			$response->status = 'OK';
+		} else {
+			$response->status = 'ERROR';
+		}
+
+		$response->answer   = $this->getAnswer();
+		$response->question = $this->getQuestion();
+		$response->type     = 'bot_chat';
+
+		$this->output = $response;
+	}
+
+	public function getOutput() {
+		return $this->output;
 	}
 
 }

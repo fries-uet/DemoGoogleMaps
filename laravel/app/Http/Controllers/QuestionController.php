@@ -95,7 +95,7 @@ class QuestionController extends Controller {
 			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
 		}
 
-		return response()->json( $chat_bot->getResponseObject() );
+		return response()->json( $chat_bot->getOutput() );
 	}
 
 	public function getAllQuestion() {
