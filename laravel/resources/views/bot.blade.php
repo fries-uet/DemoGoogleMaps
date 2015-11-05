@@ -5,10 +5,11 @@
 @endsection
 
 @section('content')
-    <table>
+    <h1>Question & answer</h1>
+    <table class="table table-responsive table-hover table-condensed table-striped">
         <thead>
         <tr>
-            <th>STT</th>
+            <th class="text-center">STT</th>
             <th>Questions</th>
             <th>Answers</th>
         </tr>
@@ -16,7 +17,7 @@
         <tbody>
         @foreach( $questions as $index => $question)
             <tr>
-                <td>{{ ($index + 1)  }}</td>
+                <td class="text-center">{{ ($index + 1)  }}</td>
                 <td>{!! $question->question !!}</td>
                 <td>{!! $question->answer !!}</td>
             </tr>
