@@ -657,6 +657,16 @@
     ]
 }
         </pre>
+
+        <h4>Trả lời</h4>
+        <pre>
+{
+    "status": "OK",
+    "type": "speak",
+    "question": "xin chào",
+    "answer": "tôi là u e tê phờ rai, tôi có thể giúp gì được bạn"
+}
+        </pre>
     </div>
 </div>
 </body>

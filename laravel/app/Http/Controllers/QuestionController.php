@@ -31,11 +31,14 @@ class QuestionController extends Controller {
 			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
 		}
 
-		return $this->parseAnswerBot( $chat_bot->getAnswer(), $my_latitude,
+		return $this->parseAnswerBot( $chat_bot->getQuestion(),
+			$chat_bot->getAnswer(), $my_latitude,
 			$my_longitude );
 	}
 
-	public function parseAnswerBot( $answer, $my_latitude, $my_longitude ) {
+	public function parseAnswerBot(
+		$question, $answer, $my_latitude, $my_longitude
+	) {
 		// Direction
 		if ( strpos( $answer, self::TAG_FIND_ROAD ) === 0 ) {
 			$args      = explode( self::TAG_FIND_ROAD, $answer )[1];
@@ -82,7 +85,7 @@ class QuestionController extends Controller {
 			return $traffic->getStatusTrafficByStreet( $street );
 		}
 
-		return getResponseError();
+		return $this->getResponseSpeak( $question, $answer );
 	}
 
 	public function getAllQuestion() {
@@ -98,5 +101,14 @@ class QuestionController extends Controller {
 		$questions = Question::getAll();
 
 		return view( 'bot' )->with( 'questions', $questions );
+	}
+
+	public function getResponseSpeak( $question, $answer ) {
+		return response()->json( [
+			'status'   => 'OK',
+			'type'     => 'speak',
+			'question' => $question,
+			'answer'   => $answer
+		] );
 	}
 }
