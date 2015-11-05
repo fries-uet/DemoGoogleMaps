@@ -32,7 +32,7 @@ class FriesChat {
 	 *
 	 * @param $question
 	 */
-	public function __construct( $question ) {
+	public function __construct( $question = '' ) {
 		$this->botid = '5633a9c7e4b07d327ad8794b';
 		$this->token = '775ced42-8100-48ef-add1-a7cc6be261ab';
 
@@ -160,6 +160,10 @@ class FriesChat {
 
 	public function getOutput() {
 		return $this->output;
+	}
+
+	public function getBotID() {
+		return $this->botid;
 	}
 
 }

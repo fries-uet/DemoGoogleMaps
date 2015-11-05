@@ -86,9 +86,21 @@ Route::group( array( 'prefix' => 'v2' ), function () {
  * Web front-end
  */
 Route::group( [ 'prefix' => 'web' ], function () {
-	Route::get( 'bot', 'QuestionController@webGetAll' );
-} );
+	Route::get( 'bot', [
+		'as'   => 'web.bot.list',
+		'uses' => 'QuestionController@webGetAll'
+	] );
 
+	Route::get( 'bot/chat', [
+		'as'   => 'web.bot.chat',
+		'uses' => 'QuestionController@chatDemo',
+	] );
+
+	Route::any( 'bot/chat/api', [
+		'as'   => 'web.bot.api',
+		'uses' => 'QuestionController@chatDemoAPI'
+	] );
+} );
 
 /**
  * Documents
@@ -102,7 +114,6 @@ Route::group( [ 'prefix' => 'docs' ], function () {
 		] );
 	} );
 } );
-
 
 /**
  * Web hook git

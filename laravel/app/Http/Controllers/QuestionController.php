@@ -97,10 +97,41 @@ class QuestionController extends Controller {
 		] );
 	}
 
+	public function chatDemo() {
+		$bot = new FriesChat();
+
+		return view( 'chat' )->with( 'api', [
+			$bot->getBotID(),
+			route( 'web.bot.api' )
+		] );
+	}
+
+	public function chatDemoAPI( Request $request ) {
+		onlyAllowPostRequest( $request );
+
+		$question = $request->input( 'question' );
+		$bot      = new FriesChat( $question );
+
+		if ( $bot->getStatus() ) {
+			Question::store( $bot->getQuestion(), $bot->getAnswer() );
+		}
+
+		return response()->json( [
+			'status'   => 'OK',
+			'question' => $bot->getQuestion(),
+			'answer'   => $bot->getAnswer(),
+		] );
+	}
+
 	public function webGetAll() {
 		$questions = Question::getAll();
 
-		return view( 'bot' )->with( 'questions', $questions );
+		$arrTemp = [ ];
+		for ( $i = count( $questions ) - 1; $i >= 0; $i -- ) {
+			$arrTemp[] = $questions[ $i ];
+		}
+
+		return view( 'bot' )->with( 'questions', $arrTemp );
 	}
 
 	public function getResponseSpeak( $question, $answer ) {
