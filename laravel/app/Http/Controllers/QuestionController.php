@@ -27,9 +27,9 @@ class QuestionController extends Controller {
 		$my_latitude  = $request->input( 'my_latitude' );
 		$my_longitude = $request->input( 'my_longitude' );
 		$chat_bot     = new FriesChat( $question );
-//		if ( $chat_bot->getStatus() ) {
-//			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
-//		}
+		if ( $chat_bot->getStatus() ) {
+			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
+		}
 
 		return $this->parseAnswerBot( $chat_bot->getAnswer(), $my_latitude,
 			$my_longitude );
