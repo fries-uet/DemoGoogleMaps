@@ -65,24 +65,6 @@ Route::group( array( 'prefix' => 'v1' ), function () {
 			'TrafficController@getStatusTrafficByStreet'
 		);
 	} );
-
-	/**
-	 * Development
-	 */
-	Route::get(
-		'test',
-		'TrafficController@test'
-	);
-
-	Route::post(
-		'testPost',
-		'TestController@testPost'
-	);
-
-	Route::get(
-		'testGet',
-		'TestController@testGet'
-	);
 } );
 
 /**
@@ -90,35 +72,27 @@ Route::group( array( 'prefix' => 'v1' ), function () {
  */
 Route::group( array( 'prefix' => 'v2' ), function () {
 	/**
-	 * API Direction
-	 */
-	Route::group( array( 'prefix' => 'direction' ), function () {
-		//Get direction by origin coordinate & destination text
-		Route::any( 'byMixed',
-			'DirectionController@byMixedPost' );
-	} );
-
-	/**
-	 * API Location
-	 */
-	Route::group( [ 'prefix' => 'location' ], function () {
-		Route::any( 'byText', 'LocationController@byTextPost' );
-	} );
-
-	/**
 	 * Question
 	 */
 	Route::group( [ 'prefix' => 'bot' ], function () {
+		// Get solve question
 		Route::any( 'chat', 'QuestionController@getAnswer' );
+
 		Route::any( 'get', 'QuestionController@getAllQuestion' );
 	} );
 } );
 
+/**
+ * Web front-end
+ */
 Route::group( [ 'prefix' => 'web' ], function () {
 	Route::get( 'bot', 'QuestionController@webGetAll' );
 } );
 
 
+/**
+ * Documents
+ */
 Route::group( [ 'prefix' => 'docs' ], function () {
 	Route::group( [ 'prefix' => 'v2' ], function () {
 		Route::get( '/', 'DocumentController@index' );
@@ -131,7 +105,7 @@ Route::group( [ 'prefix' => 'docs' ], function () {
 
 
 /**
- * Webhook git
+ * Web hook git
  */
 Route::any( 'git', 'GitController@push' );
 /**

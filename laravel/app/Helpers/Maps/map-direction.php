@@ -79,7 +79,7 @@ class FriesMaps {
 		$origin, $destination, $mode = 'driving'
 	) {
 		$instance = new self( $origin, $destination, $mode );
-		$instance->setType( 'text' );
+		$instance->setType( 'direction' );
 		$instance->handleResponseAPI();
 
 		return $instance;
@@ -107,7 +107,7 @@ class FriesMaps {
 		$origin_place_id      = $location_origin->getPlaceIDbyIndex( 0 );
 		$destination_place_id = $location_destination->getPlaceIDbyIndex( 0 );
 		$instance             = self::constructWithPlaceID( $origin_place_id,
-			$destination_place_id, 'coordinates', $mode );
+			$destination_place_id, 'direction', $mode );
 
 		return $instance;
 	}
@@ -123,7 +123,7 @@ class FriesMaps {
 	 * @return FriesMaps
 	 */
 	public static function constructWithPlaceID(
-		$origin, $destination, $type = 'place_id', $mode = 'driving'
+		$origin, $destination, $type = 'direction', $mode = 'driving'
 	) {
 		$instance = new self( $origin, $destination, $mode );
 		$instance->setType( $type );

@@ -296,8 +296,4 @@ class TrafficController extends Controller {
 			'type'   => 'get_traffic',
 		] );
 	}
-
-	public function test() {
-		echo 'Demo Webhook complete!!';
-	}
 }

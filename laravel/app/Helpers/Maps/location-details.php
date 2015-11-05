@@ -288,7 +288,7 @@ class FriesLocationDetails {
 
 		$result             = $this->getResult();
 		$address_components = $result->address_components;
-		
+
 		if ( count( $address_components ) > 0 ) {
 			foreach ( $address_components as $address ) {
 				if ( in_array( 'administrative_area_level_1',
@@ -312,10 +312,9 @@ class FriesLocationDetails {
 		if ( $this->getStatus() ) {
 			return array(
 				'status'            => 'OK',
+				'type'              => 'my_location',
 				'name'              => $this->getName(),
-				'street_name'       => $this->getStreetName(),
 				'address_formatted' => $this->getAddressFormatted(),
-				'address_html'      => $this->getAddressHTML(),
 				'location'          => $this->getLocationCode(),
 				'place_id'          => $this->getPlaceID(),
 			);

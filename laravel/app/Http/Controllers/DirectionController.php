@@ -197,4 +197,10 @@ class DirectionController extends Controller {
 			'coor_text'
 		);
 	}
+
+	public function byMixed2( $args ) {
+//		echo 'Hello';
+
+		dd( $args );
+	}
 }
