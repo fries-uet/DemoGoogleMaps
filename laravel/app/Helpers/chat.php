@@ -31,7 +31,7 @@ class FriesChat {
 	 * @param $question
 	 */
 	public function __construct( $question ) {
-		$this->botid = '56330793e4b07d327ad86d60';
+		$this->botid = '5633a9c7e4b07d327ad8794b';
 		$this->token = '775ced42-8100-48ef-add1-a7cc6be261ab';
 
 		$this->getAPI( $question );
