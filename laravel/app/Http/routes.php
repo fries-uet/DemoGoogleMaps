@@ -121,7 +121,13 @@ Route::group( [ 'prefix' => 'web' ], function () {
 
 Route::group( [ 'prefix' => 'docs' ], function () {
 	Route::group( [ 'prefix' => 'v2' ], function () {
-		Route::get( 'bot', 'DocumentController@bot' );
+		Route::get( '/', 'DocumentController@index' );
+		Route::get( 'bot', [
+			'as' => 'docs.v2.bot',
+			function () {
+				return 'DocumentController@bot';
+			}
+		] );
 	} );
 } );
 
