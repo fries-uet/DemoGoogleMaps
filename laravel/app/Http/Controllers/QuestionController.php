@@ -151,7 +151,9 @@ class QuestionController extends Controller {
 	}
 
 	public function getResponseSpeak( $question, $answer ) {
-		$answer = explode( self::TAG_NO_ANSWER, $answer )[1];
+		if ( strpos( $answer, self::TAG_NO_ANSWER ) === 0 ) {
+			$answer = explode( self::TAG_NO_ANSWER, $answer )[1];
+		}
 
 		return response()->json( [
 			'status'   => 'OK',
