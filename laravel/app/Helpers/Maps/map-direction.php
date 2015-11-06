@@ -370,7 +370,7 @@ class FriesMaps {
 		}
 		$legs = $this->getLegs();
 
-		return $legs->end_location;
+		return $legs->start_location;
 	}
 
 	/**
@@ -384,7 +384,7 @@ class FriesMaps {
 		}
 		$legs = $this->getLegs();
 
-		return $legs->start_location;
+		return $legs->end_location;
 	}
 
 	/**
