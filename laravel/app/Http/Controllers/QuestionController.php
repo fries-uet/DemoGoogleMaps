@@ -27,6 +27,9 @@ class QuestionController extends Controller {
 		$my_latitude  = $request->input( 'my_latitude' );
 		$my_longitude = $request->input( 'my_longitude' );
 		$chat_bot     = new FriesChat( $question );
+		if ( $chat_bot->getBotID() == false ) {
+			return getResponseError( 'ERROR', 'Haven\'t set bot chat yet' );
+		}
 		if ( $chat_bot->getStatus() ) {
 			Question::store( $chat_bot->getQuestion(), $chat_bot->getAnswer() );
 		}
@@ -39,13 +42,17 @@ class QuestionController extends Controller {
 	public function parseAnswerBot(
 		$question, $answer, $my_latitude, $my_longitude
 	) {
-		// Direction
+		/**
+		 * Direction
+		 */
 		if ( strpos( $answer, self::TAG_FIND_ROAD ) === 0 ) {
 			$args      = explode( self::TAG_FIND_ROAD, $answer )[1];
 			$args      = explode( ' , ', $args );
 			$direction = new DirectionController();
 
-			if ( strpos( $args[0], 'đây' ) === 0 || strpos( $args[0], 'Đây' ) === 0) {
+			if ( strpos( $args[0], 'đây' ) === 0
+			     || strpos( $args[0], 'Đây' ) === 0
+			) {
 				return $direction->byMixed( $my_latitude, $my_longitude,
 					$args[1] );
 			} else {
@@ -53,7 +60,9 @@ class QuestionController extends Controller {
 			}
 		}
 
-		// My location
+		/**
+		 * My location
+		 */
 		if ( strpos( $answer, self::TAG_MY_LOCATION ) === 0 ) {
 			$location = new LocationController();
 
@@ -61,7 +70,9 @@ class QuestionController extends Controller {
 				$my_longitude );
 		}
 
-		// Traffic congestion
+		/**
+		 * Traffic congestion
+		 */
 		if ( strpos( $answer, self::TAG_NOTIFICATION_CONGESTION ) === 0 ) {
 			$traffic = new TrafficController();
 
@@ -69,7 +80,9 @@ class QuestionController extends Controller {
 				$my_longitude );
 		}
 
-		// Post Traffic open
+		/**
+		 * Post Traffic open
+		 */
 		if ( strpos( $answer, self::TAG_NOTIFICATION_OPEN ) === 0 ) {
 			$traffic = new TrafficController();
 
@@ -77,7 +90,9 @@ class QuestionController extends Controller {
 				$my_longitude );
 		}
 
-		// Get Traffic
+		/**
+		 * Get Traffic
+		 */
 		if ( strpos( $answer, self::TAG_QUESTION_TRAFFIC ) === 0 ) {
 			$traffic = new TrafficController();
 			$street  = explode( self::TAG_QUESTION_TRAFFIC, $answer )[1];

@@ -9,6 +9,8 @@
 
 namespace App\Helpers;
 
+use App\Bot;
+
 class FriesChat {
 	private $botid;
 	private $token;
@@ -37,7 +39,13 @@ class FriesChat {
 	 * @param $question
 	 */
 	public function __construct( $question = '' ) {
-		$this->botid = '5633a9c7e4b07d327ad8794b';
+		$bot_model = Bot::all();
+		if ( $bot_model->count() > 0 ) {
+			$this->botid = $bot_model->first()->value( 'bot_id' );
+		} else {
+			$this->botid = false;
+		}
+
 		$this->token = '775ced42-8100-48ef-add1-a7cc6be261ab';
 
 		$this->getAPI( $question );
