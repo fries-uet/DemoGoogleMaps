@@ -118,7 +118,7 @@ class DirectionController extends Controller {
 		return $this->byPlaceID(
 			$origin_place_id,
 			$destination_place_id,
-			'coor_text'
+			'direction'
 		);
 	}
 
@@ -131,7 +131,7 @@ class DirectionController extends Controller {
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function byPlaceID( $origin, $destination, $type = 'place_id' ) {
+	public function byPlaceID( $origin, $destination, $type = 'direction' ) {
 		$direction = FriesMaps::constructWithPlaceID(
 			$origin,
 			$destination,
@@ -194,13 +194,7 @@ class DirectionController extends Controller {
 		return $this->byPlaceID(
 			$origin_place_id,
 			$destination_place_id,
-			'coor_text'
+			'direction'
 		);
-	}
-
-	public function byMixed2( $args ) {
-//		echo 'Hello';
-
-		dd( $args );
 	}
 }
