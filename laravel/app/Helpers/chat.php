@@ -13,9 +13,13 @@ class FriesChat {
 	private $botid;
 	private $token;
 	private $url_api;
+	private $url_api_bots;
 
 	public $content_API = '';
 	public $object_API;
+	public $content_API_bots;
+
+	public $bots = [ ];
 
 	public $question;
 	public $answer;
@@ -53,6 +57,27 @@ class FriesChat {
 		];
 		$this->content_API = fries_post_contents( $this->url_api, null, $body );
 		$this->handleAPI();
+	}
+
+	public function getAPIBots() {
+		$this->url_api_bots
+			= sprintf( 'http://118.69.135.27/AIML/api/bots?token=%s',
+			$this->token );
+
+		$this->content_API_bots
+			= fries_file_get_contents( $this->url_api_bots );
+		$this->handleAPIBots();
+	}
+
+	public function handleAPIBots() {
+		$obj = json_decode( $this->content_API_bots );
+		if ( $obj->result === 'success' ) {
+			$this->bots = $obj->bots;
+		}
+	}
+
+	public function getBots() {
+		return $this->bots;
 	}
 
 	/**
@@ -164,6 +189,10 @@ class FriesChat {
 
 	public function getBotID() {
 		return $this->botid;
+	}
+
+	public function getToken() {
+		return $this->token;
 	}
 
 }

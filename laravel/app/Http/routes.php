@@ -100,6 +100,16 @@ Route::group( [ 'prefix' => 'web' ], function () {
 		'as'   => 'web.bot.api',
 		'uses' => 'QuestionController@chatDemoAPI'
 	] );
+
+	Route::post( 'bot/chat/setup', [
+		'as'   => 'web.bot.setup_post',
+		'uses' => 'BotController@postSetup',
+	] );
+
+	Route::get( 'bot/chat/setup', [
+		'as'   => 'web.bot.setup',
+		'uses' => 'BotController@getSetup',
+	] );
 } );
 
 /**
