@@ -85,7 +85,7 @@
         <pre>
 {
     "status": "OK",
-    "type": "coor_text",
+    "type": "direction",
     "info": {
         "summary": "Hồ Tùng Mậu và Phương Canh",
         "distance": "4,2 km",
