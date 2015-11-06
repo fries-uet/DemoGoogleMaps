@@ -45,4 +45,21 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
+    $('#filter').on('change', function () {
+        var select = $(this).val();
+        var tag_no_answer = 'noanswer';
+
+        if (select == 'all') {
+            $('.qa').show();
+        } else {
+            var qas = $('.qa');
+            qas.each(function (index) {
+                var answer = $(this).html();
+                if (answer.indexOf(tag_no_answer) == -1) {
+                    $(this).hide();
+                }
+            });
+        }
+    });
 });

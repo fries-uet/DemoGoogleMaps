@@ -7,6 +7,14 @@
 @section('content')
     <h1>Question & answer</h1>
     <h3 class="text-center"><a href="{{ route('web.bot.chat') }}">Chat demo</a></h3>
+    <div class="row">
+        <div class="col-md-2 pull-right">
+            <select id="filter" name="filter" class="form-control">
+                <option value="all">All</option>
+                <option value="no">No answer</option>
+            </select>
+        </div>
+    </div>
     <table class="table table-responsive table-hover table-condensed table-striped">
         <thead>
         <tr>
@@ -17,12 +25,16 @@
         </thead>
         <tbody>
         @foreach( $questions as $index => $question)
-            <tr>
+            <tr class="qa">
                 <td class="text-center">{{ ($index + 1)  }}</td>
-                <td>{!! $question->question !!}</td>
-                <td>{!! $question->answer !!}</td>
+                <td class="question">{!! $question->question !!}</td>
+                <td class="answer">{!! $question->answer !!}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
+@endsection
+
+@section('script')
+    <script src="{{ url('/') }}/assets/js/chat.js"></script>
 @endsection
