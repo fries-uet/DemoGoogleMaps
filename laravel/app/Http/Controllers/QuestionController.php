@@ -13,6 +13,7 @@ class QuestionController extends Controller {
 	const TAG_NOTIFICATION_OPEN = 'open';
 	const TAG_MY_LOCATION = 'mylocation';
 	const TAG_QUESTION_TRAFFIC = 'questiontraffic';
+	const TAG_NO_ANSWER = 'noanswer';
 
 	/**
 	 * Get answer from client and solve
@@ -150,6 +151,8 @@ class QuestionController extends Controller {
 	}
 
 	public function getResponseSpeak( $question, $answer ) {
+		$answer = explode( self::TAG_NO_ANSWER, $answer )[1];
+
 		return response()->json( [
 			'status'   => 'OK',
 			'type'     => 'speak',
