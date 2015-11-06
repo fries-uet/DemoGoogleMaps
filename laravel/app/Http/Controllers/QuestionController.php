@@ -45,7 +45,7 @@ class QuestionController extends Controller {
 			$args      = explode( ' , ', $args );
 			$direction = new DirectionController();
 
-			if ( strpos( $args[0], 'Đây' ) === 0 ) {
+			if ( strpos( strtolower( $args[0] ), 'đây' ) === 0 ) {
 				return $direction->byMixed( $my_latitude, $my_longitude,
 					$args[1] );
 			} else {
