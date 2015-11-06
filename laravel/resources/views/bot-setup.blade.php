@@ -39,4 +39,5 @@
             <button class="btn btn-primary btn-block" type="submit" id="btn_submit">Save</button>
         </div>
     </form>
+    <h3 class="text-center"><a href="{{ route('web.bot.chat') }}">Chat demo</a></h3>
 @endsection

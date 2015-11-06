@@ -101,12 +101,12 @@ Route::group( [ 'prefix' => 'web' ], function () {
 		'uses' => 'QuestionController@chatDemoAPI'
 	] );
 
-	Route::post( 'bot/chat/setup', [
+	Route::post( 'bot/setup', [
 		'as'   => 'web.bot.setup_post',
 		'uses' => 'BotController@postSetup',
 	] );
 
-	Route::get( 'bot/chat/setup', [
+	Route::get( 'bot/setup', [
 		'as'   => 'web.bot.setup',
 		'uses' => 'BotController@getSetup',
 	] );
