@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
             return;
         }
         getAnswer(text);
-        $(this).val('');
+        $('#text_chat').val('');
     });
 
     function getAnswer(text) {
