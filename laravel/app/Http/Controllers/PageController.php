@@ -56,4 +56,10 @@ class PageController extends Controller {
 	public function traffic() {
 
 	}
+
+	public function downloadBeta() {
+		$app = public_path() . '/download/maps.apk';
+
+		return response()->download( $app, 'maps-beta.apk' );
+	}
 }

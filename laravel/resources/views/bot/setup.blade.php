@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <h1><a href="{{ route('bot.setup') }}">Setup bot chat</a></h1>
+    <h1>Setup bot chat</h1>
     @if (isset($updated))
         @if($updated == 'error')
             <div class="alert alert-danger">

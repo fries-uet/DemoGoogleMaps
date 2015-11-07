@@ -150,3 +150,13 @@ Route::get( 'traffic', [
 	'as'   => 'traffic',
 	'uses' => 'PageController@traffic'
 ] );
+
+/**
+ * Download
+ */
+Route::group( [ 'prefix' => 'download' ], function () {
+	Route::get( 'beta', [
+		'as'   => 'download.beta',
+		'uses' => 'PageController@downloadBeta'
+	] );
+} );

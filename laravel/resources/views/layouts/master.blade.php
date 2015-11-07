@@ -47,6 +47,20 @@
                 </li>
                 <li><a href="{{ route('traffic') }}">Traffic</a></li>
             </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ route('download.beta') }}">Try now <span class="glyphicon glyphicon-phone"></span></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">GitHub <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        <li><a href="//github.com/fries-uet/maps-android">Fork Android</a></li>
+                        <li><a href="//github.com/fries-uet/maps-service">Fork Service</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
         <!-- /.navbar-collapse -->
     </div>

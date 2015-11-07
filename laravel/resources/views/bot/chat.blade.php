@@ -5,12 +5,7 @@
 @endsection
 
 @section('content')
-    <style>
-        .msg_bot {
-            padding-top: 10px;
-        }
-    </style>
-    <h1><a href="{{ route('bot.chat') }}">Chat bot demo</a></h1>
+    <h1>Chat bot demo</h1>
     <span class="hidden" id="url_ajax" data-url="{{ $api[1] }}"></span>
     <div class="input-group">
         <input type="text" class="form-control" id="text_chat" size="50">
