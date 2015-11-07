@@ -40,7 +40,7 @@
                     <a href="{{ route('bot') }}" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">Bot <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('bot') }}">List question & answer</a></li>
+                        <li><a href="{{ route('bot') }}">List Q&A</a></li>
                         <li><a href="{{ route('bot.chat') }}">Chat</a></li>
                         <li><a href="{{ route('bot.setup') }}">Setup</a></li>
                     </ul>
