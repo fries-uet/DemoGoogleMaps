@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <h1>Question & answer</h1>
+    <h1 class="title">Question & answer</h1>
     <h3 class="text-center"><a href="{{ route('bot.chat') }}">Chat demo</a></h3>
     <div class="row">
         <div class="col-md-2 pull-right">
