@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <h1><a href="{{ route('web.bot.setup') }}">Setup bot chat</a></h1>
+    <h1><a href="{{ route('bot.setup') }}">Setup bot chat</a></h1>
     @if (isset($updated))
         @if($updated == 'error')
             <div class="alert alert-danger">
@@ -39,5 +39,5 @@
             <button class="btn btn-primary btn-block" type="submit" id="btn_submit">Save</button>
         </div>
     </form>
-    <h3 class="text-center"><a href="{{ route('web.bot.chat') }}">Chat demo</a></h3>
+    <h3 class="text-center"><a href="{{ route('bot.chat') }}">Chat demo</a></h3>
 @endsection

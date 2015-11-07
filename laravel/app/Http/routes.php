@@ -83,36 +83,6 @@ Route::group( array( 'prefix' => 'v2' ), function () {
 } );
 
 /**
- * Web front-end
- */
-Route::group( [ 'prefix' => 'web' ], function () {
-	Route::get( 'bot', [
-		'as'   => 'web.bot.list',
-		'uses' => 'QuestionController@webGetAll'
-	] );
-
-	Route::get( 'bot/chat', [
-		'as'   => 'web.bot.chat',
-		'uses' => 'QuestionController@chatDemo',
-	] );
-
-	Route::any( 'bot/chat/api', [
-		'as'   => 'web.bot.api',
-		'uses' => 'QuestionController@chatDemoAPI'
-	] );
-
-	Route::post( 'bot/setup', [
-		'as'   => 'web.bot.setup_post',
-		'uses' => 'BotController@postSetup',
-	] );
-
-	Route::get( 'bot/setup', [
-		'as'   => 'web.bot.setup',
-		'uses' => 'BotController@getSetup',
-	] );
-} );
-
-/**
  * Documents
  */
 Route::group( [ 'prefix' => 'docs' ], function () {
@@ -129,6 +99,54 @@ Route::group( [ 'prefix' => 'docs' ], function () {
  * Web hook git
  */
 Route::any( 'git', 'GitController@push' );
+
+
 /**
- *
+ * Web page
  */
+Route::get( '/', function () {
+	return redirect()->route( 'home' );
+} );
+
+Route::get( 'home', [
+	'as'   => 'home',
+	'uses' => 'PageController@home'
+] );
+
+/**
+ * Bot chat
+ */
+Route::group( [ 'prefix' => 'bot' ], function () {
+	Route::get( '/', [
+		'as'   => 'bot',
+		'uses' => 'PageController@bot'
+	] );
+
+	Route::any( 'api', [
+		'as'   => 'bot.api',
+		'uses' => 'PageController@botChatAPI'
+	] );
+
+	Route::get( 'chat', [
+		'as'   => 'bot.chat',
+		'uses' => 'PageController@botChat'
+	] );
+
+	Route::get( 'setup', [
+		'as'   => 'bot.setup',
+		'uses' => 'BotController@getSetup'
+	] );
+
+	Route::post( 'setup', [
+		'as'   => 'bot.setup',
+		'uses' => 'BotController@postSetup'
+	] );
+} );
+
+/**
+ * Traffic
+ */
+Route::get( 'traffic', [
+	'as'   => 'traffic',
+	'uses' => 'PageController@traffic'
+] );

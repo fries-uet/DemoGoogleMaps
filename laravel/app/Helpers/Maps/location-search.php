@@ -21,16 +21,17 @@ class FriesLocationSearch {
 	/**
 	 * @var string
 	 */
-	var $query;
-	var $latitude;
-	var $longitude;
-	var $radius;
+	public $query;
+	public $latitude;
+	public $longitude;
+	public $radius;
+	public $types = [ ];
 
 	/**
 	 * Optional
 	 */
-	var $language;
-	var $region;
+	public $language;
+	public $region;
 
 	/**
 	 * Construction
@@ -39,6 +40,67 @@ class FriesLocationSearch {
 		$this->language = 'vi';
 		$this->region   = 'vn';//Vietnam
 		$this->KEY_API  = getGoogleMapsKeyAPI();
+		$this->types    = [
+			'accounting',
+			'airport' => [
+				'sân bay'
+			],
+			'amusement_park',
+			'aquarium',
+			'art_gallery',
+			'atm',
+			'bakery',
+			'bank' => [
+				'ngân hàng'
+			],
+			'bar',
+			'beauty_salon',
+			'bicycle_store',
+			'book_store' => [
+				'hiệu sách',
+				'nhà sách',
+			],
+			'bowling_alley',
+			'bus_station' => [
+				'bến xe buýt',
+			],
+			'cafe',
+			'campground',
+			'car_dealer',
+			'car_rental',
+			'car_repair',
+			'car_wash',
+			'casino',
+			'cemetery',
+			'church',
+			'city_hall',
+			'clothing_store',
+			'convenience_store',
+			'courthouse',
+			'dentist',
+			'department_store',
+			'doctor',
+			'electrician',
+			'electronics_store',
+			'embassy',
+			'establishment',
+			'finance',
+			'fire_station',
+			'florist',
+			'food',
+			'funeral_home',
+			'furniture_store',
+			'gas_station' => [
+				'trạm xăng',
+			],
+			'general_contractor',
+			'grocery_or_supermarket',
+			'gym',
+			'hair_care',
+			'hardware_store',
+			'health',
+			'hindu_temple',
+		];
 	}
 
 	/**
@@ -51,7 +113,7 @@ class FriesLocationSearch {
 	 * @return FriesLocationSearch
 	 */
 	public static function constructWithText(
-		$query, $location = null, $radius = 10000
+		$query, $location = null, $radius = 50000
 	) {
 		$instance        = new self();
 		$instance->query = $query;
@@ -83,7 +145,7 @@ class FriesLocationSearch {
 	 *
 	 * @return FriesLocationSearch
 	 */
-	public static function constructWithLocation( $lat, $lng, $radius = 10 ) {
+	public static function constructWithLocation( $lat, $lng, $radius = 50000 ) {
 		$instance            = new self();
 		$instance->latitude  = $lat;
 		$instance->longitude = $lng;

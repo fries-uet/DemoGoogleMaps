@@ -9,8 +9,10 @@
 
             <!-- Bootstrap -->
     <link href="{{ url('/') }}/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('/') }}/assets/css/style.css" rel="stylesheet">
+    @yield('css')
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
