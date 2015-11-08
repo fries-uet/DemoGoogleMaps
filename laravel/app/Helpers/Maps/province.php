@@ -76,7 +76,7 @@ class FriesProvince {
 			'Đà Nẵng',
 			'Hải Phòng',
 			'Hà Nội',
-			'TP HCM',
+			'Hồ Chí Minh',
 		];
 	}
 
