@@ -3,13 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FriesChat;
+use App\Question;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Bot;
 
 class BotController extends Controller {
+	/**
+	 * List question & answer
+	 *
+	 * @return $this
+	 */
+	public function bot() {
+		$questions = Question::getAll();
 
+		$arrTemp = [ ];
+		for ( $i = count( $questions ) - 1; $i >= 0; $i -- ) {
+			$arrTemp[] = $questions[ $i ];
+		}
+
+		return view( 'bot.bot' )->with( 'questions', $arrTemp );
+	}
+
+	/**
+	 * Get setup bot chat
+	 *
+	 * @return $this
+	 */
 	public function getSetup() {
 		$updated = 'get';
 
@@ -28,6 +49,13 @@ class BotController extends Controller {
 		                          ->with( 'updated', $updated );
 	}
 
+	/**
+	 * Update setup bot chat
+	 *
+	 * @param Request $request
+	 *
+	 * @return $this
+	 */
 	public function postSetup( Request $request ) {
 		$updated = 'success';
 		$bot_id  = $request->input( 'bot_id' );
@@ -66,5 +94,43 @@ class BotController extends Controller {
 		return view( 'bot.setup' )->with( 'bots', $arr_bots )
 		                          ->with( 'bot_id', $bot_id )
 		                          ->with( 'updated', $updated );
+	}
+
+	/**
+	 * Bot chat API
+	 *
+	 * @param Request $request
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function botChatAPI( Request $request ) {
+		onlyAllowPostRequest( $request );
+
+		$question = $request->input( 'question' );
+		$bot      = new FriesChat( $question );
+
+		if ( $bot->getStatus() ) {
+			Question::store( $bot->getQuestion(), $bot->getAnswer() );
+		}
+
+		return response()->json( [
+			'status'   => 'OK',
+			'question' => $bot->getQuestion(),
+			'answer'   => $bot->getAnswer(),
+		] );
+	}
+
+	/**
+	 * Bot chat demo
+	 *
+	 * @return $this
+	 */
+	public function botChat() {
+		$bot = new FriesChat();
+
+		return view( 'bot.chat' )->with( 'api', [
+			$bot->getBotID(),
+			route( 'bot.api' )
+		] );
 	}
 }

@@ -119,17 +119,17 @@ Route::get( 'home', [
 Route::group( [ 'prefix' => 'bot' ], function () {
 	Route::get( '/', [
 		'as'   => 'bot',
-		'uses' => 'PageController@bot'
+		'uses' => 'BotController@bot'
 	] );
 
 	Route::any( 'api', [
 		'as'   => 'bot.api',
-		'uses' => 'PageController@botChatAPI'
+		'uses' => 'BotController@botChatAPI'
 	] );
 
 	Route::get( 'chat', [
 		'as'   => 'bot.chat',
-		'uses' => 'PageController@botChat'
+		'uses' => 'BotController@botChat'
 	] );
 
 	Route::get( 'setup', [

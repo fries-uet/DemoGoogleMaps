@@ -40,6 +40,16 @@ class QuestionController extends Controller {
 			$my_longitude );
 	}
 
+	/**
+	 * Solve answer
+	 *
+	 * @param $question
+	 * @param $answer
+	 * @param $my_latitude
+	 * @param $my_longitude
+	 *
+	 * @return \Illuminate\Http\JsonResponse|null
+	 */
 	public function parseAnswerBot(
 		$question, $answer, $my_latitude, $my_longitude
 	) {
@@ -102,52 +112,14 @@ class QuestionController extends Controller {
 		return $this->getResponseSpeak( $question, $answer );
 	}
 
-	public function getAllQuestion() {
-		$questions = Question::getAll();
-
-		return response()->json( [
-			'status' => 'OK',
-			'data'   => $questions,
-		] );
-	}
-
-	public function chatDemo() {
-		$bot = new FriesChat();
-
-		return view( 'chat' )->with( 'api', [
-			$bot->getBotID(),
-			route( 'web.bot.api' )
-		] );
-	}
-
-	public function chatDemoAPI( Request $request ) {
-		onlyAllowPostRequest( $request );
-
-		$question = $request->input( 'question' );
-		$bot      = new FriesChat( $question );
-
-		if ( $bot->getStatus() ) {
-			Question::store( $bot->getQuestion(), $bot->getAnswer() );
-		}
-
-		return response()->json( [
-			'status'   => 'OK',
-			'question' => $bot->getQuestion(),
-			'answer'   => $bot->getAnswer(),
-		] );
-	}
-
-	public function webGetAll() {
-		$questions = Question::getAll();
-
-		$arrTemp = [ ];
-		for ( $i = count( $questions ) - 1; $i >= 0; $i -- ) {
-			$arrTemp[] = $questions[ $i ];
-		}
-
-		return view( 'bot' )->with( 'questions', $arrTemp );
-	}
-
+	/**
+	 * Get response speak
+	 *
+	 * @param $question
+	 * @param $answer
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
 	public function getResponseSpeak( $question, $answer ) {
 		if ( strpos( $answer, self::TAG_NO_ANSWER ) === 0 ) {
 			$answer = explode( self::TAG_NO_ANSWER, $answer )[1];
