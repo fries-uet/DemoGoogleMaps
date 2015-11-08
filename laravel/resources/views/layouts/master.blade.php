@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     @yield('title')
+    <link rel="icon" href="{{ url('/') }}/assets/img/favicon.ico" type="image/x-icon"/>
 
-            <!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link href="{{ url('/') }}/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('/') }}/assets/css/style.css" rel="stylesheet">
     @yield('css')
