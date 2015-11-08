@@ -4,6 +4,10 @@
     text-align: center;
 }
 
+.title-app {
+    margin-top: 100px;
+}
+
 .msg_bot {
     padding-top: 10px;
 }
