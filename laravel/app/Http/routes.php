@@ -151,6 +151,15 @@ Route::get( 'traffic', [
 	'uses' => 'PageController@traffic'
 ] );
 
+Route::group( [ 'prefix' => 'docs' ], function () {
+	Route::group( [ 'prefix' => 'v2' ], function () {
+		Route::get( 'bot', [
+			'as'   => 'docs.v2.bot',
+			'uses' => 'DocumentController@bot'
+		] );
+	} );
+} );
+
 /**
  * Download
  */

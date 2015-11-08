@@ -55,6 +55,13 @@ class GitController extends Controller {
 		}
 	}
 
+	/**
+	 * Count line text file
+	 *
+	 * @param $path
+	 *
+	 * @return int
+	 */
 	public function countLineTextFile( $path ) {
 		$count  = 0;
 		$handle = fopen( $path, 'r' );

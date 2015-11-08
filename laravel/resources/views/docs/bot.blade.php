@@ -20,6 +20,7 @@
                 <li>question - string - "đường xuân thủy có tắc đường không"</li>
                 <li>my_latitude - double|string - 21.036642</li>
                 <li>my_longitude - double|string - 105.783978</li>
+                <li>city - string - hà nội</li>
             </ul>
         </div>
 
