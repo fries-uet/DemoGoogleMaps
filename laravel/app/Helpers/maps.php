@@ -8,6 +8,7 @@
 
 namespace App\Helpers;
 
+require_once __DIR__ . '/Maps/province.php';
 require_once __DIR__ . '/Maps/location-details.php';
 require_once __DIR__ . '/Maps/location-search.php';
 require_once __DIR__ . '/Maps/map-direction.php';

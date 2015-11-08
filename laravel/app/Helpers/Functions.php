@@ -6,6 +6,8 @@
  * Time: 5:35 PM
  */
 
+use App\Helpers\FriesProvince;
+
 if ( ! function_exists( 'getResponseError' ) ) {
 	/**
 	 * Get Response Error
@@ -62,10 +64,10 @@ if ( ! function_exists( 'convertCountTimestamp2String' ) ) {
 
 function getGoogleMapsKeyAPI( $index = null ) {
 	$key = [
-		'AIzaSyCoG4V5FmAkdSQio9QSQe7FutNtEua7hfQ', // v2
-//		'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c', // v1
-		'AIzaSyCZDU3TY73EGrPpurkLtXN5zex88duEwwk', // tutv95
-		'AIzaSyAGG6pQH6IvLpqbVIOOZeAT23zSZlpyMkw', // v3
+//		'AIzaSyCoG4V5FmAkdSQio9QSQe7FutNtEua7hfQ', // v2
+		'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c', // v1
+//		'AIzaSyCZDU3TY73EGrPpurkLtXN5zex88duEwwk', // tutv95
+//		'AIzaSyAGG6pQH6IvLpqbVIOOZeAT23zSZlpyMkw', // v3
 	];
 
 	if ( $index > count( $key ) - 1 || $index == null ) {
@@ -86,4 +88,21 @@ function onlyAllowPostRequest( $request ) {
 	) {
 		abort( 404 );
 	}
+}
+
+function providerQuerySearch( $query, $city = null ) {
+	if ( $city == null ) {
+		return $query;
+	}
+
+	$city      = mb_strtolower( $city );
+	$query     = mb_strtolower( $query );
+	$provinces = new FriesProvince();
+	foreach ( $provinces->getProvinces() as $index => $p ) {
+		if ( strpos( $query, mb_strtolower( $p ) ) !== false ) {
+			return $query;
+		}
+	}
+
+	return $query . ' ' . $city;
 }

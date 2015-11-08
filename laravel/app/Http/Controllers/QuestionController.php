@@ -27,6 +27,7 @@ class QuestionController extends Controller {
 		$question     = $request->input( 'question' );
 		$my_latitude  = $request->input( 'my_latitude' );
 		$my_longitude = $request->input( 'my_longitude' );
+		$my_city      = $request->input( 'city' );
 		$chat_bot     = new FriesChat( $question );
 		if ( $chat_bot->getBotID() == false ) {
 			return getResponseError( 'ERROR', 'Haven\'t set bot chat yet' );
@@ -37,7 +38,7 @@ class QuestionController extends Controller {
 
 		return $this->parseAnswerBot( $chat_bot->getQuestion(),
 			$chat_bot->getAnswer(), $my_latitude,
-			$my_longitude );
+			$my_longitude, $my_city );
 	}
 
 	/**
@@ -47,11 +48,12 @@ class QuestionController extends Controller {
 	 * @param $answer
 	 * @param $my_latitude
 	 * @param $my_longitude
+	 * @param $my_city
 	 *
 	 * @return \Illuminate\Http\JsonResponse|null
 	 */
 	public function parseAnswerBot(
-		$question, $answer, $my_latitude, $my_longitude
+		$question, $answer, $my_latitude, $my_longitude, $my_city
 	) {
 		/**
 		 * Direction
@@ -63,9 +65,10 @@ class QuestionController extends Controller {
 
 			if ( strpos( mb_strtolower( $args[0] ), 'đây' ) === 0 ) {
 				return $direction->byMixed( $my_latitude, $my_longitude,
-					$args[1] );
+					providerQuerySearch( $args[1], $my_city ) );
 			} else {
-				return $direction->byText( $args[0], $args[1] );
+				return $direction->byText( providerQuerySearch( $args[0],
+					$my_city ), providerQuerySearch( $args[1], $my_city ) );
 			}
 		}
 
