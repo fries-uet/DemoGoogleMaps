@@ -8,7 +8,7 @@
     <div>
         <div>
             <h2>Input</h2>
-            <strong>URL:</strong> tutran.net/v2/bot/chat
+            <strong>URL:</strong> http://tutran.net/v2/bot/chat
         </div>
         <div>
             <strong>Method:</strong> POST
