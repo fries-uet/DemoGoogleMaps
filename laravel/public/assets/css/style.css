@@ -11,3 +11,11 @@
 .msg_bot {
     padding-top: 10px;
 }
+
+.show_ {
+    display: block;
+}
+
+.hide_ {
+    display: none !important;
+}

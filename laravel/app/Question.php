@@ -27,7 +27,11 @@ class Question extends Model {
 
 	public static function getAll() {
 		try {
-			$questions = Question::all( [ 'question', 'answer' ] );
+			$questions = Question::all( [
+				'question',
+				'answer',
+				'created_at'
+			] );
 
 			return $questions;
 		} catch ( \PDOException $exception ) {

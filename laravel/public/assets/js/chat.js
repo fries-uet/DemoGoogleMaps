@@ -62,4 +62,26 @@ jQuery(document).ready(function ($) {
             });
         }
     });
+
+    $('#filter_date').on('change', function () {
+        var select = $(this).val();
+        var today = f_today;
+
+        var qas = $('.qa');
+        if (select == 'all') {
+            qas.removeClass('hide_');
+            qas.removeClass('show_');
+        } else {
+            qas.each(function (index) {
+                var date = $(this).attr('data-date');
+                if (date === today) {
+                    $(this).addClass('show_');
+                    $(this).removeClass('hide_');
+                } else {
+                    $(this).addClass('hide_');
+                    $(this).removeClass('show_');
+                }
+            });
+        }
+    });
 });
