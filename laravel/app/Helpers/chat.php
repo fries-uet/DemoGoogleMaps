@@ -10,6 +10,7 @@
 namespace App\Helpers;
 
 use App\Bot;
+use stdClass;
 
 class FriesChat {
 	private $botid;
@@ -39,10 +40,14 @@ class FriesChat {
 	 * @param $question
 	 */
 	public function __construct( $question = '' ) {
-		$bot_model = Bot::all();
-		if ( $bot_model->count() > 0 ) {
-			$this->botid = $bot_model->first()->value( 'bot_id' );
-		} else {
+		try {
+			$bot_model = Bot::all();
+			if ( $bot_model->count() > 0 ) {
+				$this->botid = $bot_model->first()->value( 'bot_id' );
+			} else {
+				$this->botid = false;
+			}
+		} catch ( \PDOException $exception ) {
 			$this->botid = false;
 		}
 
@@ -177,7 +182,7 @@ class FriesChat {
 	}
 
 	private function setOutput() {
-		$response = new \stdClass();
+		$response = new stdClass();
 		if ( $this->getStatus() ) {
 			$response->status = 'OK';
 		} else {

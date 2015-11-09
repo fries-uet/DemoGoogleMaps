@@ -57,43 +57,47 @@ class BotController extends Controller {
 	 * @return $this
 	 */
 	public function postSetup( Request $request ) {
-		$updated = 'success';
-		$bot_id  = $request->input( 'bot_id' );
+		try {
+			$updated = 'success';
+			$bot_id  = $request->input( 'bot_id' );
 
-		$fries_bot = new FriesChat();
-		$fries_bot->getAPIBots();
-		$arr_bots = $fries_bot->getBots();
+			$fries_bot = new FriesChat();
+			$fries_bot->getAPIBots();
+			$arr_bots = $fries_bot->getBots();
 
-		$bot      = Bot::all();
-		$bot_name = false;
-		foreach ( $arr_bots as $b ) {
-			if ( $b->id == $bot_id ) {
-				$bot_name = $b->name;
-			}
-		}
-
-		if ( $request->input( 'password' ) != 'uet' ) {
-			$updated = 'error';
-		} else {
-			if ( $bot_name != false ) {
-				if ( $bot->count() > 0 ) {
-					$bot_id_old = $bot->first()->value( 'bot_id' );
-					Bot::where( 'bot_id', $bot_id_old )->update( [
-						'bot_id' => $bot_id,
-						'name'   => $bot_name,
-					] );
-				} else {
-					$bot_c = Bot::create( [
-						'bot_id' => $bot_id,
-						'name'   => $bot_name,
-					] );
+			$bot      = Bot::all();
+			$bot_name = false;
+			foreach ( $arr_bots as $b ) {
+				if ( $b->id == $bot_id ) {
+					$bot_name = $b->name;
 				}
 			}
-		}
 
-		return view( 'bot.setup' )->with( 'bots', $arr_bots )
-		                          ->with( 'bot_id', $bot_id )
-		                          ->with( 'updated', $updated );
+			if ( $request->input( 'password' ) != 'uet' ) {
+				$updated = 'error';
+			} else {
+				if ( $bot_name != false ) {
+					if ( $bot->count() > 0 ) {
+						$bot_id_old = $bot->first()->value( 'bot_id' );
+						Bot::where( 'bot_id', $bot_id_old )->update( [
+							'bot_id' => $bot_id,
+							'name'   => $bot_name,
+						] );
+					} else {
+						$bot_c = Bot::create( [
+							'bot_id' => $bot_id,
+							'name'   => $bot_name,
+						] );
+					}
+				}
+			}
+
+			return view( 'bot.setup' )->with( 'bots', $arr_bots )
+			                          ->with( 'bot_id', $bot_id )
+			                          ->with( 'updated', $updated );
+		} catch ( \PDOException $exception ) {
+			return getResponseError( 'ERROR_DATABASE' );
+		}
 	}
 
 	/**
@@ -109,8 +113,12 @@ class BotController extends Controller {
 		$question = $request->input( 'question' );
 		$bot      = new FriesChat( $question );
 
-		if ( $bot->getStatus() ) {
-			Question::store( $bot->getQuestion(), $bot->getAnswer() );
+		try {
+			if ( $bot->getStatus() ) {
+				Question::store( $bot->getQuestion(), $bot->getAnswer() );
+			}
+		} catch ( \PDOException $exception ) {
+			return getResponseError( 'ERROR_DATABASE' );
 		}
 
 		return response()->json( [

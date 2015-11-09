@@ -1,9 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Tu TV
- * Date: 19/10/2015
- * Time: 8:03 PM
- */
+@extends('layouts.master')
 
-getResponseError()->send();
+@section('title')
+    <title>404 - Not found</title>
+@endsection
+
+@section('content')
+    <h1 class="title title-app">404 - Not found</h1>
+@endsection

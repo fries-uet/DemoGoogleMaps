@@ -17,7 +17,7 @@ class PageController extends Controller {
 	}
 
 	public function traffic() {
-		abort( 404 );
+
 	}
 
 	/**
