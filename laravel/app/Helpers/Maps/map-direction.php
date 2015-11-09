@@ -24,6 +24,7 @@ class FriesMaps {
 
 	var $origin;
 	var $destination;
+	var $way_point = null;
 
 	// Optional
 	var $language;
@@ -72,14 +73,24 @@ class FriesMaps {
 	 * @param        $origin
 	 * @param        $destination
 	 * @param string $mode
+	 * @param array  $way_point
 	 *
 	 * @return FriesMaps
 	 */
 	public static function constructWithText(
-		$origin, $destination, $mode = 'driving'
+		$origin, $destination, $mode = 'driving', $way_point = null
 	) {
 		$instance = new self( $origin, $destination, $mode );
 		$instance->setType( 'direction' );
+
+		if ( count( $way_point ) > 0 ) {
+			$str_temp = $way_point[0];
+			for ( $i = 1; $i < count( $way_point ); $i ++ ) {
+				$str_temp .= '|' . $way_point[ $i ];
+			}
+			$instance->way_point = $str_temp;
+		}
+
 		$instance->handleResponseAPI();
 
 		return $instance;
@@ -95,19 +106,11 @@ class FriesMaps {
 	public static function constructWithCoordinates(
 		$origin, $destination, $mode = 'driving'
 	) {
-		$location_origin
-			= FriesLocationSearch::constructWithLocation( $origin['lat'],
-			$origin['lng'] );
+		$origin_text      = $origin['lat'] . ',' . $origin['lng'];
+		$destination_text = $destination['lat'] . ', ' . $destination['lng'];
 
-		$location_destination
-			= FriesLocationSearch::constructWithLocation( $destination['lat'],
-			$destination['lng'] );
-
-
-		$origin_place_id      = $location_origin->getPlaceIDbyIndex( 0 );
-		$destination_place_id = $location_destination->getPlaceIDbyIndex( 0 );
-		$instance             = self::constructWithPlaceID( $origin_place_id,
-			$destination_place_id, 'direction', $mode );
+		$instance = new self( $origin_text, $destination_text, $mode );
+		$instance->handleResponseAPI();
 
 		return $instance;
 	}
@@ -119,16 +122,29 @@ class FriesMaps {
 	 * @param        $destination
 	 * @param string $type
 	 * @param string $mode
+	 * @param array  $way_point
 	 *
 	 * @return FriesMaps
 	 */
 	public static function constructWithPlaceID(
-		$origin, $destination, $type = 'direction', $mode = 'driving'
+		$origin, $destination, $type = 'direction', $mode = 'driving',
+		$way_point = null
 	) {
-		$instance = new self( $origin, $destination, $mode );
+		$instance
+			= new self( $origin, $destination, $mode );
 		$instance->setType( $type );
-		$instance->origin      = 'place_id:' . $origin;
-		$instance->destination = 'place_id:' . $destination;
+		$instance->origin
+			= 'place_id:' . $origin;
+		$instance->destination
+			= 'place_id:' . $destination;
+
+		if ( count( $way_point ) > 0 ) {
+			$str_temp = 'place_id:' . $way_point[0];
+			for ( $i = 1; $i < count( $way_point ); $i ++ ) {
+				$str_temp .= '|' . 'place_id:' . $way_point[ $i ];
+			}
+			$instance->way_point = $str_temp;
+		}
 		$instance->handleResponseAPI();
 
 		return $instance;
@@ -146,6 +162,10 @@ class FriesMaps {
 			$this->KEY_API, $this->language, $this->mode,
 			$this->region
 		);
+
+		if ( $this->way_point !== null ) {
+			$this->url_api .= '&waypoints=' . urlencode( $this->way_point );
+		}
 
 		$content = fries_file_get_contents( $this->url_api );
 
@@ -187,7 +207,9 @@ class FriesMaps {
 		return false;
 	}
 
-	public function setType( $type ) {
+	public function setType(
+		$type
+	) {
 		$this->type = $type;
 	}
 
@@ -198,7 +220,9 @@ class FriesMaps {
 	 *
 	 * @return mixed
 	 */
-	public function getGeoCoded( $index = 0 ) {
+	public function getGeoCoded(
+		$index = 0
+	) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
@@ -214,7 +238,9 @@ class FriesMaps {
 	 *
 	 * @return mixed
 	 */
-	public function getGeoCodedStatus( $index = 0 ) {
+	public function getGeoCodedStatus(
+		$index = 0
+	) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
@@ -259,7 +285,9 @@ class FriesMaps {
 	 *
 	 * @return null|mixed
 	 */
-	public function getDistance( $text = false ) {
+	public function getDistance(
+		$text = false
+	) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
@@ -302,7 +330,9 @@ class FriesMaps {
 	 *
 	 * @return null|mixed
 	 */
-	public function getDuration( $text = false ) {
+	public function getDuration(
+		$text = false
+	) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
