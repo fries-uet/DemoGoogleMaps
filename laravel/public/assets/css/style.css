@@ -13,7 +13,7 @@
 }
 
 .show_ {
-    display: block;
+    display: table-row;
 }
 
 .hide_ {
