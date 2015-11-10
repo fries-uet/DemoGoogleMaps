@@ -47,9 +47,7 @@ class DirectionController extends Controller {
 
 		return $this->byPlaceID(
 			$origin_place_id,
-			$destination_place_id,
-			'direction'
-		);
+			$destination_place_id );
 	}
 
 	/**
