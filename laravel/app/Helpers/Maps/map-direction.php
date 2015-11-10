@@ -669,7 +669,7 @@ class FriesMaps {
 		$this->response = new stdClass();
 
 		if ( ! $this->getStatus() ) {
-			$this->response->status = 'NOT_FOUND';
+			$this->response->status = $this->getObjectAPI()->status;
 
 			return;
 		}
