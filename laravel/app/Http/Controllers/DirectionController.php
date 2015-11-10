@@ -16,7 +16,12 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byText( $origin, $destination ) {
-		$direction = FriesMaps::constructWithText( $origin, $destination );
+		$origin_id      = FriesLocationSearch::constructWithText( $origin )
+		                                     ->getPlaceIDbyIndex();
+		$destination_id = FriesLocationSearch::constructWithText( $destination )
+		                                     ->getPlaceIDbyIndex();
+		$direction      = FriesMaps::constructWithPlaceID( $origin_id,
+			$destination_id );
 
 		return response()->json( $direction->getOutput() );
 	}
