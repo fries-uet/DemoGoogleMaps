@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\Maps\FriesMaps;
 use App\Helpers\Maps\FriesLocationSearch;
-use App\Helpers\Maps\FriesLocationDetails;
 
 class DirectionController extends Controller {
 	/**
