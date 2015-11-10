@@ -21,6 +21,7 @@ class FriesChat {
 	public $content_API = '';
 	public $object_API;
 	public $content_API_bots;
+	public $object_API_bots;
 
 	public $bots = [ ];
 
@@ -72,6 +73,9 @@ class FriesChat {
 		$this->handleAPI();
 	}
 
+	/**
+	 * Get content bots API
+	 */
 	public function getAPIBots() {
 		$this->url_api_bots
 			= sprintf( 'http://118.69.135.27/AIML/api/bots?token=%s',
@@ -82,13 +86,34 @@ class FriesChat {
 		$this->handleAPIBots();
 	}
 
+	/**
+	 * Handle get bots API
+	 */
 	public function handleAPIBots() {
-		$obj = json_decode( $this->content_API_bots );
-		if ( $obj->result === 'success' ) {
-			$this->bots = $obj->bots;
+		$this->object_API_bots = json_decode( $this->content_API_bots );
+		if ( $this->getStatusBots() ) {
+			$this->bots = $this->object_API_bots->bots;
 		}
 	}
 
+	/**
+	 * Get status get bots
+	 *
+	 * @return bool
+	 */
+	public function getStatusBots() {
+		if ( $this->object_API_bots->result === 'success' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get bots
+	 *
+	 * @return array
+	 */
 	public function getBots() {
 		return $this->bots;
 	}

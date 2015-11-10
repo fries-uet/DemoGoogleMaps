@@ -36,6 +36,7 @@ class BotController extends Controller {
 
 		$fries_bot = new FriesChat();
 		$fries_bot->getAPIBots();
+
 		$arr_bots = $fries_bot->getBots();
 
 		$bot_id = '';
