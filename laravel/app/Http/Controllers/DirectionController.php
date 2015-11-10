@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\Maps\FriesMaps;
 use App\Helpers\Maps\FriesLocationSearch;
@@ -89,38 +88,5 @@ class DirectionController extends Controller {
 		);
 
 		return response()->json( $direction->getOutput() );
-	}
-
-	/**
-	 * API V2
-	 */
-	/***************************************/
-	/**
-	 * Direction by Mixed
-	 *
-	 * @param Request $request
-	 *
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function byMixedPost( Request $request ) {
-		onlyAllowPostRequest( $request );
-
-		$my_latitude      = $request->input( 'my_latitude' );
-		$my_longitude     = $request->input( 'my_longitude' );
-		$destination_text = $request->input( 'destination' );
-
-		$origin = FriesLocationSearch::constructWithLocation( $my_latitude,
-			$my_longitude );
-		$destination
-		        = FriesLocationSearch::constructWithText( $destination_text );
-
-		$origin_place_id      = $origin->getPlaceIDbyIndex();
-		$destination_place_id = $destination->getPlaceIDbyIndex();
-
-		return $this->byPlaceID(
-			$origin_place_id,
-			$destination_place_id,
-			'direction'
-		);
 	}
 }
