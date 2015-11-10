@@ -497,7 +497,12 @@ class FriesMaps {
 			$point_temp->long_name  = $leg_temp->end_address;
 			$point_temp->short_name = explode( ',', $point_temp->long_name )[0];
 			$point_temp->geo        = $leg_temp->end_location;
-			array_push( $way_points, $point_temp );
+
+			if ( $point_temp->long_name !== $this->getAddressDestination()
+			     && $point_temp->geo !== $this->getAddressOrigin()
+			) {
+				array_push( $way_points, $point_temp );
+			}
 
 			for ( $i = 1; $i < $this->getMaxIndexLeg() - 1; $i ++ ) {
 				$leg_temp               = $legs[ $i ];
@@ -506,7 +511,12 @@ class FriesMaps {
 				$point_temp->short_name = explode( ',',
 					$point_temp->long_name )[0];
 				$point_temp->geo        = $leg_temp->end_location;
-				array_push( $way_points, $point_temp );
+
+				if ( $point_temp->long_name !== $this->getAddressDestination()
+				     && $point_temp->geo !== $this->getAddressOrigin()
+				) {
+					array_push( $way_points, $point_temp );
+				}
 			}
 		}
 
