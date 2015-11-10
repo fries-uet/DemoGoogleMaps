@@ -18,6 +18,6 @@ class TestController extends Controller {
 		$direction = FriesMaps::constructWithPlaceID( $origin_id,
 			$destination_id, 'direction', 'driving', [ $waypoint_id ] );
 
-		return response()->json( $direction->getObjectAPI() );
+		return response()->json( $direction->getOutput() );
 	}
 }

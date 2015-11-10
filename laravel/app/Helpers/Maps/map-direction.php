@@ -275,7 +275,20 @@ class FriesMaps {
 		}
 		$routes = $this->getRoutes();
 
-		return $routes->legs[0];
+		return $routes->legs;
+	}
+
+	/**
+	 * Get max index legs
+	 *
+	 * @return int|null
+	 */
+	public function getMaxIndexLeg() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		return count( $this->getLegs() ) - 1;
 	}
 
 	/**
@@ -285,19 +298,34 @@ class FriesMaps {
 	 *
 	 * @return null|mixed
 	 */
-	public function getDistance(
-		$text = false
-	) {
+	public function getDistance( $text = false ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
 		$legs = $this->getLegs();
 
-		if ( $text === true ) {
-			return $legs->distance->text;
+		$sum_distance = 0;
+		foreach ( $legs as $index => $leg ) {
+			$sum_distance += intval( $leg->distance->value );
 		}
 
-		return $legs->distance->value;
+		if ( $text === true ) {
+			if ( $sum_distance < 1000 ) {
+				return $sum_distance . ' m';
+			}
+
+			$str = '';
+			$str .= intval( $sum_distance / 1000 );
+			if ( $sum_distance % 1000 > 100 ) {
+				$str .= '.'
+				        . floor( ( $sum_distance % 1000 ) / 100 );
+			}
+			$str .= ' km';
+
+			return $str;
+		}
+
+		return $sum_distance;
 	}
 
 	/**
@@ -314,9 +342,9 @@ class FriesMaps {
 
 		$str = '';
 		$str .= intval( $distance / 1000 );
-		if ( $distance % 1000 > 0 ) {
+		if ( $distance % 1000 > 100 ) {
 			$str .= ' phẩy '
-			        . ceil( ( $distance % 1000 ) / 100 );
+			        . floor( ( $distance % 1000 ) / 100 );
 		}
 		$str .= ' ki lô mét';
 
@@ -330,19 +358,24 @@ class FriesMaps {
 	 *
 	 * @return null|mixed
 	 */
-	public function getDuration(
-		$text = false
-	) {
+	public function getDuration( $text = false ) {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
 		$legs = $this->getLegs();
 
-		if ( $text === true ) {
-			return $legs->duration->text;
+		$sum_duration = 0;
+		foreach ( $legs as $index => $leg ) {
+			$sum_duration += intval( $leg->duration->value );
 		}
 
-		return $legs->duration;
+		if ( $text === true ) {
+			$sum_duration_text = round( $sum_duration / 60, 0 ) . ' phút';
+
+			return $sum_duration_text;
+		}
+
+		return $sum_duration;
 	}
 
 	/**
@@ -354,7 +387,7 @@ class FriesMaps {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
-		$legs = $this->getLegs();
+		$legs = $this->getLegs()[0];
 
 		return $legs->start_address;
 	}
@@ -376,7 +409,7 @@ class FriesMaps {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
-		$legs = $this->getLegs();
+		$legs = $this->getLegs()[ $this->getMaxIndexLeg() ];
 
 		return $legs->end_address;
 	}
@@ -398,7 +431,7 @@ class FriesMaps {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
-		$legs = $this->getLegs();
+		$legs = $this->getLegs()[0];
 
 		return $legs->start_location;
 	}
@@ -412,7 +445,7 @@ class FriesMaps {
 		if ( ! $this->getStatus() ) {
 			return null;
 		}
-		$legs = $this->getLegs();
+		$legs = $this->getLegs()[ $this->getMaxIndexLeg() ];
 
 		return $legs->end_location;
 	}
@@ -423,6 +456,9 @@ class FriesMaps {
 	 * @return stdClass
 	 */
 	public function getDetailsOrigin() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
 		$origin             = new stdClass();
 		$origin->short_name = $this->getShortAdressOrigin();
 		$origin->long_name  = $this->getAddressOrigin();
@@ -437,12 +473,44 @@ class FriesMaps {
 	 * @return stdClass
 	 */
 	public function getDetailsDestination() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
 		$destination             = new stdClass();
 		$destination->short_name = $this->getShortAdressDestination();
 		$destination->long_name  = $this->getAddressDestination();
 		$destination->geo        = $this->getGeocoderDestination();
 
 		return $destination;
+	}
+
+	public function getDetailsWayPoints() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+
+		$legs       = $this->getLegs();
+		$way_points = [ ];
+		if ( $this->getMaxIndexLeg() > 0 ) {
+			$leg_temp               = $legs[0];
+			$point_temp             = new stdClass();
+			$point_temp->long_name  = $leg_temp->end_address;
+			$point_temp->short_name = explode( ',', $point_temp->long_name )[0];
+			$point_temp->geo        = $leg_temp->end_location;
+			array_push( $way_points, $point_temp );
+
+			for ( $i = 1; $i < $this->getMaxIndexLeg() - 1; $i ++ ) {
+				$leg_temp               = $legs[ $i ];
+				$point_temp             = new stdClass();
+				$point_temp->long_name  = $leg_temp->end_address;
+				$point_temp->short_name = explode( ',',
+					$point_temp->long_name )[0];
+				$point_temp->geo        = $leg_temp->end_location;
+				array_push( $way_points, $point_temp );
+			}
+		}
+
+		return $way_points;
 	}
 
 	/**
@@ -456,7 +524,12 @@ class FriesMaps {
 		}
 		$legs = $this->getLegs();
 
-		return $legs->steps;
+		$steps = [ ];
+		foreach ( $legs as $leg ) {
+			$steps = array_merge( $steps, $leg->steps );
+		}
+
+		return $steps;
 	}
 
 	/**
@@ -595,6 +668,7 @@ class FriesMaps {
 		$this->response->info        = $this->getInfoRoadMap();
 		$this->response->origin      = $this->getDetailsOrigin();
 		$this->response->destination = $this->getDetailsDestination();
+		$this->response->waypoints   = $this->getDetailsWayPoints();
 		$this->response->steps       = $this->getStepByStep();
 	}
 
