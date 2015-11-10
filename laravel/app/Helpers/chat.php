@@ -52,7 +52,7 @@ class FriesChat {
 			$this->botid = false;
 		}
 
-		$this->token = '775ced42-8100-48ef-add1-a7cc6be261ab';
+		$this->token = '36059375-22e3-46ee-a637-525b441f020a';
 
 		$this->getAPI( $question );
 	}
