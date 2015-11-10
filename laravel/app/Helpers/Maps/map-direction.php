@@ -127,8 +127,8 @@ class FriesMaps {
 	 * @return FriesMaps
 	 */
 	public static function constructWithPlaceID(
-		$origin, $destination, $type = 'direction', $mode = 'driving',
-		$way_point = null
+		$origin, $destination, $way_point = null, $type = 'direction',
+		$mode = 'driving'
 	) {
 		$instance
 			= new self( $origin, $destination, $mode );

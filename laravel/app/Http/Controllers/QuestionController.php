@@ -64,6 +64,12 @@ class QuestionController extends Controller {
 			$direction = new DirectionController();
 
 			if ( strpos( mb_strtolower( $args[0] ), 'đây' ) === 0 ) {
+				if ( count( $args ) === 3 ) {
+					return $direction->byMixed( $my_latitude, $my_longitude,
+						providerQuerySearch( $args[1], $my_city ),
+						providerQuerySearch( $args[2], $my_city ) );
+				}
+
 				return $direction->byMixed( $my_latitude, $my_longitude,
 					providerQuerySearch( $args[1], $my_city ) );
 			} else {

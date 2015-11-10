@@ -32,10 +32,11 @@ class DirectionController extends Controller {
 	 * @param        $lat : Latitude origin
 	 * @param        $lng : Longitude Origin
 	 * @param string $destination
+	 * @param string $way_point
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function byMixed( $lat, $lng, $destination ) {
+	public function byMixed( $lat, $lng, $destination, $way_point = null ) {
 		$lat = trim( $lat );
 		$lng = trim( $lng );
 
@@ -44,6 +45,14 @@ class DirectionController extends Controller {
 
 		$origin_place_id      = $origin->getPlaceIDbyIndex();
 		$destination_place_id = $destination->getPlaceIDbyIndex();
+		if ( $way_point != null ) {
+			$way_point_id
+				= FriesLocationSearch::constructWithText( $way_point )
+				                     ->getPlaceIDbyIndex();
+
+			return $this->byPlaceID( $origin_place_id, $destination_place_id,
+				$way_point_id );
+		}
 
 		return $this->byPlaceID(
 			$origin_place_id,
@@ -55,15 +64,15 @@ class DirectionController extends Controller {
 	 *
 	 * @param string $origin
 	 * @param string $destination
-	 * @param string $type
+	 * @param string $way_point
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function byPlaceID( $origin, $destination, $type = 'direction' ) {
+	public function byPlaceID( $origin, $destination, $way_point = null ) {
 		$direction = FriesMaps::constructWithPlaceID(
 			$origin,
 			$destination,
-			$type
+			[ $way_point ]
 		);
 
 		return response()->json( $direction->getOutput() );
