@@ -314,7 +314,8 @@ class FriesLocationDetails {
 				'status'            => 'OK',
 				'type'              => 'my_location',
 				'name'              => $this->getName(),
-				'address_formatted' => $this->getAddressFormatted(),
+				'address_formatted' => explode( ', Việt Nam',
+					$this->getAddressFormatted() )[0],
 				'location'          => $this->getLocationCode(),
 				'place_id'          => $this->getPlaceID(),
 			);
