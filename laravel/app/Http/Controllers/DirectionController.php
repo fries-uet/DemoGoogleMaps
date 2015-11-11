@@ -82,7 +82,7 @@ class DirectionController extends Controller {
 			);
 		}
 
-		return response()->json( $direction->getObjectAPI() );
+		return response()->json( $direction->getOutput() );
 	}
 
 	/**
