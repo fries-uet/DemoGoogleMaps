@@ -64,8 +64,8 @@ if ( ! function_exists( 'convertCountTimestamp2String' ) ) {
 
 function getGoogleMapsKeyAPI( $index = null ) {
 	$key = [
-//		'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c', // v1
-//		'AIzaSyCZDU3TY73EGrPpurkLtXN5zex88duEwwk', // tutv95
+		'AIzaSyAQqAhtKKrRusAAtnRkFW6Jd-zs8oKh23c', // v1
+		'AIzaSyCZDU3TY73EGrPpurkLtXN5zex88duEwwk', // tutv95
 		'AIzaSyCoG4V5FmAkdSQio9QSQe7FutNtEua7hfQ', // v2
 		'AIzaSyAGG6pQH6IvLpqbVIOOZeAT23zSZlpyMkw', // v3
 		'AIzaSyBD3gLGTqoUObqUjU0KamImfHeecNjH0HA', // v4
