@@ -93,21 +93,33 @@ class QuestionController extends Controller {
 			$args      = explode( ' , ', $args );
 			$direction = new DirectionController();
 
-			/**
-			 * Find location by type
-			 */
-			if ( $this->indexOfLocation( $answer ) !== false ) {
-				$type_location = $this->indexOfLocation( $answer );
-
-				return $direction->byType( $my_latitude, $my_longitude,
-					$type_location );
-			}
-
 			if ( strpos( mb_strtolower( $args[0] ), 'đây' ) === 0 ) {
 				if ( count( $args ) === 3 ) {
+					/**
+					 * Find location by type
+					 */
+					if ( $this->indexOfLocation( $answer ) !== false ) {
+						$type_location = $this->indexOfLocation( $args[2] );
+
+						return $direction->byWayType( $my_latitude,
+							$my_longitude,
+							providerQuerySearch( $args[1], $my_city ),
+							$type_location );
+					}
+
 					return $direction->byMixed( $my_latitude, $my_longitude,
 						providerQuerySearch( $args[1], $my_city ),
 						providerQuerySearch( $args[2], $my_city ) );
+				}
+
+				/**
+				 * Find location by type
+				 */
+				if ( $this->indexOfLocation( $answer ) !== false ) {
+					$type_location = $this->indexOfLocation( $answer );
+
+					return $direction->byToType( $my_latitude, $my_longitude,
+						$type_location );
 				}
 
 				return $direction->byMixed( $my_latitude, $my_longitude,

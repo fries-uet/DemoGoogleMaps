@@ -118,7 +118,7 @@ class DirectionController extends Controller {
 	 *
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function byType( $my_latitude, $my_longitude, $type ) {
+	public function byToType( $my_latitude, $my_longitude, $type ) {
 		$origin_id
 			= FriesLocationSearch::constructWithLocation( $my_latitude,
 			$my_longitude )->getPlaceIDbyIndex();
@@ -127,5 +127,22 @@ class DirectionController extends Controller {
 			$my_longitude, $type )->getPlaceIDbyIndex();
 
 		return $this->byPlaceID( $origin_id, $destination_id );
+	}
+
+	public function byWayType(
+		$my_latitude, $my_longitude, $destination,
+		$type_location
+	) {
+		$origin_id
+			= FriesLocationSearch::constructWithLocation( $my_latitude,
+			$my_longitude )->getPlaceIDbyIndex();
+
+		$destination_id
+			          = FriesLocationSearch::constructWithText( $destination )->getPlaceIDbyIndex();
+		$way_point_id = FriesLocationSearch::constructWithType( $my_latitude,
+			$my_longitude, $type_location )->getPlaceIDbyIndex();
+
+		return $this->byPlaceID( $origin_id, $destination_id,
+			$way_point_id );
 	}
 }
