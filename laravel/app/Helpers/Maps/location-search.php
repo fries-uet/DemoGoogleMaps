@@ -25,7 +25,7 @@ class FriesLocationSearch {
 	public $latitude;
 	public $longitude;
 	public $radius;
-	public $types = [ ];
+	public $type_location;
 
 	/**
 	 * Optional
@@ -40,67 +40,6 @@ class FriesLocationSearch {
 		$this->language = 'vi';
 		$this->region   = 'vn';//Vietnam
 		$this->KEY_API  = getGoogleMapsKeyAPI();
-		$this->types    = [
-			'accounting',
-			'airport' => [
-				'sân bay'
-			],
-			'amusement_park',
-			'aquarium',
-			'art_gallery',
-			'atm',
-			'bakery',
-			'bank' => [
-				'ngân hàng'
-			],
-			'bar',
-			'beauty_salon',
-			'bicycle_store',
-			'book_store' => [
-				'hiệu sách',
-				'nhà sách',
-			],
-			'bowling_alley',
-			'bus_station' => [
-				'bến xe buýt',
-			],
-			'cafe',
-			'campground',
-			'car_dealer',
-			'car_rental',
-			'car_repair',
-			'car_wash',
-			'casino',
-			'cemetery',
-			'church',
-			'city_hall',
-			'clothing_store',
-			'convenience_store',
-			'courthouse',
-			'dentist',
-			'department_store',
-			'doctor',
-			'electrician',
-			'electronics_store',
-			'embassy',
-			'establishment',
-			'finance',
-			'fire_station',
-			'florist',
-			'food',
-			'funeral_home',
-			'furniture_store',
-			'gas_station' => [
-				'trạm xăng',
-			],
-			'general_contractor',
-			'grocery_or_supermarket',
-			'gym',
-			'hair_care',
-			'hardware_store',
-			'health',
-			'hindu_temple',
-		];
 	}
 
 	/**
@@ -154,6 +93,22 @@ class FriesLocationSearch {
 		$instance->url_API
 			= sprintf( 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&radius=%s&key=%s&language=%s',
 			$instance->latitude, $instance->longitude, $instance->radius,
+			$instance->KEY_API, $instance->language );
+
+		$instance->handleResponseAPI();
+
+		return $instance;
+	}
+
+	public static function constructWithType( $lat, $lng, $type ) {
+		$instance                = new self();
+		$instance->latitude      = $lat;
+		$instance->longitude     = $lng;
+		$instance->type_location = $type;
+
+		$instance->url_API
+			= sprintf( 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s,%s&rankby=distance&types=%s&key=%s&language=%s',
+			$instance->latitude, $instance->longitude, $instance->type_location,
 			$instance->KEY_API, $instance->language );
 
 		$instance->handleResponseAPI();

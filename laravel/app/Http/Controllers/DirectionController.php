@@ -108,4 +108,20 @@ class DirectionController extends Controller {
 
 		return response()->json( $direction->getOutput() );
 	}
+
+	public function findLocation( $my_latitude, $my_longitude, $type ) {
+		$origin_id
+			= FriesLocationSearch::constructWithLocation( $my_latitude,
+			$my_longitude )->getPlaceIDbyIndex();
+
+		$destination_id = FriesLocationSearch::constructWithType( $my_latitude,
+			$my_longitude, $type )->getPlaceIDbyIndex();
+
+
+		$direction = FriesMaps::constructWithPlaceID(
+			$origin_id,
+			$destination_id );
+
+		return response()->json( $direction->getOutput() );
+	}
 }

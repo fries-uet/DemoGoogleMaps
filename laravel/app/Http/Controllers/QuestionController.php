@@ -15,6 +15,36 @@ class QuestionController extends Controller {
 	const TAG_QUESTION_TRAFFIC = 'questiontraffic';
 	const TAG_NO_ANSWER = 'noanswer';
 
+	const TAG_FIND_LOCATION
+		= [
+			'gas_station' => [
+				'cây xăng',
+				'trạm xăng',
+			],
+		];
+
+	/**
+	 * Get key type location in string
+	 *
+	 * @param $str
+	 *
+	 * @return bool|string
+	 */
+	public function indexOfLocation( $str ) {
+		$str         = mb_strtolower( $str );
+		$arrLocation = self::TAG_FIND_LOCATION;
+
+		foreach ( $arrLocation as $index => $location ) {
+			foreach ( $location as $i => $l ) {
+				if ( strpos( $str, $l ) !== false ) {
+					return $index;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Get answer from client and solve
 	 *
@@ -62,6 +92,16 @@ class QuestionController extends Controller {
 			$args      = explode( self::TAG_FIND_ROAD, $answer )[1];
 			$args      = explode( ' , ', $args );
 			$direction = new DirectionController();
+
+			/**
+			 * Find location by type
+			 */
+			if ( $this->indexOfLocation( $answer ) !== false ) {
+				$type_location = $this->indexOfLocation( $answer );
+
+				$direction->findLocation( $my_latitude, $my_longitude,
+					$type_location );
+			}
 
 			if ( strpos( mb_strtolower( $args[0] ), 'đây' ) === 0 ) {
 				if ( count( $args ) === 3 ) {

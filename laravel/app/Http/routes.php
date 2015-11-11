@@ -170,5 +170,5 @@ Route::group( [ 'prefix' => 'download' ], function () {
 	] );
 } );
 
-Route::get( 'test/origin={origin}&destination={destination}&waypoint={waypoint}',
+Route::get( 'test',
 	'TestController@test' );
