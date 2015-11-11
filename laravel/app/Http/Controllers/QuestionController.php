@@ -99,7 +99,7 @@ class QuestionController extends Controller {
 			if ( $this->indexOfLocation( $answer ) !== false ) {
 				$type_location = $this->indexOfLocation( $answer );
 
-				$direction->findLocation( $my_latitude, $my_longitude,
+				return $direction->byType( $my_latitude, $my_longitude,
 					$type_location );
 			}
 
