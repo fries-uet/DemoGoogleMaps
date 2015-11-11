@@ -15,7 +15,7 @@ class QuestionController extends Controller {
 	const TAG_QUESTION_TRAFFIC = 'questiontraffic';
 	const TAG_NO_ANSWER = 'noanswer';
 
-	const TAG_FIND_LOCATION
+	private $TAG_FIND_LOCATION
 		= [
 			'gas_station' => [
 				'cây xăng',
@@ -32,7 +32,7 @@ class QuestionController extends Controller {
 	 */
 	public function indexOfLocation( $str ) {
 		$str         = mb_strtolower( $str );
-		$arrLocation = self::TAG_FIND_LOCATION;
+		$arrLocation = $this->TAG_FIND_LOCATION;
 
 		foreach ( $arrLocation as $index => $location ) {
 			foreach ( $location as $i => $l ) {
