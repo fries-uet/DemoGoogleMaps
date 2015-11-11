@@ -69,13 +69,20 @@ class DirectionController extends Controller {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function byPlaceID( $origin, $destination, $way_point = null ) {
-		$direction = FriesMaps::constructWithPlaceID(
-			$origin,
-			$destination,
-			[ $way_point ]
-		);
+		if ( $way_point != null ) {
+			$direction = FriesMaps::constructWithPlaceID(
+				$origin,
+				$destination,
+				[ $way_point ]
+			);
+		} else {
+			$direction = FriesMaps::constructWithPlaceID(
+				$origin,
+				$destination
+			);
+		}
 
-		return response()->json( $direction->getOutput() );
+		return response()->json( $direction->getObjectAPI() );
 	}
 
 	/**
