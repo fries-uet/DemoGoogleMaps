@@ -65,14 +65,14 @@
                 var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: '{!!  $t->address_formatted !!}',
+                title: '{!!  $t->ago_text !!} trước',
                 icon: congestion
             });
                     @else
                         var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: '{!!  $t->address_formatted !!}',
+                title: '{!!  $t->ago_text !!} trước',
                 icon: open
             });
             @endif
