@@ -21,42 +21,42 @@ class QuestionController extends Controller {
 				'cây xăng',
 				'trạm xăng',
 			],
-			'hospital'    => [
-				'bệnh viện',
-				'trạm xá',
-				'trạm y tế',
-			],
-			'cafe'        => [
-				'cafe',
-				'cà phê',
-			],
-			'zoo'         => [
-				'vườn bách thú',
-				'vườn thú',
-			],
-			'park'        => [
-				'công viên',
-			],
-			'bank'        => [
-				'ngân hàng',
-			],
-			'bus_station' => [
-				'bến xe buýt',
-				'điểm dừng xe buýt',
-			],
+//			'hospital'    => [
+//				'bệnh viện',
+//				'trạm xá',
+//				'trạm y tế',
+//			],
+//			'cafe'        => [
+//				'cafe',
+//				'cà phê',
+//			],
+//			'zoo'         => [
+//				'vườn bách thú',
+//				'vườn thú',
+//			],
+//			'park'        => [
+//				'công viên',
+//			],
+//			'bank'        => [
+//				'ngân hàng',
+//			],
+//			'bus_station' => [
+//				'bến xe buýt',
+//				'điểm dừng xe buýt',
+//			],
 			'atm'         => [
 				'máy rút tiền',
 				'atm',
 			],
-			'book_store'  => [
-				'hiệu sách',
-				'nhà sách',
-				'cửa hàng sách',
-			],
-			'restaurant'  => [
-				'nhà hàng',
-				'quán ăn',
-			],
+//			'book_store'  => [
+//				'hiệu sách',
+//				'nhà sách',
+//				'cửa hàng sách',
+//			],
+//			'restaurant'  => [
+//				'nhà hàng',
+//				'quán ăn',
+//			],
 			'parking'     => [
 				'bãi đỗ xe',
 				'bãi gửi xe',
