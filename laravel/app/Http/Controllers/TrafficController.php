@@ -215,6 +215,8 @@ class TrafficController extends Controller {
 	}
 
 	public function traffic() {
-		return view( 'traffic.traffic' );
+		$traffics = self::getStatus();
+
+		return view( 'traffic.traffic' )->with( 'traffics', $traffics );
 	}
 }
