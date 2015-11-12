@@ -114,7 +114,7 @@ class TestController extends Controller {
 	public function testGet( $id ) {
 		return response()->json( [
 			'status' => 'ok',
-			'msg'    => 'Updated id: ' . $id,
+			'msg'    => 'Content id: ' . $id,
 		] );
 	}
 
