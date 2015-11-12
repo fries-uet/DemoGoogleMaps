@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\Maps\FriesLocationSearch;
 use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
+use Exception;
 use Unirest\File;
 
 class TrafficController extends Controller {
@@ -65,44 +65,55 @@ class TrafficController extends Controller {
 	 * @return array|null
 	 */
 	public function getStatus() {
-		$traffic = Traffic::getStatusTraffic( null, 3600 );
+		try {
+			$traffic = Traffic::getStatusTraffic( null, 3600 );
 
-		$merge_traffic = array();
-		if ( $traffic ) {
-			foreach ( $traffic as $index => $a ) {
-				//Hide variable unnecessary
-				unset( $a['created_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['updated_at'] );
-				unset( $a['place_id'] );
-				unset( $a['address_html'] );
+			$merge_traffic = array();
+			if ( $traffic ) {
+				foreach ( $traffic as $index => $a ) {
+					//Hide variable unnecessary
+					unset( $a['created_at'] );
+					unset( $a['updated_at'] );
+					unset( $a['updated_at'] );
+					unset( $a['place_id'] );
+					unset( $a['address_html'] );
 
-				$timestamp_ago = date_create()->getTimestamp()
-				                 - intval( $a['time_report'] );
-				$a['ago']      = $timestamp_ago;
-				$a['ago_text'] = convertCountTimestamp2String( $timestamp_ago );
+					$traffic[ $index ]->address_formatted
+						= explode( ', Việt Nam',
+						$a->address_formatted )[0];
 
-				if ( $index == 0 ) {
-					array_push( $merge_traffic, $a );
-				} else {
-					$name = $a['name'];
+					$timestamp_ago = date_create()->getTimestamp()
+					                 - intval( $a['time_report'] );
+					$a['ago']      = $timestamp_ago;
+					$a['ago_text']
+					               = convertCountTimestamp2String( $timestamp_ago );
 
-					$merge = false;
-					foreach ( $merge_traffic as $i => $b ) {
-						if ( $name == $b['name'] ) {
-							$merge_traffic[ $i ] = $a;
-							$merge               = true;
-						}
-					}
-
-					if ( ! $merge ) {
+					if ( $index == 0 ) {
 						array_push( $merge_traffic, $a );
+					} else {
+						$name = $a['name'];
+
+						$merge = false;
+						foreach ( $merge_traffic as $i => $b ) {
+							if ( $name == $b['name'] ) {
+								$merge_traffic[ $i ] = $a;
+								$merge               = true;
+							}
+						}
+
+						if ( ! $merge ) {
+							array_push( $merge_traffic, $a );
+						}
 					}
 				}
 			}
-		}
 
-		return $merge_traffic;
+			return $merge_traffic;
+		} catch ( Exception $e ) {
+			$view = getResponseError( 'ERROR', $e->getMessage() );
+			$view->send();
+			die();
+		}
 	}
 
 	public function getStatusAll() {
