@@ -21,6 +21,11 @@ class QuestionController extends Controller {
 				'cây xăng',
 				'trạm xăng',
 			],
+			'hospital'    => [
+				'bệnh viện',
+				'trạm xá',
+				'trạm y tế',
+			]
 		];
 
 	/**
