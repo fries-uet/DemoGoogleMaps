@@ -85,6 +85,11 @@ class QuestionController extends Controller {
 	public function parseAnswerBot(
 		$question, $answer, $my_latitude, $my_longitude, $my_city
 	) {
+		if ( strpos( mb_strtolower( $question ), 'giá xăng' ) !== false ) {
+			$test = new TestController();
+
+			return $test->getPriceGas( $question );
+		}
 		/**
 		 * Direction
 		 */

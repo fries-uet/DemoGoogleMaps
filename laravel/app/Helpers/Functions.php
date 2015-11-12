@@ -125,3 +125,47 @@ function f_distance( $lat1, $lng1, $lat2, $lng2 ) {
 
 	return $r * $c;
 }
+
+/**
+ * Get price gas A92 & A95
+ *
+ * @return array
+ */
+function getPriceGas() {
+	$url_gas = 'http://www.petrolimex.com.vn';
+	$content = fries_file_get_contents( $url_gas );
+
+	try {
+		$content = explode( 'vie_p3_PortletContent', $content )[1];
+		$content = explode( 'blueseaContainerFooter', $content )[0];
+
+		$a95 = explode( 'Xăng RON 95</a></div><div class="c">', $content )[1];
+		$a95 = explode( '</div>', $a95 )[0];
+
+		$a92 = explode( 'Xăng RON 92</a></div><div class="c">', $content )[1];
+		$a92 = explode( '</div>', $a92 )[0];
+
+		return [
+			'a92' => $a92,
+			'a95' => $a95,
+		];
+	} catch ( Exception $e ) {
+		$view = getResponseError( 'ERROR', $e->getMessage() );
+		$view->send();
+		die();
+	}
+}
+
+function convertPriceToText( $price ) {
+	$str = '';
+	$arr = explode( '.', $price );
+	$t   = $arr[0];
+	$str .= $t . ' nghìn';
+
+	if ( count( $arr ) > 1 ) {
+		$d = $arr[1];
+		$str .= ' ' . $d . ' đồng';
+	}
+
+	return $str;
+}

@@ -4,8 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Location;
+use Exception;
 
 class TestController extends Controller {
+	public function getPriceGas( $question ) {
+		try {
+			$prices = getPriceGas();
+
+			$answer = 'giá xăng A 92 là ';
+			$answer .= convertPriceToText( $prices['a92'] ) . ', ';
+			$answer .= 'A 95 là ';
+			$answer .= convertPriceToText( $prices['a95'] );
+
+			return response()->json( [
+				'status'   => 'OK',
+				'type'     => 'speak',
+				'question' => $question,
+				'answer'   => $answer
+			] );
+		} catch ( Exception $e ) {
+			$view = getResponseError( 'ERROR', $e->getMessage() );
+			$view->send();
+			die();
+		}
+	}
+
 	public function test() {
 //		$hospital = [
 //			'ChIJjzVOEXqsNTERZ7rzIjI8Blc',
@@ -64,10 +87,25 @@ class TestController extends Controller {
 //		}
 
 
-		$hospital = Location::all();
+//		$hospital = Location::all();
+//
+//		foreach ( $hospital as $i => $h ) {
+//			var_dump( $h->name );
+//		}
 
-		foreach ( $hospital as $i => $h ) {
-			var_dump( $h->name );
-		}
+		$url_gas = 'http://www.petrolimex.com.vn';
+		$content = fries_file_get_contents( $url_gas );
+
+		$content = explode( 'vie_p3_PortletContent', $content )[1];
+		$content = explode( 'blueseaContainerFooter', $content )[0];
+
+		$a95 = explode( 'Xăng RON 95</a></div><div class="c">', $content )[1];
+		$a95 = explode( '</div>', $a95 )[0];
+
+		$a92 = explode( 'Xăng RON 92</a></div><div class="c">', $content )[1];
+		$a92 = explode( '</div>', $a92 )[0];
+
+		echo convertPriceToText( $a92 );
+		echo '<br>' . convertPriceToText( $a95 );
 	}
 }
