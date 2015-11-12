@@ -109,3 +109,19 @@ function providerQuerySearch( $query, $city = null ) {
 
 	return $query . ' ' . $city;
 }
+
+function f_distance( $lat1, $lng1, $lat2, $lng2 ) {
+	$r     = 6371000;
+	$lat_x = deg2rad( $lat1 );
+	$lat_y = deg2rad( $lat2 );
+
+	$delta_lat = deg2rad( $lat2 - $lat1 );
+	$delta_lng = deg2rad( $lng2 - $lng1 );
+
+	$a = sin( $delta_lat / 2 ) * sin( $delta_lat / 2 ) +
+	     cos( $lat_x ) * cos( $lat_y ) * sin( $delta_lng / 2 )
+	     * sin( $delta_lng / 2 );
+	$c = 2 * atan2( sqrt( $a ), sqrt( 1 - $a ) );
+
+	return $r * $c;
+}
