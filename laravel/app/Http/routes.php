@@ -164,7 +164,7 @@ Route::group( [ 'prefix' => 'docs' ], function () {
  * Download
  */
 Route::group( [ 'prefix' => 'download' ], function () {
-	Route::get( 'beta', [
+	Route::get( '/', [
 		'as'   => 'download.beta',
 		'uses' => 'PageController@downloadBeta'
 	] );
