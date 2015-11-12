@@ -19,5 +19,6 @@ class VerifyCsrfToken extends BaseVerifier {
 			'v2/bot/chat',
 			'web/bot/chat/api',
 			'bot/api',
+			'test/post',
 		];
 }

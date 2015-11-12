@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Location;
 use Exception;
+use Illuminate\Http\Request;
 
 class TestController extends Controller {
 	public function getPriceGas( $question ) {
@@ -107,5 +108,22 @@ class TestController extends Controller {
 
 		echo convertPriceToText( $a92 );
 		echo '<br>' . convertPriceToText( $a95 );
+	}
+
+
+	public function testGet( $id ) {
+		return response()->json( [
+			'status' => 'ok',
+			'msg'    => 'Updated id: ' . $id,
+		] );
+	}
+
+	public function testPost( Request $request ) {
+		$x = $request->input( 'x' );
+
+		return response()->json( [
+			'status' => 'ok',
+			'msg'    => 'Received: ' . $x,
+		] );
 	}
 }
