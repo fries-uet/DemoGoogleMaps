@@ -123,7 +123,7 @@ class TrafficController extends Controller {
 			'status' => 'OK',
 			'data'   => $traffic,
 			'result' => count( $traffic ),
-			'type'   => 'get_traffic',
+			'type'   => 'get_all_traffic',
 		] );
 	}
 
@@ -206,7 +206,7 @@ class TrafficController extends Controller {
 				'status' => 'OK',
 				'data'   => null,
 				'result' => 0,
-				'type'   => 'get_traffic',
+				'type'   => 'get_all_traffic',
 			] );
 		}
 
@@ -221,7 +221,7 @@ class TrafficController extends Controller {
 			'status' => 'OK',
 			'data'   => $traffic_type,
 			'result' => count( $traffic_type ),
-			'type'   => 'get_traffic',
+			'type'   => 'get_all_traffic',
 		] );
 	}
 

@@ -14,6 +14,7 @@ class QuestionController extends Controller {
 	const TAG_MY_LOCATION = 'mylocation';
 	const TAG_QUESTION_TRAFFIC = 'questiontraffic';
 	const TAG_NO_ANSWER = 'noanswer';
+	const TAG_GET_ALL_TRAFFIC_CONGESTION = 'get_all_traffic_congestion';
 
 	private $TAG_FIND_LOCATION
 		= [
@@ -98,7 +99,15 @@ class QuestionController extends Controller {
 		$my_latitude  = $request->input( 'my_latitude' );
 		$my_longitude = $request->input( 'my_longitude' );
 		$my_city      = $request->input( 'city' );
-		$chat_bot     = new FriesChat( $question );
+
+		if ( $question == self::TAG_GET_ALL_TRAFFIC_CONGESTION ) {
+			$traffic = new TrafficController();
+
+			return $traffic->getStatusByType( 'congestion' );
+		}
+
+		$chat_bot = new FriesChat( $question );
+
 		if ( $chat_bot->getBotID() == false ) {
 			return getResponseError( 'ERROR', 'Haven\'t set bot chat yet' );
 		}
