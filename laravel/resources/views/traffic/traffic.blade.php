@@ -11,6 +11,7 @@
             <th class="text-center">STT</th>
             <th>Type</th>
             <th>Address</th>
+            <th>Address report</th>
             <th>Time ago</th>
         </tr>
         </thead>
@@ -19,7 +20,8 @@
             <tr class="status">
                 <td class="text-center">{{ ($i + 1)  }}</td>
                 <td class="type">{!! convertStatusTrafficToVietnamese($t->type) !!}</td>
-                <td class="address">{!! $t->name !!}</td>
+                <td class="street">{!! $t->name !!}</td>
+                <td class="address_report">{!! $t->address_formatted !!}</td>
                 <td class="time_ago">{!! $t->ago_text !!}</td>
             </tr>
         @endforeach
