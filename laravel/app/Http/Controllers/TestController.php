@@ -94,20 +94,22 @@ class TestController extends Controller {
 //			var_dump( $h->name );
 //		}
 
-		$url_gas = 'http://www.petrolimex.com.vn';
-		$content = fries_file_get_contents( $url_gas );
+//		$url_gas = 'http://www.petrolimex.com.vn';
+//		$content = fries_file_get_contents( $url_gas );
+//
+//		$content = explode( 'vie_p3_PortletContent', $content )[1];
+//		$content = explode( 'blueseaContainerFooter', $content )[0];
+//
+//		$a95 = explode( 'Xăng RON 95</a></div><div class="c">', $content )[1];
+//		$a95 = explode( '</div>', $a95 )[0];
+//
+//		$a92 = explode( 'Xăng RON 92</a></div><div class="c">', $content )[1];
+//		$a92 = explode( '</div>', $a92 )[0];
+//
+//		echo convertPriceToText( $a92 );
+//		echo '<br>' . convertPriceToText( $a95 );
 
-		$content = explode( 'vie_p3_PortletContent', $content )[1];
-		$content = explode( 'blueseaContainerFooter', $content )[0];
-
-		$a95 = explode( 'Xăng RON 95</a></div><div class="c">', $content )[1];
-		$a95 = explode( '</div>', $a95 )[0];
-
-		$a92 = explode( 'Xăng RON 92</a></div><div class="c">', $content )[1];
-		$a92 = explode( '</div>', $a92 )[0];
-
-		echo convertPriceToText( $a92 );
-		echo '<br>' . convertPriceToText( $a95 );
+		return view( 'traffic.maps' );
 	}
 
 
