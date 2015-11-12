@@ -181,8 +181,7 @@ class QuestionController extends Controller {
 		if ( strpos( $answer, self::TAG_MY_LOCATION ) === 0 ) {
 			$location = new LocationController();
 
-			return $location->byCoordinates( $my_latitude,
-				$my_longitude );
+			return $location->byCoordinates( $my_latitude, $my_longitude );
 		}
 
 		/**
@@ -201,8 +200,7 @@ class QuestionController extends Controller {
 		if ( strpos( $answer, self::TAG_NOTIFICATION_OPEN ) === 0 ) {
 			$traffic = new TrafficController();
 
-			return $traffic->postStatus( 'open', $my_latitude,
-				$my_longitude );
+			return $traffic->postStatus( 'open', $my_latitude, $my_longitude );
 		}
 
 		/**

@@ -146,10 +146,12 @@ Route::group( [ 'prefix' => 'bot' ], function () {
 /**
  * Traffic
  */
-Route::get( 'traffic', [
-	'as'   => 'traffic',
-	'uses' => 'PageController@traffic'
-] );
+Route::group( [ 'prefix' => 'traffic' ], function () {
+	Route::get( '/', [
+		'as'   => 'traffic',
+		'uses' => 'TrafficController@traffic'
+	] );
+} );
 
 Route::group( [ 'prefix' => 'docs' ], function () {
 	Route::group( [ 'prefix' => 'v2' ], function () {
