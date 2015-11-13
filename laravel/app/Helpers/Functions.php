@@ -70,7 +70,7 @@ function getGoogleMapsKeyAPI( $index = null ) {
 		'AIzaSyAGG6pQH6IvLpqbVIOOZeAT23zSZlpyMkw', // v3
 		'AIzaSyBD3gLGTqoUObqUjU0KamImfHeecNjH0HA', // v4
 		'AIzaSyC-DxAuNhiB-RWfuCOp2nl6wW1J5DMuH2Y', // v5
-		'AIzaSyDvVbsuHF5Eiq9YYfWfKA__edrwbuHbBio', // v6
+//		'AIzaSyDvVbsuHF5Eiq9YYfWfKA__edrwbuHbBio', // v6
 	];
 
 	if ( $index > count( $key ) - 1 || $index == null ) {

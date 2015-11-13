@@ -138,7 +138,8 @@ class DirectionController extends Controller {
 			$my_longitude )->getPlaceIDbyIndex();
 
 		$destination_id
-			          = FriesLocationSearch::constructWithText( $destination )->getPlaceIDbyIndex();
+			          = FriesLocationSearch::constructWithText( $destination )
+			                               ->getPlaceIDbyIndex();
 		$way_point_id = FriesLocationSearch::constructWithType( $my_latitude,
 			$my_longitude, $type_location )->getPlaceIDbyIndex();
 

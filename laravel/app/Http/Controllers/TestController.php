@@ -142,11 +142,11 @@ class TestController extends Controller {
 				105.817971,
 
 			],
-			[
-				//Ho Tung Mau
-				21.037735,
-				105.773675
-			]
+//			[
+//				//Ho Tung Mau
+//				21.037735,
+//				105.773675
+//			]
 		];
 
 		foreach ( $gens as $i => $g ) {
@@ -156,7 +156,7 @@ class TestController extends Controller {
 				'question'     => 'ở đây đang tắc đường',
 				'city'         => 'hà nội',
 			];
-			$res  = fries_post_contents( 'http://tutran.net/v2/bot/chat', null,
+			$res  = fries_post_contents( url( '/' ) . '/v2/bot/chat', null,
 				$body );
 
 			print_r( $res );

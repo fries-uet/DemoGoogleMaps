@@ -181,4 +181,7 @@ Route::get( 'test', 'TestController@test' );
 Route::group( [ 'prefix' => 'test' ], function () {
 	Route::get( 'get/{id}', 'TestController@testGet' );
 	Route::post( 'post', 'TestController@testPost' );
+
+
+	Route::get( 'all', 'TrafficController@testGetAllStreet' );
 } );

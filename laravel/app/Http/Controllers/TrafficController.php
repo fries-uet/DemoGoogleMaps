@@ -8,7 +8,6 @@ use App\Helpers\Maps\FriesLocationDetails;
 
 use App\Traffic;
 use Exception;
-use Unirest\File;
 
 class TrafficController extends Controller {
 	public function postStatus( $type, $lat, $lng ) {
@@ -229,5 +228,22 @@ class TrafficController extends Controller {
 		$traffics = self::getStatus();
 
 		return view( 'traffic.traffic' )->with( 'traffics', $traffics );
+	}
+
+	public function testGetAllStreet() {
+		echo url( '/' );
+	}
+
+	public function getAllStreetCongestion() {
+		$traffic = self::getStatus();
+
+		$arr = [ ];
+		foreach ( $traffic as $i => $t ) {
+			if ( $t->type == 'congestion' ) {
+				array_push( $arr, mb_strtolower( $t->name ) );
+			}
+		}
+
+		return ( $arr );
 	}
 }

@@ -10,6 +10,7 @@
 namespace App\Helpers\Maps;
 
 use App\Helpers\PolylineEncoder;
+use App\Http\Controllers\TrafficController;
 use \stdClass;
 
 require_once __DIR__ . '/helpers/file-get-contents/file-get-contents.php';
@@ -157,7 +158,7 @@ class FriesMaps {
 	 */
 	private function getContentAPI() {
 		$this->url_api = sprintf(
-			'https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&key=%s&language=%s&mode=%s&region=%s',
+			'https://maps.googleapis.com/maps/api/directions/json?origin=%s&destination=%s&key=%s&language=%s&mode=%s&region=%s&alternatives=true',
 			urlencode( $this->origin ), urlencode( $this->destination ),
 			$this->KEY_API, $this->language, $this->mode,
 			$this->region
@@ -249,6 +250,24 @@ class FriesMaps {
 		return $geoCoded->geocoder_status;
 	}
 
+	public function getMaxIndexRoute() {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$object = $this->getObjectAPI();
+		$routes = $object->routes;
+
+		return count( $routes ) - 1;
+	}
+
+	public function getRoutesByIndex( $index ) {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$object = $this->getObjectAPI();
+
+		return $object->routes[ $index ];
+	}
 
 	/**
 	 * Get Routes
@@ -261,7 +280,27 @@ class FriesMaps {
 		}
 		$object = $this->getObjectAPI();
 
-		return $object->routes[0];
+		$traffic   = new TrafficController();
+		$arrStreet = $traffic->getAllStreetCongestion();
+
+		$index_route = 0;
+		for ( $i = 0; $i <= $this->getMaxIndexRoute(); $i ++ ) {
+			$check = true;
+			$arr_s = $this->getStepArrStreet( $i );
+			foreach ( $arrStreet as $j => $a ) {
+				foreach ( $arr_s as $k => $aa ) {
+					if ( strpos( $a, $aa ) !== false ) {
+						$check = false;
+					}
+				}
+			}
+
+			if ( $check ) {
+			}
+			$index_route = $i;
+		}
+
+		return $object->routes[ $index_route ];
 	}
 
 	/**
@@ -571,6 +610,40 @@ class FriesMaps {
 				'. <div style="', $step );
 			$step = html_entity_decode( $step );
 			array_push( $steps_text, strip_tags( $step ) );
+		}
+
+		return $steps_text;
+	}
+
+	/**
+	 * Get Direction by Array Text
+	 *
+	 * @return array
+	 */
+	public function getStepArrStreet( $i_ ) {
+		if ( ! $this->getStatus() ) {
+			return null;
+		}
+		$route  = $this->getRoutesByIndex( $i_ );
+		$leg_   = $route->legs[0];
+		$steps_ = $leg_->steps;
+		$html_  = [ ];
+		foreach ( $steps_ as $st_ ) {
+			array_push( $html_, $st_->html_instructions );
+		}
+
+		$steps      = $html_;
+		$steps_text = array();
+
+		foreach ( $steps as $index => $step ) {
+			$step = str_replace( '<div style="',
+				'. <div style="', $step );
+
+			$arr_temp = explode( '<b>', $step );
+			$street   = $arr_temp[ count( $arr_temp ) - 1 ];
+			$street   = explode( '</b>', $street )[0];
+			$street   = html_entity_decode( $street );
+			array_push( $steps_text, mb_strtolower( strip_tags( $street ) ) );
 		}
 
 		return $steps_text;
