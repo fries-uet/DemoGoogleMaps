@@ -128,4 +128,38 @@ class TestController extends Controller {
 			'msg'    => 'Received: ' . $x,
 		] );
 	}
+
+	public function genTraffic() {
+		$gens = [
+			[
+				//Ton That Thuyet
+				21.028460,
+				105.782082,
+			],
+			[
+				//Kim Ma
+				21.030630,
+				105.817971,
+
+			],
+			[
+				//Ho Tung Mau
+				21.037735,
+				105.773675
+			]
+		];
+
+		foreach ( $gens as $i => $g ) {
+			$body = [
+				'my_latitude'  => $g[0],
+				'my_longitude' => $g[1],
+				'question'     => 'ở đây đang tắc đường',
+				'city'         => 'hà nội',
+			];
+			$res  = fries_post_contents( 'http://tutran.net/v2/bot/chat', null,
+				$body );
+
+			print_r( $res );
+		}
+	}
 }

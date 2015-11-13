@@ -162,6 +162,10 @@ Route::group( [ 'prefix' => 'docs' ], function () {
 	} );
 } );
 
+Route::group( [ 'prefix' => 'gen' ], function () {
+	Route::post( 'traffic', 'TestController@genTraffic' );
+} );
+
 /**
  * Download
  */
