@@ -26,7 +26,7 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function downloadBeta() {
-		$app = url( '/' ) . '/download/maps-1.0.0.apk';
+		$app = url( '/' ) . '/download/maps-1.1.0.apk';
 
 		return response()->redirectTo( $app );
 	}
