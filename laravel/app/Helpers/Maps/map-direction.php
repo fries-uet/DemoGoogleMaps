@@ -283,7 +283,6 @@ class FriesMaps {
 		$traffic   = new TrafficController();
 		$arrStreet = $traffic->getAllStreetCongestion();
 
-		$index_route = 0;
 		for ( $i = 0; $i <= $this->getMaxIndexRoute(); $i ++ ) {
 			$check = true;
 			$arr_s = $this->getStepArrStreet( $i );
@@ -296,11 +295,11 @@ class FriesMaps {
 			}
 
 			if ( $check ) {
+				return $object->routes[ $i ];
 			}
-			$index_route = $i;
 		}
 
-		return $object->routes[ $index_route ];
+		return $object->routes[0];
 	}
 
 	/**
