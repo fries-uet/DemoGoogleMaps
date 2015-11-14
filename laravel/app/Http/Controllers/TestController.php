@@ -131,11 +131,11 @@ class TestController extends Controller {
 
 	public function genTraffic() {
 		$gens = [
-			[
-				//Ton That Thuyet
-				21.028460,
-				105.782082,
-			],
+//			[
+//				//Ton That Thuyet
+//				21.028460,
+//				105.782082,
+//			],
 			[
 				//Cau Giay
 				21.034628,
