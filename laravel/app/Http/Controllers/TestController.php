@@ -137,9 +137,9 @@ class TestController extends Controller {
 				105.782082,
 			],
 			[
-				//Kim Ma
-				21.030630,
-				105.817971,
+				//Cau Giay
+				21.034628,
+				105.794764,
 
 			],
 //			[
