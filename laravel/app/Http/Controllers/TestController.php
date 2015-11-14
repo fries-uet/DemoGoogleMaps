@@ -138,9 +138,13 @@ class TestController extends Controller {
 //			],
 			[
 				//Cau Giay
-				21.034628,
-				105.794764,
-
+//				21.034628,
+//				105.794764,
+			],
+			[
+				// Tran Thai Tong
+				21.032916,
+				105.788766
 			],
 //			[
 //				//Ho Tung Mau
