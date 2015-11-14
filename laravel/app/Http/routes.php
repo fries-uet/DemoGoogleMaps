@@ -164,6 +164,8 @@ Route::group( [ 'prefix' => 'docs' ], function () {
 
 Route::group( [ 'prefix' => 'gen' ], function () {
 	Route::any( 'traffic', 'TestController@genTraffic' );
+
+	Route::any( 'traffic2', 'TestController@genTraffic2' );
 } );
 
 /**
