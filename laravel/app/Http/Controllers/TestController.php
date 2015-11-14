@@ -136,11 +136,11 @@ class TestController extends Controller {
 //				21.028460,
 //				105.782082,
 //			],
-			[
+//			[
 				//Cau Giay
 //				21.034628,
 //				105.794764,
-			],
+//			],
 			[
 				// Tran Thai Tong
 				21.032916,
@@ -174,11 +174,11 @@ class TestController extends Controller {
 //				21.028460,
 //				105.782082,
 //			],
-			[
+//			[
 				//Cau Giay
 //				21.034628,
 //				105.794764,
-			],
+//			],
 			[
 				// Phạm Hùng
 				21.033820,
